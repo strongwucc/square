@@ -15,6 +15,43 @@ $app = new Illuminate\Foundation\Application(
     $_ENV['APP_BASE_PATH'] ?? dirname(__DIR__)
 );
 
+$app->afterBootstrapping(\Illuminate\Foundation\Bootstrap\LoadConfiguration::class, function ($app) {
+
+    $map_data = [];
+
+    $mysqli = new mysqli(env('DB_MAP_HOST'), env('DB_MAP_USERNAME'), env('DB_MAP_PASSWORD'), env('DB_MAP_DATABASE'));
+
+    if ($mysqli->connect_error) {
+        die('Connect Error (' . $mysqli->connect_errno . ') '
+                . $mysqli->connect_error);
+    }
+
+    if (!$mysqli->set_charset("utf8")) {
+        die("Error loading character set utf8");
+    }
+
+    if ($result = mysqli_query($mysqli, "SELECT trading_ku_address,user_name,user_password FROM sdb_basic_trading_ku WHERE trading_ku_name = 'district' LIMIT 1")) {
+        $map_data = $result->fetch_array(MYSQLI_ASSOC);
+
+        /* free result set */
+        mysqli_free_result($result);
+    } else {
+        die('Error selecting...');
+    }
+
+    $mysqli->close();
+
+    if (empty($map_data['trading_ku_address']) || empty($map_data['user_name'] || empty($map_data['user_password']))) {
+        die('Get database error...');
+    }
+
+    config([
+        'database.connections.mysql.host' => $map_data['trading_ku_address'],
+        'database.connections.mysql.username' => $map_data['user_name'],
+        'database.connections.mysql.password' => $map_data['user_password'],
+    ]);
+});
+
 /*
 |--------------------------------------------------------------------------
 | Bind Important Interfaces
