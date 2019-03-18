@@ -11,7 +11,9 @@ class ActivityTransformer extends TransformerAbstract
     {
         return [
             'id' => $activity->id,
-            'name' => $activity->activity_name
+            'name' => $activity->activity_name,
+            'url' => $activity->activity_url,
+            'pic' => $activity->activity_pic
         ];
     }
 }

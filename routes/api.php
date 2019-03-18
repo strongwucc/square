@@ -18,7 +18,19 @@ $api = app('Dingo\Api\Routing\Router');
 $api->version('v1', [
     'namespace' => 'App\Http\Controllers\Api'
 ], function($api) {
-    // 测试
-    $api->post('test', 'DistrictController@test')
-        ->name('api.district.test');
+    // 热门活动
+    $api->post('activities', 'ActivitiesController@index')
+        ->name('api.activities.index');
+
+    // 首页 banner
+    $api->post('banners', 'BannersController@index')
+        ->name('api.banners.index');
+
+    // 商户类型
+    $api->post('merchant_types', 'MerchantsController@merchantTypes')
+        ->name('api.merchants.types');
+
+    // 热门商户
+    $api->post('merchant_hots', 'MerchantsController@merchantHots')
+        ->name('api.merchants.hots');
 });
