@@ -25,6 +25,10 @@ $api->version('v1', [
         'limit' => config('api.rate_limits.access.limit'),
         'expires' => config('api.rate_limits.access.expires'),
     ], function($api) {
+        // 第三方登录
+        $api->post('socials/{social_type}/authorizations', 'AuthorizationsController@socialStore')
+            ->name('api.socials.authorizations.store');
+
         // 热门活动
         $api->post('activities', 'ActivitiesController@index')
             ->name('api.activities.index');
@@ -52,6 +56,19 @@ $api->version('v1', [
         // 商户详情
         $api->post('merchants/{o2oMerchant}', 'MerchantsController@show')
             ->name('api.merchants.show');
+
+        // 需要 token 验证的接口
+        $api->group(['middleware' => 'api.auth'], function($api) {
+            // 当前登录用户信息
+            $api->post('user', 'UsersController@me')
+                ->name('api.user.show');
+            // 刷新token
+            $api->post('authorizations/update', 'AuthorizationsController@update')
+                ->name('api.authorizations.update');
+            // 删除token
+            $api->post('authorizations/destroy', 'AuthorizationsController@destroy')
+                ->name('api.authorizations.destroy');
+        });
     });
 
 });
