@@ -4,10 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class O2oMerchant extends Model
+class O2oSearchKeyword extends Model
 {
-    protected $table = 'o2o_merchant';
-    protected $primaryKey = 'id';
+    protected $table = 'o2o_search_keyword';
 
     public function scopeWithOrder($query, $order)
     {
@@ -25,11 +24,11 @@ class O2oMerchant extends Model
 
     public function scopeRecentReplied($query)
     {
-        return $query->orderBy('orders_total', 'desc');
+        return $query->orderBy('num', 'desc');
     }
 
     public function scopeRecent($query)
     {
-        return $query->orderBy('last_time', 'desc');
+        return $query->orderBy('id', 'desc');
     }
 }
