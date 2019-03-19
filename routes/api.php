@@ -62,9 +62,19 @@ $api->version('v1', [
             // 当前登录用户信息
             $api->post('user', 'UsersController@me')
                 ->name('api.user.show');
+
+            // 短信验证码
+            $api->post('verification_codes', 'VerificationCodesController@store')
+                ->name('api.verification_codes.store');
+
+            // 手机绑定
+            $api->post('mobile_bind', 'UsersController@bind')
+                ->name('api.users.bind');
+
             // 刷新token
             $api->post('authorizations/update', 'AuthorizationsController@update')
                 ->name('api.authorizations.update');
+
             // 删除token
             $api->post('authorizations/destroy', 'AuthorizationsController@destroy')
                 ->name('api.authorizations.destroy');
