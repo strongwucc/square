@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class O2oMerchant extends Model
+class O2oCouponBuy extends Model
 {
-    protected $table = 'o2o_merchant';
-    protected $primaryKey = 'id';
+    protected $table = 'o2o_promotion_coupon_buy';
+
+    const CREATED_AT = 'createtime';
+    const UPDATED_AT = 'last_modified';
 
     public function scopeWithOrder($query, $order)
     {
@@ -25,16 +27,16 @@ class O2oMerchant extends Model
 
     public function scopeRecentReplied($query)
     {
-        return $query->orderBy('orders_total', 'desc');
+        return $query->orderBy('createtime', 'desc');
     }
 
     public function scopeRecent($query)
     {
-        return $query->orderBy('last_time', 'desc');
+        return $query->orderBy('last_modified', 'desc');
     }
 
-    public function coupons()
+    public function coupon()
     {
-        return $this->hasMany('App\Models\O2oCoupon', 'mer_id', 'mer_id');
+        return $this->hasOne('App\Models\O2oCoupon', 'pcid', 'pcid');
     }
 }

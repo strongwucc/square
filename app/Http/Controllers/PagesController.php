@@ -8,6 +8,7 @@ class PagesController extends Controller
 {
     public function root()
     {
-        return view('pages.root');
+        echo phpinfo();
+        // return view('pages.root');
     }
 }

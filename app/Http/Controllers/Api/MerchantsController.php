@@ -66,6 +66,10 @@ class MerchantsController extends Controller
 
     public function show(O2oMerchant $o2oMerchant)
     {
-        return $this->response->item($o2oMerchant, new MerchantTransformer());
+        $member_id = 0;
+        if ($this->user) {
+            $member_id = $this->user->platform_member_id;
+        }
+        return $this->response->item($o2oMerchant, new MerchantTransformer($member_id));
     }
 }

@@ -57,8 +57,13 @@ $api->version('v1', [
         $api->post('merchants/{o2oMerchant}', 'MerchantsController@show')
             ->name('api.merchants.show');
 
+        // 优惠券列表
+        $api->post('coupons', 'CouponsController@index')
+            ->name('api.coupons.index');
+
         // 需要 token 验证的接口
         $api->group(['middleware' => 'api.auth'], function($api) {
+
             // 当前登录用户信息
             $api->post('user', 'UsersController@me')
                 ->name('api.user.show');
@@ -78,6 +83,11 @@ $api->version('v1', [
             // 删除token
             $api->post('authorizations/destroy', 'AuthorizationsController@destroy')
                 ->name('api.authorizations.destroy');
+
+            // 用户优惠券列表
+            $api->post('user_coupons', 'UsersController@coupons')
+                ->name('api.user.coupons');
+
         });
     });
 
