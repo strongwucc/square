@@ -3,6 +3,7 @@
 namespace App\Transformers;
 
 use App\Models\O2oMerchant;
+use App\Models\O2oMemberCollection;
 use League\Fractal\TransformerAbstract;
 use App\Transformers\CouponTransformer;
 
@@ -21,6 +22,11 @@ class MerchantTransformer extends TransformerAbstract
     public function transform(O2oMerchant $merchant)
     {
 
+        $isFav = 0;
+        if ($this->member_id) {
+            $isFav = O2oMemberCollection::where([['mer_id', $merchant->mer_id], ['platform_member_id', $this->member_id]])->count();
+        }
+
         return [
             'id' => $merchant->id,
             'mer_id' => $merchant->mer_id,
@@ -31,7 +37,8 @@ class MerchantTransformer extends TransformerAbstract
             'cost' => $merchant->per_cost,
             'title' => $merchant->title,
             'detail' => $merchant->details,
-            'open_time' => $merchant->open_time
+            'open_time' => $merchant->open_time,
+            'is_fav' => $isFav
         ];
     }
 

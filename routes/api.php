@@ -92,6 +92,10 @@ $api->version('v1', [
             $api->post('fav', 'UsersController@fav')
                 ->name('api.user.fav');
 
+            // 收藏商户列表
+            $api->post('favs', 'UsersController@favs')
+                ->name('api.user.favs');
+
         });
     });
 

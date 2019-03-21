@@ -5,9 +5,12 @@ namespace App\Http\Controllers\Api;
 use App\Models\User;
 use App\Models\O2oCouponBuy;
 use App\Models\O2oMemberCollection;
-use Illuminate\Http\Request;
+
 use App\Transformers\UserTransformer;
 use App\Transformers\CouponBuyTransformer;
+use App\Transformers\CollectionTransformer;
+
+use Illuminate\Http\Request;
 use App\Http\Requests\Api\UserRequest;
 use App\Http\Requests\Api\CollectionRequest;
 
@@ -104,5 +107,17 @@ class UsersController extends Controller
         $collection->save();
 
         $this->response->created();
+    }
+
+    public function favs(Request $request, O2oMemberCollection $collection)
+    {
+        $pageLimit = $request->page_limit ? $request->page_limit : $this->pageLimit;
+        $query = $collection->query();
+        $query->with('merchant');
+        $query->where('platform_member_id', $this->user->platform_member_id);
+        $query->recentReplied();
+        $merchants = $query->paginate($pageLimit);
+
+        return $this->response->paginator($merchants, new CollectionTransformer());
     }
 }
