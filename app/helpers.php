@@ -49,3 +49,8 @@ function get_member_id()
 {
     return time() . str_pad(rand(1, 99999999), 8, '0', STR_PAD_LEFT) ;
 }
+
+function get_qrcode()
+{
+    return date('YmdHis', time()) . str_pad(rand(1, 99999999), 8, '0', STR_PAD_LEFT) ;
+}

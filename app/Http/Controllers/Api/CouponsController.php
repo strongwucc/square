@@ -5,8 +5,11 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 
 use App\Models\O2oCoupon;
+use App\Models\O2oCouponBuy;
 
 use App\Transformers\CouponTransformer;
+
+use App\Http\Requests\Api\CouponRequest;
 
 class CouponsController extends Controller
 {
@@ -31,5 +34,61 @@ class CouponsController extends Controller
         $coupons = $query->paginate($pageLimit);
 
         return $this->response->paginator($coupons, new CouponTransformer());
+    }
+
+    public function receive(CouponRequest $request, O2oCoupon $coupon, O2oCouponBuy $couponBuy)
+    {
+
+        $couponData = $coupon->where('pcid', $request->pcid)->first();
+
+        if (empty($couponData)) {
+            return $this->errorResponse(404, '优惠券不存在', 1002);
+        }
+
+        if ($couponData->isDated()) {
+            return $this->errorResponse(422, '该优惠券已过期', 1003);
+        }
+
+        if ($couponData->quantity < 1) {
+            return $this->errorResponse(422, '该优惠券库存不足', 1004);
+        }
+
+        if ($couponData->get_limit > 0) {
+            $reveived = $couponBuy->where([['pcid', $request->pcid], ['platform_member_id', $this->user->platform_member_id]])->count();
+            if ($reveived >= $couponData->get_limit) {
+                return $this->errorResponse(422, '已超过领取数量限制', 1005);
+            }
+        }
+
+        do {
+
+            $qrcode = get_qrcode();
+            $row = $couponBuy->where('qrcode', $qrcode)->count();
+
+        } while ($row);
+
+        \DB::transaction(function () use ($couponBuy, $couponData, $request, $qrcode) {
+
+            $couponBuy->pcid = $couponData->pcid;
+            $couponBuy->qrcode = $qrcode;
+            $couponBuy->cid = $couponData->cid;
+            $couponBuy->member_id = $couponBuy->platform_member_id = $this->user->platform_member_id;
+            $couponBuy->openid = $this->user->openid;
+            $couponBuy->pay_status = '1';
+            $couponBuy->buy_status = '1';
+            $couponBuy->use_status = '0';
+            $couponBuy->createtime = $couponBuy->last_modified = date('Y-m-d H:i:s', time());
+
+            $couponBuy->save();
+
+            if ($couponData->decreaseQuantity(1) <= 0) {
+                return $this->errorResponse(422, '该优惠券库存不足', 1004);
+            }
+            $couponData->addGrantQuantity(1);
+        });
+
+
+        return $this->response->created();
+
     }
 }

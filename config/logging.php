@@ -89,6 +89,27 @@ return [
             'driver' => 'errorlog',
             'level' => 'debug',
         ],
+
+        'api' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/api.log'),
+            'level' => 'debug',
+            'days' => 14,
+        ],
+
+        'sms' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/sms.log'),
+            'level' => 'debug',
+            'days' => 14,
+        ],
+
+        'pay' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/pay.log'),
+            'level' => 'debug',
+            'days' => 14,
+        ],
     ],
 
 ];

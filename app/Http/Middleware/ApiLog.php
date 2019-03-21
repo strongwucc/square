@@ -17,7 +17,7 @@ class ApiLog
     public function handle($request, Closure $next)
     {
 
-        Log::info('['.$request->path().']：', $request->all());
+        Log::channel('api')->info('['.$request->path().']：', $request->all());
         return $next($request);
     }
 }

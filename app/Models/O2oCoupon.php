@@ -33,4 +33,49 @@ class O2oCoupon extends Model
     {
         return $query->orderBy('last_modified', 'desc');
     }
+
+    public function isDated()
+    {
+        if ($this->date_type == 'DATE_TYPE_FIX_TIME_RANGE') {
+            $now = date('Y-m-d H:i:s', time());
+            $is_dated = $this->end_timestamp < $now ? true : false;
+        } else {
+            $is_dated = strtotime($this->createtime) + ($this->fixed_begin_term + $this->fixed_term) * 24 * 3600 < time() ? true : false;
+        }
+        return $is_dated;
+    }
+
+    public function decreaseQuantity($amount)
+    {
+        if ($amount < 0) {
+            throw new InternalException('减库存不可小于0');
+        }
+
+        return $this->newQuery()->where('pcid', $this->pcid)->where('quantity', '>=', $amount)->decrement('quantity', $amount);
+    }
+
+    public function addQuantity($amount)
+    {
+        if ($amount < 0) {
+            throw new InternalException('加库存不可小于0');
+        }
+        $this->increment('quantity', $amount);
+    }
+
+    public function decreaseGrantQuantity($amount)
+    {
+        if ($amount < 0) {
+            throw new InternalException('减库存不可小于0');
+        }
+
+        return $this->newQuery()->where('pcid', $this->pcid)->where('grant_quantity', '>=', $amount)->decrement('grant_quantity', $amount);
+    }
+
+    public function addGrantQuantity($amount)
+    {
+        if ($amount < 0) {
+            throw new InternalException('加库存不可小于0');
+        }
+        $this->increment('grant_quantity', $amount);
+    }
 }
