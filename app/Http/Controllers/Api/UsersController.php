@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\User;
 use App\Models\O2oCouponBuy;
+use App\Models\O2oMemberCollection;
 use Illuminate\Http\Request;
 use App\Transformers\UserTransformer;
 use App\Transformers\CouponBuyTransformer;
 use App\Http\Requests\Api\UserRequest;
+use App\Http\Requests\Api\CollectionRequest;
 
 class UsersController extends Controller
 {
@@ -87,5 +89,20 @@ class UsersController extends Controller
         }
 
         return $this->response->collection($filtered, new CouponBuyTransformer());
+    }
+
+    public function fav(CollectionRequest $request, O2oMemberCollection $collection)
+    {
+        $deleteRows = $collection->where([['mer_id', $request->mer_id], ['platform_member_id', $this->user->platform_member_id]])->delete();
+        if ($deleteRows > 0) {
+            return $this->response->noContent();
+        }
+
+        $collection->platform_member_id = $this->user->platform_member_id;
+        $collection->mer_id = $request->mer_id;
+
+        $collection->save();
+
+        $this->response->created();
     }
 }

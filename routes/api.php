@@ -88,6 +88,10 @@ $api->version('v1', [
             $api->post('user_coupons', 'UsersController@coupons')
                 ->name('api.user.coupons');
 
+            // 收藏商户
+            $api->post('fav', 'UsersController@fav')
+                ->name('api.user.fav');
+
         });
     });
 
