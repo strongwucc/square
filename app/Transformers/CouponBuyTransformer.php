@@ -28,6 +28,10 @@ class CouponBuyTransformer extends TransformerAbstract
         return [
             'id' => $coupon->pcid,
             'cid' => $coupon->cid,
+            'qrcode' => $coupon->qrcode,
+            'pay_status' => $coupon->pay_status,
+            'buy_status' => $coupon->buy_status,
+            'use_status' => $coupon->use_status,
             'mer_id' => $coupon->coupon->mer_id,
             'brand_name' => $coupon->coupon->brand_name,
             'card_type' => $coupon->coupon->card_type,

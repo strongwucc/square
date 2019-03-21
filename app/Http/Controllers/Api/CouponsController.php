@@ -8,6 +8,7 @@ use App\Models\O2oCoupon;
 use App\Models\O2oCouponBuy;
 
 use App\Transformers\CouponTransformer;
+use App\Transformers\CouponBuyTransformer;
 
 use App\Http\Requests\Api\CouponRequest;
 
@@ -87,8 +88,22 @@ class CouponsController extends Controller
             $couponData->addGrantQuantity(1);
         });
 
-
         return $this->response->created();
 
+    }
+
+    public function show(Request $request, O2oCouponBuy $couponBuy)
+    {
+
+        if (empty($request->qrcode)) {
+            return $this->errorResponse(404, '优惠券不存在', 1001);
+        }
+
+        $query = $couponBuy->query();
+        $query->with('coupon');
+        $query->where([['platform_member_id', $this->user->platform_member_id], ['qrcode', $request->qrcode]]);
+        $coupon = $query->first();
+
+        return $this->item($coupon, new CouponBuyTransformer());
     }
 }

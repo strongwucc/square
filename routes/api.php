@@ -96,10 +96,13 @@ $api->version('v1', [
             $api->post('favs', 'UsersController@favs')
                 ->name('api.user.favs');
 
-            // 优惠券列表
+            // 领取优惠券TODO
             $api->post('coupon_receive', 'CouponsController@receive')
                 ->name('api.coupons.receive');
 
+            // 我的优惠券详情
+            $api->post('coupon_show', 'CouponsController@show')
+                ->name('api.coupons.show');
 
         });
     });
