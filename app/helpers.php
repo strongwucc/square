@@ -44,3 +44,8 @@ function send_msg($mobile, $content){
     $redata = sms_post($url, $arr);
     return json_decode($redata,true);
 }
+
+function get_member_id()
+{
+    return time() . str_pad(rand(1, 99999999), 8, '0', STR_PAD_LEFT) ;
+}

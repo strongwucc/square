@@ -47,12 +47,24 @@ class AuthorizationsController extends Controller
 
                 // 没有用户，默认创建一个用户
                 if (!$user) {
+
+                    $platform_member_id = 0;
+
+                    do {
+
+                        $platform_member_id = get_member_id();
+                        $row = User::where('platform_member_id', $platform_member_id)->count();
+
+                    } while ($row);
+
                     $user = User::create([
                         'nickname' => $oauthUser->getNickname(),
                         'headimgurl' => $oauthUser->getAvatar(),
                         'openid' => $oauthUser->getId(),
                         'unionid' => $unionid,
-                        'regtime' => time()
+                        'regtime' => time(),
+                        'platform_member_id' => $platform_member_id,
+                        'source' => 'weixin'
                     ]);
                 }
 
