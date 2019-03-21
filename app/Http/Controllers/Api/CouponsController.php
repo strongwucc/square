@@ -37,6 +37,24 @@ class CouponsController extends Controller
         return $this->response->paginator($coupons, new CouponTransformer());
     }
 
+    public function detail(Request $request, O2oCoupon $coupon)
+    {
+
+        if (empty($request->pcid)) {
+            return $this->errorResponse(404, '优惠券不存在', 1001);
+        }
+
+        $couponData = $coupon->where('pcid', $request->pcid)->first();
+
+        if (empty($couponData)) {
+            return $this->errorResponse(404, '优惠券不存在', 1002);
+        }
+
+        $member_id = $this->user ? $this->user->platform_member_id : 0;
+
+        return $this->response->item($couponData, new CouponTransformer($member_id));
+    }
+
     public function receive(CouponRequest $request, O2oCoupon $coupon, O2oCouponBuy $couponBuy)
     {
 

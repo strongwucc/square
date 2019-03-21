@@ -61,6 +61,10 @@ $api->version('v1', [
         $api->post('coupons', 'CouponsController@index')
             ->name('api.coupons.index');
 
+        // 优惠券详情
+        $api->post('coupon_detail', 'CouponsController@detail')
+            ->name('api.coupons.detail');
+
         // 需要 token 验证的接口
         $api->group(['middleware' => 'api.auth'], function($api) {
 
