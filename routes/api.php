@@ -38,11 +38,11 @@ $api->version('v1', [
             ->name('api.banners.index');
 
         // 商户类型
-        $api->post('merchant_types', 'MerchantsController@merchantTypes')
+        $api->post('merchants/types', 'MerchantsController@merchantTypes')
             ->name('api.merchants.types');
 
         // 热门商户
-        $api->post('merchant_hots', 'MerchantsController@merchantHots')
+        $api->post('merchants/hots', 'MerchantsController@merchantHots')
             ->name('api.merchants.hots');
 
         // 热门搜索关键字
@@ -62,7 +62,7 @@ $api->version('v1', [
             ->name('api.coupons.index');
 
         // 优惠券详情
-        $api->post('coupon_detail', 'CouponsController@detail')
+        $api->post('coupon/detail', 'CouponsController@detail')
             ->name('api.coupons.detail');
 
         // 需要 token 验证的接口
@@ -77,7 +77,7 @@ $api->version('v1', [
                 ->name('api.verification_codes.store');
 
             // 手机绑定
-            $api->post('mobile_bind', 'UsersController@bind')
+            $api->post('user/bind', 'UsersController@bind')
                 ->name('api.users.bind');
 
             // 刷新token
@@ -89,7 +89,7 @@ $api->version('v1', [
                 ->name('api.authorizations.destroy');
 
             // 用户优惠券列表
-            $api->post('user_coupons', 'UsersController@coupons')
+            $api->post('user/coupons', 'UsersController@coupons')
                 ->name('api.user.coupons');
 
             // 收藏商户
@@ -101,12 +101,21 @@ $api->version('v1', [
                 ->name('api.user.favs');
 
             // 领取优惠券TODO
-            $api->post('coupon_receive', 'CouponsController@receive')
+            $api->post('coupon/receive', 'CouponsController@receive')
                 ->name('api.coupons.receive');
 
             // 我的优惠券详情
-            $api->post('coupon_show', 'CouponsController@show')
+            $api->post('coupon/show', 'CouponsController@show')
                 ->name('api.coupons.show');
+
+            // 修改用户信息
+            $api->post('user/edit', 'UsersController@edit')
+                ->name('api.user.edit');
+
+            // 订单列表
+            $api->post('user/orders', 'UsersController@orders')
+                ->name('api.user.orders');
+
 
         });
     });

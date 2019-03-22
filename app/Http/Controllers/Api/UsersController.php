@@ -9,6 +9,7 @@ use App\Models\O2oMemberCollection;
 use App\Transformers\UserTransformer;
 use App\Transformers\CouponBuyTransformer;
 use App\Transformers\CollectionTransformer;
+use App\Transformers\OrderTransformer;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\Api\UserRequest;
@@ -119,5 +120,29 @@ class UsersController extends Controller
         $merchants = $query->paginate($pageLimit);
 
         return $this->response->paginator($merchants, new CollectionTransformer());
+    }
+
+    public function edit(Request $request)
+    {
+        if ($request->filled('nickname')) {
+            $this->user()->nickname = $request->nickname;
+        }
+
+        $this->user()->save();
+        return $this->response->item($this->user(), new UserTransformer())->setStatusCode(201);
+    }
+
+    public function orders(Request $request)
+    {
+        $pageLimit = intval($request->page_limit) ? intval($request->page_limit) : $this->pageLimit;
+        $page = intval($request->page) > 0 ? intval($request->page) : 1;
+
+        $status = $request->status ? $request->status : 'all';
+        $platform_member_id = $this->user->platform_member_id;
+
+        $orders = $this->user->getOrders($platform_member_id, $status, $page, $pageLimit);
+        $orderTotal = $this->user->getOrderTotal($platform_member_id, $status, $page, $pageLimit);
+
+        return $this->response->collection(collect($orders), new OrderTransformer())->addMeta('pagination', $orderTotal);
     }
 }

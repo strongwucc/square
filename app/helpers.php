@@ -54,3 +54,8 @@ function get_qrcode()
 {
     return date('YmdHis', time()) . str_pad(rand(1, 99999999), 8, '0', STR_PAD_LEFT) ;
 }
+
+function timestamp_cmp($a, $b)
+{
+    return $b->tran_time - $a->tran_time;
+}
