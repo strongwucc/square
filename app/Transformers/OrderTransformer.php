@@ -13,7 +13,8 @@ class OrderTransformer extends TransformerAbstract
             'source' => $order->source,
             'pay_amount' => $order->pay_amount,
             'pay_result' => $order->pay_result,
-            'tran_time' => date('Y-m-d H:i:s', $order->tran_time)
+            'tran_time' => date('Y-m-d H:i:s', $order->tran_time),
+            'platform' => $order->platform
             // 'tran_time' => $order->tran_time
         ];
     }

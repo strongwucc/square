@@ -104,8 +104,8 @@ class User extends Authenticatable implements JWTSubject
         $avgOffset = $totalOffset / 2;
 
         // 首次订单数据查询
-        $o2oOrdersSql = "SELECT order_no,source,pay_amount,pay_result,unix_timestamp(tran_time) AS tran_time FROM mch_etongpay_order WHERE member_id = " . $memberId;
-        $b2cOrdersSql = "SELECT order_id AS order_no,source,total_amount AS pay_amount,pay_status AS pay_result,createtime AS tran_time FROM sdb_b2c_orders WHERE platform_member_id = " . $memberId;
+        $o2oOrdersSql = "SELECT order_no,source,pay_amount,pay_result,unix_timestamp(tran_time) AS tran_time,'o2o' AS platform FROM mch_etongpay_order WHERE member_id = " . $memberId;
+        $b2cOrdersSql = "SELECT order_id AS order_no,source,total_amount AS pay_amount,pay_status AS pay_result,createtime AS tran_time,'b2c' AS platform FROM sdb_b2c_orders WHERE platform_member_id = " . $memberId;
 
         if ($status == 'unpayed') {
             $o2oOrdersSql .= " AND pay_result IN ('1111', '8888')";
@@ -167,7 +167,7 @@ class User extends Authenticatable implements JWTSubject
         $secondO2oOrders = $status == 'dead' ? [] : \DB::select($secondO2oOrdersSql);
         $secondB2cOrders = \DB::select($secondB2cOrdersSql);
 
-        // 找到全局的 offset
+        // 找到全局的 offset，即 $tran_time_max 在全局的 offset
         $finalOffset = $totalOffset - (count($secondB2cOrders) + count($secondO2oOrders) - count($firstB2cOrders) - count($firstO2oOrders));
 
         // print_r($finalOffset);exit;
@@ -179,6 +179,7 @@ class User extends Authenticatable implements JWTSubject
 
         usort($mergeOrders, 'timestamp_cmp');
 
+        // 找到 totalOffset 在合并数组中的 offset
         $arrOffsetIndex = 0;
 
         foreach ($mergeOrders as $mergeIndex => $mergeOrder) {
