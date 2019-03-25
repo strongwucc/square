@@ -30,7 +30,13 @@ $app->afterBootstrapping(\Illuminate\Foundation\Bootstrap\LoadConfiguration::cla
         die("Error loading character set utf8");
     }
 
-    if ($result = mysqli_query($mysqli, "SELECT trading_ku_address,user_name,user_password FROM sdb_basic_trading_ku WHERE trading_ku_name = 'district' LIMIT 1")) {
+    $fullUrl = url()->full();
+    $urlInfo = parse_url($fullUrl);
+    $host = explode('.', $urlInfo['host']);
+    $districtName = $host[0];
+
+    // 查询数据库连接信息
+    if ($result = mysqli_query($mysqli, "SELECT trading_ku_address,user_name,user_password FROM sdb_basic_trading_ku WHERE trading_ku_name = '" . $districtName . "' LIMIT 1")) {
         $map_data = $result->fetch_array(MYSQLI_ASSOC);
 
         /* free result set */
@@ -38,6 +44,34 @@ $app->afterBootstrapping(\Illuminate\Foundation\Bootstrap\LoadConfiguration::cla
     } else {
         die('Error selecting...');
     }
+
+    // 查询支付配置信息
+    if ($result = mysqli_query($mysqli, "SELECT merchantId,datakey,back_url FROM mch_etongpay_key WHERE business_circle = '" . $districtName . "' LIMIT 1")) {
+        $pay_data = $result->fetch_array(MYSQLI_ASSOC);
+
+        /* free result set */
+        mysqli_free_result($result);
+    } else {
+        die('Error selecting...');
+    }
+
+    $payInfo = [
+        'etonepay.mch_id' => '',
+        'etonepay.mch_key' => '',
+        'etonepay.back_url' => ''
+    ];
+
+    if (!empty($pay_data['merchantId'])) {
+        $payInfo['etonepay.mch_id'] = $pay_data['merchantId'];
+    }
+    if (!empty($pay_data['datakey'])) {
+        $payInfo['etonepay.mch_key'] = $pay_data['datakey'];
+    }
+    if (!empty($pay_data['back_url'])) {
+        $payInfo['etonepay.back_url'] = $pay_data['back_url'];
+    }
+
+    config($payInfo);
 
     $mysqli->close();
 

@@ -65,6 +65,10 @@ $api->version('v1', [
         $api->post('coupon/detail', 'CouponsController@detail')
             ->name('api.coupons.detail');
 
+        // 支付通知
+        $api->post('pay/notify', 'DistrictController@notify')
+            ->name('api.pay.notify');
+
         // 需要 token 验证的接口
         $api->group(['middleware' => 'api.auth'], function($api) {
 

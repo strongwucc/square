@@ -6,11 +6,13 @@ use Illuminate\Http\Request;
 
 use App\Models\O2oCoupon;
 use App\Models\O2oCouponBuy;
+use App\Models\O2oOrder;
 
 use App\Transformers\CouponTransformer;
 use App\Transformers\CouponBuyTransformer;
 
 use App\Http\Requests\Api\CouponRequest;
+use Illuminate\Support\Facades\Log;
 
 class CouponsController extends Controller
 {
@@ -88,6 +90,9 @@ class CouponsController extends Controller
 
         \DB::transaction(function () use ($couponBuy, $couponData, $request, $qrcode) {
 
+            $nowTime = time();
+            $nowDateTime = date('Y-m-d H:i:s', $nowTime);
+
             $couponBuy->pcid = $couponData->pcid;
             $couponBuy->qrcode = $qrcode;
             $couponBuy->cid = $couponData->cid;
@@ -96,7 +101,51 @@ class CouponsController extends Controller
             $couponBuy->pay_status = '1';
             $couponBuy->buy_status = '1';
             $couponBuy->use_status = '0';
-            $couponBuy->createtime = $couponBuy->last_modified = date('Y-m-d H:i:s', time());
+            $couponBuy->createtime = $couponBuy->last_modified = $nowDateTime;
+
+            // 判断优惠券是否需要购买
+            if ($couponData->is_buy && $couponData->sale_price > 0) {
+
+                do {
+                    $orderNo = get_order_no(strtolower(config('app.name')) . '-');
+                    $row = O2oOrder::where('order_no', $orderNo)->count();
+                } while ($row);
+
+                $payConfig = config('etonepay', ['mch_id'=>'', 'mer_key'=>'']);
+
+                O2oOrder::create([
+                    'order_no' => $orderNo,
+                    'mch_id' => $payConfig['mch_id'],
+                    'member_id' => $this->user->platform_member_id,
+                    'source' => '02',
+                    'pay_amount' => $couponData->sale_price * 100,
+                    'pay_type' => '03',
+                    'scan_pay_type' => '01',
+                    'pay_result' => '1111',
+                    'pay_info' => json_encode(['memberId'=>$this->user->platform_member_id, 'pcid'=>$couponData->pcid]),
+                    'tran_time' => $nowDateTime,
+                    'etone_order_id' => $qrcode
+                ]);
+
+                $zhusao = [
+                    'merchantId' => $payConfig['mch_id'],
+                    'merOrderNum' => $orderNo,
+                    'tranAmt' => $couponData->sale_price * 100,
+                    'sysTraceNum' => $orderNo,
+                    'tranDateTime' => date('YmdHis', $nowTime),
+                    'notifyUrl' => $payConfig['back_url'] ? $payConfig['back_url'] : url('api/pay/notify'),
+                    'merKey' => $payConfig['mch_key']
+                ];
+                $payMsg = '';
+                $payUrl = zhusao($zhusao, $payMsg);
+
+                if (!$payUrl) {
+                    return $this->errorResponse(422, $payMsg, 1004);
+                }
+
+                $couponBuy->from_order_id = $orderNo;
+                $couponBuy->pay_status = '0';
+            }
 
             $couponBuy->save();
 
