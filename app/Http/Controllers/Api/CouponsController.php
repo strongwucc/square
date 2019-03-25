@@ -88,7 +88,9 @@ class CouponsController extends Controller
 
         } while ($row);
 
-        \DB::transaction(function () use ($couponBuy, $couponData, $request, $qrcode) {
+        $payUrl = '';
+
+        \DB::transaction(function () use ($couponBuy, $couponData, $request, $qrcode, &$payUrl) {
 
             $nowTime = time();
             $nowDateTime = date('Y-m-d H:i:s', $nowTime);
@@ -155,7 +157,7 @@ class CouponsController extends Controller
             $couponData->addGrantQuantity(1);
         });
 
-        return $this->response->created();
+        return $this->response->array(['payUrl' => $payUrl]);
 
     }
 

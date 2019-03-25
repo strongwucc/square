@@ -68,16 +68,16 @@ function timestamp_cmp($a, $b)
 function etonepay_post($url, $post_data)
 {
     ob_start();
-    $o="";
-    foreach ($post_data as $k=>$v)
+    $o = "";
+    foreach ($post_data as $k => $v)
     {
         if ($k == 'authCode') {
-            $o.= "$k=".urlencode($v)."&";
+            $o .= "$k=" . urlencode($v) . "&";
         } else {
-            $o.= "$k=".$v."&";
+            $o .= "$k=" . $v . "&";
         }
     }
-    $post_data=substr($o,0,-1);
+    $post_data = substr($o, 0, -1);
     #echo $post_data;exit;
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_POST, 0);
@@ -108,7 +108,7 @@ function zhusao($sdf = [], &$msg)
         'backURL' => $sdf['notifyUrl'],
         'orderInfo' => bin2hex('消费交易'),
         'userId' => '',
-        'bankId' => '888880601002900',
+        'bankId' => '888880600002900',
         'stlmId' => '',
         'entryType' => '1',
         'authCode' => '',
