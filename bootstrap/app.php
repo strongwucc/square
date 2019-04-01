@@ -31,6 +31,7 @@ $app->afterBootstrapping(\Illuminate\Foundation\Bootstrap\LoadConfiguration::cla
     }
 
     $fullUrl = url()->full();
+//    $fullUrl = 'http://district.test/api/';
     $urlInfo = parse_url($fullUrl);
     $host = explode('.', $urlInfo['host']);
     $districtName = $host[0];

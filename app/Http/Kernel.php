@@ -39,7 +39,7 @@ class Kernel extends HttpKernel
 
         'api' => [
             'throttle:60,1',
-            'bindings',
+            'bindings'
         ],
     ];
 
@@ -62,6 +62,7 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'change-locale' => \App\Http\Middleware\ChangeLocale::class,
         'api-log' => \App\Http\Middleware\ApiLog::class,
+        'cros' => \Barryvdh\Cors\HandleCors::class,
     ];
 
     /**

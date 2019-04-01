@@ -53,6 +53,7 @@ class CouponTransformer extends TransformerAbstract
             'default_detail' => $coupon->default_detail,
             'market_price' => $coupon->market_price,
             'sale_price' => $coupon->sale_price,
+            'is_buy' => $coupon->is_buy,
             'user_count' => $user_count
         ];
     }

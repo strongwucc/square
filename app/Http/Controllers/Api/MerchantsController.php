@@ -64,12 +64,17 @@ class MerchantsController extends Controller
         return $this->response->paginator($merchants, new MerchantTransformer());
     }
 
-    public function show(O2oMerchant $o2oMerchant)
+    public function show(Request $request, O2oMerchant $o2oMerchant)
     {
         $member_id = 0;
         if ($this->user) {
             $member_id = $this->user->platform_member_id;
         }
-        return $this->response->item($o2oMerchant, new MerchantTransformer($member_id));
+
+        $query = $o2oMerchant->query();
+        $query->where('mer_id', $request->mer_id);
+        $merchant = $query->first();
+
+        return $this->response->item($merchant, new MerchantTransformer($member_id));
     }
 }

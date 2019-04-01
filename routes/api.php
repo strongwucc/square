@@ -17,7 +17,7 @@ $api = app('Dingo\Api\Routing\Router');
 
 $api->version('v1', [
     'namespace' => 'App\Http\Controllers\Api',
-    'middleware' => ['serializer:array', 'bindings', 'change-locale', 'api-log']
+    'middleware' => ['serializer:array', 'bindings', 'change-locale', 'api-log', 'cros']
 ], function($api) {
 
     $api->group([
@@ -54,7 +54,7 @@ $api->version('v1', [
             ->name('api.merchants.merchants');
 
         // 商户详情
-        $api->post('merchants/{o2oMerchant}', 'MerchantsController@show')
+        $api->post('merchant', 'MerchantsController@show')
             ->name('api.merchants.show');
 
         // 优惠券列表
