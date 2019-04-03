@@ -39,4 +39,9 @@ class O2oCouponBuy extends Model
     {
         return $this->hasOne('App\Models\O2oCoupon', 'pcid', 'pcid');
     }
+
+    public function order()
+    {
+        return $this->hasOne('App\Models\O2oOrder', 'order_no', 'from_order_id');
+    }
 }

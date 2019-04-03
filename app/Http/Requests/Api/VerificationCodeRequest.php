@@ -31,4 +31,20 @@ class VerificationCodeRequest extends FormRequest
             ]
         ];
     }
+
+    public function attributes()
+    {
+        return [
+            'mobile' => '手机号'
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'mobile.regex' => '请输入正确的手机号',
+            'mobile.unique' => '该手机号已被绑定',
+            'mobile.required' => '手机号不能为空',
+        ];
+    }
 }

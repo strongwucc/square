@@ -36,7 +36,9 @@ class CouponsController extends Controller
         $query->recentReplied();
         $coupons = $query->paginate($pageLimit);
 
-        return $this->response->paginator($coupons, new CouponTransformer());
+        $member_id = $this->user ? $this->user->platform_member_id : 0;
+
+        return $this->response->paginator($coupons, new CouponTransformer($member_id));
     }
 
     public function detail(Request $request, O2oCoupon $coupon)
@@ -163,14 +165,17 @@ class CouponsController extends Controller
 
     public function show(Request $request, O2oCouponBuy $couponBuy)
     {
+        $where = [['platform_member_id', $this->user->platform_member_id]];
 
-        if (empty($request->qrcode)) {
-            return $this->errorResponse(404, '优惠券不存在', 1001);
+        if (!empty($request->qrcode)) {
+            array_push($where, ['qrcode', $request->qrcode]);
         }
 
         $query = $couponBuy->query();
         $query->with('coupon');
-        $query->where([['platform_member_id', $this->user->platform_member_id], ['qrcode', $request->qrcode]]);
+        $query->with('order');
+        $query->where($where);
+        $query->orderBy('createtime', 'desc');
         $coupon = $query->first();
 
         return $this->item($coupon, new CouponBuyTransformer());

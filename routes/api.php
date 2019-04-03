@@ -26,7 +26,7 @@ $api->version('v1', [
         'expires' => config('api.rate_limits.access.expires'),
     ], function($api) {
         // 第三方登录
-        $api->post('socials/{social_type}/authorizations', 'AuthorizationsController@socialStore')
+        $api->post('socials/authorizations', 'AuthorizationsController@socialStore')
             ->name('api.socials.authorizations.store');
 
         // 热门活动

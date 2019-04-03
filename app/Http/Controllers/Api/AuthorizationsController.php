@@ -9,8 +9,11 @@ use App\Http\Requests\Api\SocialAuthorizationRequest;
 
 class AuthorizationsController extends Controller
 {
-    public function socialStore($type, SocialAuthorizationRequest $request)
+    public function socialStore(SocialAuthorizationRequest $request)
     {
+
+        $type = $request->type;
+
         if (!in_array($type, ['weixin'])) {
             return $this->response->errorBadRequest();
         }

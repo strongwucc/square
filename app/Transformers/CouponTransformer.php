@@ -26,7 +26,7 @@ class CouponTransformer extends TransformerAbstract
         }
 
         return [
-            'id' => $coupon->pcid,
+            'id' => strval($coupon->pcid),
             'cid' => $coupon->cid,
             'mer_id' => $coupon->mer_id,
             'brand_name' => $coupon->brand_name,
@@ -54,7 +54,8 @@ class CouponTransformer extends TransformerAbstract
             'market_price' => $coupon->market_price,
             'sale_price' => $coupon->sale_price,
             'is_buy' => $coupon->is_buy,
-            'user_count' => $user_count
+            'user_count' => $user_count,
+            'expire_date' => date('Y.m.d', strtotime($coupon->begin_timestamp)) . '-' .date('Y.m.d', strtotime($coupon->end_timestamp))
         ];
     }
 }

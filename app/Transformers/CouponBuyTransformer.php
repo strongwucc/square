@@ -4,6 +4,7 @@ namespace App\Transformers;
 
 use App\Models\O2oCouponBuy;
 use League\Fractal\TransformerAbstract;
+use PhpParser\Node\Expr\Cast\Object_;
 
 class CouponBuyTransformer extends TransformerAbstract
 {
@@ -17,12 +18,20 @@ class CouponBuyTransformer extends TransformerAbstract
         if ($coupon->coupon->date_type == 'DATE_TYPE_FIX_TIME_RANGE') {
             $now = date('Y-m-d H:i:s', time());
             $dated = $coupon->coupon->end_timestamp < $now ? 1 : 0;
-            $begin_date_time = $coupon->coupon->begin_timestamp;
-            $end_date_time = $coupon->coupon->end_timestamp;
+            $begin_date_time = date('Y.m.d', strtotime($coupon->coupon->begin_timestamp));
+            $end_date_time = date('Y.m.d', strtotime($coupon->coupon->end_timestamp));
         } else {
             $dated = strtotime($coupon->createtime) + ($coupon->coupon->fixed_begin_term + $coupon->coupon->fixed_term) * 24 * 3600 < time() ? 1 : 0;
-            $begin_date_time = date('Y-m-d H:i:s', strtotime($coupon->createtime) + $coupon->coupon->fixed_begin_term * 24 * 3600);
-            $end_date_time = date('Y-m-d H:i:s', strtotime(strtotime($coupon->createtime) + ($coupon->coupon->fixed_begin_term + $coupon->coupon->fixed_term) * 24 * 3600));
+            $begin_date_time = date('Y.m.d', strtotime($coupon->createtime) + $coupon->coupon->fixed_begin_term * 24 * 3600);
+            $end_date_time = date('Y.m.d', strtotime(strtotime($coupon->createtime) + ($coupon->coupon->fixed_begin_term + $coupon->coupon->fixed_term) * 24 * 3600));
+        }
+
+        $order = [];
+
+        if ($coupon->order) {
+            $order['orderNo'] = $coupon->order->order_no;
+            $order['payAmount'] = $coupon->order->pay_amount / 100;
+            $order['tranRime'] = $coupon->order->tran_time;
         }
 
         return [
@@ -59,7 +68,8 @@ class CouponBuyTransformer extends TransformerAbstract
             'sale_price' => $coupon->coupon->sale_price,
             'dated' => $dated,
             'begin_date_time' => $begin_date_time,
-            'end_date_time' => $end_date_time
+            'end_date_time' => $end_date_time,
+            'order' => $order ? $order : (object)null
         ];
     }
 }
