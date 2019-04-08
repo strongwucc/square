@@ -104,6 +104,10 @@ $api->version('v1', [
             $api->post('favs', 'UsersController@favs')
                 ->name('api.user.favs');
 
+            // 积分列表
+            $api->post('points', 'UsersController@points')
+                ->name('api.user.points');
+
             // 领取优惠券TODO
             $api->post('coupon/receive', 'CouponsController@receive')
                 ->name('api.coupons.receive');

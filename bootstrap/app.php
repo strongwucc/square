@@ -30,8 +30,8 @@ $app->afterBootstrapping(\Illuminate\Foundation\Bootstrap\LoadConfiguration::cla
         die("Error loading character set utf8");
     }
 
-    $fullUrl = url()->full();
-//    $fullUrl = 'http://district.test/api/';
+//    $fullUrl = url()->full();
+    $fullUrl = 'http://district.test/api/';
     $urlInfo = parse_url($fullUrl);
     $host = explode('.', $urlInfo['host']);
     $districtName = $host[0];

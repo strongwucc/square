@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Api;
 use App\Models\User;
 use App\Models\O2oCouponBuy;
 use App\Models\O2oMemberCollection;
+use App\Models\O2oMemberPoint;
 
+use App\Transformers\PointTransformer;
 use App\Transformers\UserTransformer;
 use App\Transformers\CouponBuyTransformer;
 use App\Transformers\CollectionTransformer;
@@ -144,5 +146,18 @@ class UsersController extends Controller
         $orderTotal = $this->user->getOrderTotal($platform_member_id, $status, $page, $pageLimit);
 
         return $this->response->collection(collect($orders), new OrderTransformer())->addMeta('pagination', $orderTotal);
+    }
+
+    public function points(Request $request, O2oMemberPoint $point)
+    {
+        $pageLimit = intval($request->page_limit) ? intval($request->page_limit) : $this->pageLimit;
+        $page = intval($request->page) > 0 ? intval($request->page) : 1;
+
+        $query = $point->query();
+        $query->where('platform_member_id', $this->user->platform_member_id);
+        $query->recentReplied();
+        $points = $query->paginate($pageLimit);
+
+        return $this->response->paginator($points, new PointTransformer());
     }
 }
