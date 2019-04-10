@@ -31,4 +31,21 @@ class O2oMerchantType extends Model
     {
         return $query->orderBy('id', 'desc');
     }
+
+    public function typePath($typeCode)
+    {
+        $query = $this->query();
+        $query->select('type_code');
+        $query->where('is_del', 0);
+        $query->where('pcode', $typeCode);
+        $codes = $query->get();
+
+        $typeCodes = [$typeCode];
+
+        foreach ($codes as $code) {
+            $typeCodes[] = $code->type_code;
+        }
+
+        return $typeCodes;
+    }
 }

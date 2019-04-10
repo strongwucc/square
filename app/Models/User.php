@@ -57,12 +57,12 @@ class User extends Authenticatable implements JWTSubject
 
         if ($status == 'unpayed') {
             $o2oOrdersSql .= " AND pay_result IN ('1111', '8888')";
-            $b2cOrdersSql .= " AND pay_result = '0' AND status = 'active'";
+            $b2cOrdersSql .= " AND pay_status = '0' AND status = 'active'";
         }
 
         if ($status == 'payed') {
             $o2oOrdersSql .= " AND pay_result = '0000'";
-            $b2cOrdersSql .= " AND pay_result = '1' AND status = 'active'";
+            $b2cOrdersSql .= " AND pay_status = '1' AND status = 'active'";
         }
 
         if ($status == 'dead') {
@@ -104,17 +104,17 @@ class User extends Authenticatable implements JWTSubject
         $avgOffset = $totalOffset / 2;
 
         // 首次订单数据查询
-        $o2oOrdersSql = "SELECT order_no,source,pay_amount,pay_result,unix_timestamp(tran_time) AS tran_time,'o2o' AS platform FROM mch_etongpay_order WHERE member_id = " . $memberId;
-        $b2cOrdersSql = "SELECT order_id AS order_no,source,total_amount AS pay_amount,pay_status AS pay_result,createtime AS tran_time,'b2c' AS platform FROM sdb_b2c_orders WHERE platform_member_id = " . $memberId;
+        $o2oOrdersSql = "SELECT order_no,source,pay_amount,pay_result,unix_timestamp(tran_time) AS tran_time,'o2o' AS platform,'active' AS status FROM mch_etongpay_order WHERE member_id = " . $memberId;
+        $b2cOrdersSql = "SELECT order_id AS order_no,source,total_amount AS pay_amount,pay_status AS pay_result,createtime AS tran_time,'b2c' AS platform,status FROM sdb_b2c_orders WHERE platform_member_id = " . $memberId;
 
         if ($status == 'unpayed') {
             $o2oOrdersSql .= " AND pay_result IN ('1111', '8888')";
-            $b2cOrdersSql .= " AND pay_result = '0' AND status = 'active'";
+            $b2cOrdersSql .= " AND pay_status = '0' AND status = 'active'";
         }
 
         if ($status == 'payed') {
             $o2oOrdersSql .= " AND pay_result = '0000'";
-            $b2cOrdersSql .= " AND pay_result = '1' AND status = 'active'";
+            $b2cOrdersSql .= " AND pay_status = '1' AND status = 'active'";
         }
 
         if ($status == 'dead') {

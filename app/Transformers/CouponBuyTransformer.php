@@ -14,16 +14,19 @@ class CouponBuyTransformer extends TransformerAbstract
         $dated = 0;
         $begin_date_time = '';
         $end_date_time = '';
+        $left_days = '';
 
         if ($coupon->coupon->date_type == 'DATE_TYPE_FIX_TIME_RANGE') {
             $now = date('Y-m-d H:i:s', time());
             $dated = $coupon->coupon->end_timestamp < $now ? 1 : 0;
             $begin_date_time = date('Y.m.d', strtotime($coupon->coupon->begin_timestamp));
             $end_date_time = date('Y.m.d', strtotime($coupon->coupon->end_timestamp));
+            $left_days = floor((strtotime($coupon->coupon->end_timestamp) - time()) / (3600 * 24));
         } else {
             $dated = strtotime($coupon->createtime) + ($coupon->coupon->fixed_begin_term + $coupon->coupon->fixed_term) * 24 * 3600 < time() ? 1 : 0;
             $begin_date_time = date('Y.m.d', strtotime($coupon->createtime) + $coupon->coupon->fixed_begin_term * 24 * 3600);
             $end_date_time = date('Y.m.d', strtotime(strtotime($coupon->createtime) + ($coupon->coupon->fixed_begin_term + $coupon->coupon->fixed_term) * 24 * 3600));
+            $left_days = floor((strtotime(strtotime($coupon->createtime) + ($coupon->coupon->fixed_begin_term + $coupon->coupon->fixed_term) * 24 * 3600) - time()) / (3600 * 24));
         }
 
         $order = [];
@@ -69,6 +72,7 @@ class CouponBuyTransformer extends TransformerAbstract
             'dated' => $dated,
             'begin_date_time' => $begin_date_time,
             'end_date_time' => $end_date_time,
+            'left_days' => $left_days,
             'order' => $order ? $order : (object)null
         ];
     }

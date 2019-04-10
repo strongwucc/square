@@ -31,6 +31,7 @@ class MerchantsController extends Controller
 
         $query = $merchantType->query();
         $query->where('pcode', $pcode);
+        $query->where('is_del', 0);
         $types = $query->get();
 
         return $this->response->collection($types, new MerchantTypeTransformer());
@@ -43,7 +44,9 @@ class MerchantsController extends Controller
         $query = $merchant->query();
 
         if ($typeCode = $request->type_code) {
-            $query->where('type_code', $typeCode);
+            $o2oMerchantType = new O2oMerchantType();
+            $typeCodes = $o2oMerchantType->typePath($request->type_code);
+            $query->whereIn('type_code', $typeCodes);
         }
 
         if ($searchKey = $request->search_key) {
