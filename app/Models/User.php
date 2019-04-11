@@ -89,7 +89,7 @@ class User extends Authenticatable implements JWTSubject
             'count' => $pageLimit,
             'per_page' => $pageLimit,
             'current_page' => $page,
-            'total_page' => ceil($total / $pageLimit)
+            'total_pages' => ceil($total / $pageLimit)
         ];
 
         return $pagination;
