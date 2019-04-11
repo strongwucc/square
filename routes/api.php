@@ -69,6 +69,10 @@ $api->version('v1', [
         $api->post('pay/notify', 'DistrictController@notify')
             ->name('api.pay.notify');
 
+        // 刷新token
+        $api->post('authorizations/update', 'AuthorizationsController@update')
+            ->name('api.authorizations.update');
+
         // 需要 token 验证的接口
         $api->group(['middleware' => 'api.auth'], function($api) {
 
@@ -83,10 +87,6 @@ $api->version('v1', [
             // 手机绑定
             $api->post('user/bind', 'UsersController@bind')
                 ->name('api.users.bind');
-
-            // 刷新token
-            $api->post('authorizations/update', 'AuthorizationsController@update')
-                ->name('api.authorizations.update');
 
             // 删除token
             $api->post('authorizations/destroy', 'AuthorizationsController@destroy')
