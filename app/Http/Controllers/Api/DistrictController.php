@@ -10,4 +10,14 @@ class DistrictController extends Controller
     {
         echo 'success';
     }
+
+    public function info()
+    {
+        $name = config('trading.name');
+        $picture = config('trading.picture');
+
+        $info = ['name' => $name, 'picture' => $picture];
+
+        return $this->response->array($info);
+    }
 }

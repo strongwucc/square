@@ -37,7 +37,7 @@ $app->afterBootstrapping(\Illuminate\Foundation\Bootstrap\LoadConfiguration::cla
     $districtName = $host[0];
 
     // 查询数据库连接信息
-    if ($result = mysqli_query($mysqli, "SELECT trading_ku_address,user_name,user_password FROM sdb_basic_trading_ku WHERE trading_ku_name = '" . $districtName . "' LIMIT 1")) {
+    if ($result = mysqli_query($mysqli, "SELECT trading_id, trading_ku_address,user_name,user_password FROM sdb_basic_trading_ku WHERE trading_ku_name = '" . $districtName . "' LIMIT 1")) {
         $map_data = $result->fetch_array(MYSQLI_ASSOC);
 
         /* free result set */
@@ -73,6 +73,30 @@ $app->afterBootstrapping(\Illuminate\Foundation\Bootstrap\LoadConfiguration::cla
     }
 
     config($payInfo);
+
+    // 商圈信息
+    if ($result = mysqli_query($mysqli, "SELECT trading_name,trading_picture FROM sdb_basic_trading WHERE id = '" . $map_data['trading_id'] . "' LIMIT 1")) {
+        $trading_data = $result->fetch_array(MYSQLI_ASSOC);
+
+        /* free result set */
+        mysqli_free_result($result);
+    } else {
+        die('Error selecting...');
+    }
+
+    $tradingInfo = [
+        'trading.name' => '',
+        'trading.picture' => ''
+    ];
+
+    if (!empty($trading_data['trading_name'])) {
+        $tradingInfo['trading.name'] = $trading_data['trading_name'];
+    }
+    if (!empty($trading_data['trading_picture'])) {
+        $tradingInfo['trading.picture'] = $trading_data['trading_picture'];
+    }
+
+    config($tradingInfo);
 
     $mysqli->close();
 

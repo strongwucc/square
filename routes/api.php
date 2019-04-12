@@ -25,6 +25,10 @@ $api->version('v1', [
         'limit' => config('api.rate_limits.access.limit'),
         'expires' => config('api.rate_limits.access.expires'),
     ], function($api) {
+        // 商圈信息
+        $api->post('district/info', 'DistrictController@info')
+            ->name('api.district.info');
+
         // 第三方登录
         $api->post('socials/authorizations', 'AuthorizationsController@socialStore')
             ->name('api.socials.authorizations.store');

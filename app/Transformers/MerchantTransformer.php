@@ -38,7 +38,8 @@ class MerchantTransformer extends TransformerAbstract
             'title' => $merchant->title,
             'detail' => $merchant->details,
             'open_time' => $merchant->open_time,
-            'is_fav' => $isFav
+            'is_fav' => $isFav,
+            'sdm' => $merchant->sdm ? $merchant->sdm : ''
         ];
     }
 
