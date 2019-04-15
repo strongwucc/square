@@ -106,6 +106,7 @@ $app->afterBootstrapping(\Illuminate\Foundation\Bootstrap\LoadConfiguration::cla
 
     config([
         'database.connections.mysql.host' => $map_data['trading_ku_address'],
+        'database.connections.mysql.database' => $districtName,
         'database.connections.mysql.username' => $map_data['user_name'],
         'database.connections.mysql.password' => $map_data['user_password'],
     ]);
