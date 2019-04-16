@@ -58,6 +58,7 @@ class UsersController extends Controller
         $query = $coupon->query();
         $query->with('coupon');
         $query->where('buy_status', '1');
+        $query->where('pay_status', '1');
         $query->where('platform_member_id', $this->user->platform_member_id);
 
         switch ($status) {

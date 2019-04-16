@@ -77,7 +77,7 @@ class CouponsController extends Controller
         }
 
         if ($couponData->get_limit > 0) {
-            $reveived = $couponBuy->where([['pcid', $request->pcid], ['platform_member_id', $this->user->platform_member_id]])->count();
+            $reveived = $couponBuy->where([['pcid', $request->pcid], ['platform_member_id', $this->user->platform_member_id], ['buy_status', '1'], ['pay_status', '1']])->count();
             if ($reveived >= $couponData->get_limit) {
                 return $this->errorResponse(422, '已超过领取数量限制', 1005);
             }

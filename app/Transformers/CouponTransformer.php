@@ -22,7 +22,7 @@ class CouponTransformer extends TransformerAbstract
         $user_count = 0;
 
         if ($this->member_id) {
-            $user_count = O2oCouponBuy::where([['member_id', $this->member_id], ['pcid', $coupon->pcid], ['buy_status', '1']])->count();
+            $user_count = O2oCouponBuy::where([['member_id', $this->member_id], ['pcid', $coupon->pcid], ['buy_status', '1'], ['pay_status', '1']])->count();
         }
 
         return [

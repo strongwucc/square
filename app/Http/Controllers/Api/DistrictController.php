@@ -13,7 +13,7 @@ class DistrictController extends Controller
     {
         $notifyData = $request->all();
         $payConfig = config('etonepay', ['mch_id'=>'', 'mer_key'=>'']);
-        $notifyData['merKey'] = $payConfig['mer_key'];
+        $notifyData['merKey'] = $payConfig['mch_key'];
 
         if (is_return_vaild($notifyData) == false) {
             echo 'fail';exit;
@@ -47,13 +47,7 @@ class DistrictController extends Controller
         // 优惠券
         if ($order->source == '02') {
             $payInfo = json_decode($order->pay_info, true);
-            $couponBuy = $couponBuyModel->where('from_order_id', $notifyData['merOrderNum'])->first();
-            if (!$couponBuy) {
-                DB::rollBack();
-                echo 'fail';exit;
-            }
-            $couponBuy->pay_status = '1';
-            $couponBuyRes = $couponBuy->save();
+            $couponBuyRes = $couponBuyModel->where('from_order_id', $notifyData['merOrderNum'])->update(['pay_status'=>'1']);
             if (!$couponBuyRes) {
                 DB::rollBack();
                 echo 'fail';exit;
