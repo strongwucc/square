@@ -137,6 +137,7 @@ class CouponsController extends Controller
                     'tranAmt' => $couponData->sale_price * 100,
                     'sysTraceNum' => $orderNo,
                     'tranDateTime' => date('YmdHis', $nowTime),
+                    'frontUrl' => $request->frontUrl ? $request->frontUrl : '',
                     'notifyUrl' => $payConfig['back_url'] ? $payConfig['back_url'] : url('api/pay/notify'),
                     'merKey' => $payConfig['mch_key']
                 ];

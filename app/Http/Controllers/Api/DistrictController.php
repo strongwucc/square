@@ -2,13 +2,67 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\O2oCouponBuy;
+use App\Models\O2oOrder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DistrictController extends Controller
 {
-    public function notify()
+    public function notify(Request $request)
     {
-        echo 'success';
+        $notifyData = $request->all();
+        $payConfig = config('etonepay', ['mch_id'=>'', 'mer_key'=>'']);
+        $notifyData['merKey'] = $payConfig['mer_key'];
+
+        if (is_return_vaild($notifyData) == false) {
+            echo 'fail';exit;
+        }
+
+        $orderModel = new O2oOrder();
+        $couponBuyModel = new O2oCouponBuy();
+
+        $order = $orderModel->where('order_no', $notifyData['merOrderNum'])->first();
+
+        if (!$order) {
+            echo 'fail';exit;
+        }
+
+        DB::beginTransaction();
+
+        if ($notifyData['respCode'] === '0000') {
+            $order->pay_result = '0000';
+            $order->remark = $notifyData['channelOrderId'];
+        } else {
+            $order->pay_result = '9999';
+        }
+
+        $orderRes = $order->save();
+
+        if (!$orderRes) {
+            DB::rollBack();
+            echo 'fail';exit;
+        }
+
+        // 优惠券
+        if ($order->source == '02') {
+            $payInfo = json_decode($order->pay_info, true);
+            $couponBuy = $couponBuyModel->where('from_order_id', $notifyData['merOrderNum'])->first();
+            if (!$couponBuy) {
+                DB::rollBack();
+                echo 'fail';exit;
+            }
+            $couponBuy->pay_status = '1';
+            $couponBuyRes = $couponBuy->save();
+            if (!$couponBuyRes) {
+                DB::rollBack();
+                echo 'fail';exit;
+            }
+        }
+
+        DB::commit();
+
+        echo 'success';exit;
     }
 
     public function info()

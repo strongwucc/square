@@ -104,7 +104,7 @@ function zhusao($sdf = [], &$msg)
         'sysTraceNum' => $sdf['sysTraceNum'],
         'tranDateTime' => $sdf['tranDateTime'],
         'currencyType' => '156',
-        'merURL' => $sdf['notifyUrl'],
+        'merURL' => $sdf['frontUrl'] ? $sdf['frontUrl'] : $sdf['notifyUrl'],
         'backURL' => $sdf['notifyUrl'],
         'orderInfo' => bin2hex('消费交易'),
         'userId' => '',
@@ -143,4 +143,15 @@ function zhusao($sdf = [], &$msg)
         return false;
     }
 
+}
+
+function is_return_vaild($arr)
+{
+    $mer_key = $arr['merKey'];
+    $str = $arr['transCode'].'|'.$arr['merchantId'].'|'.$arr['respCode'].'|'.$arr['sysTraceNum'].'|'.$arr['merOrderNum'].'|'.$arr['orderId'].'|'.$arr['bussId'].'|'.$arr['tranAmt'].'|'.$arr['orderAmt'].'|'.$arr['bankFeeAmt'].'|'.$arr['integralAmt'].'|'.$arr['vaAmt'].'|'.$arr['bankAmt'].'|'.$arr['bankId'].'|'.$arr['integralSeq'].'|'.$arr['vaSeq'].'|'.$arr['bankSeq'].'|'.$arr['tranDateTime'].'|'.$arr['payMentTime'].'|'.$arr['settleDate'].'|'.$arr['currencyType'].'|'.$arr['orderInfo'].'|'.$arr['userId'].$mer_key;
+    $sign = md5($str);
+    if($sign == $arr['signValue']){
+        return true;
+    }
+    return false;
 }
