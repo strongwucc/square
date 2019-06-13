@@ -24,7 +24,8 @@ function sms_post($url, $post_data)
     　　curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0); //从证书中检查SSL加密算法是否存在
     }
     curl_setopt($ch, CURLOPT_POST, TRUE);
-    $res_json = @preg_replace("#\\\u([0-9a-f]{4})#ie", "iconv('UCS-2BE', 'UTF-8', pack('H4', '\\1'))", json_encode($post_data));
+    $res_json = json_encode($post_data);
+    // $res_json = @preg_replace("#\\\u([0-9a-f]{4})#ie", "iconv('UCS-2BE', 'UTF-8', pack('H4', '\\1'))", json_encode($post_data));
     curl_setopt($ch, CURLOPT_POSTFIELDS, $res_json);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
     curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
