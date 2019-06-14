@@ -35,7 +35,7 @@ class AuthorizationsController extends Controller
             $oauthUser = $driver->userFromToken($token);
         } catch (\Exception $e) {
             // return $this->response->errorUnauthorized('参数错误，未获取用户信息');
-            return $this->errorResponse(403, '参数错误，未获取用户信息', 1003);
+            return $this->errorResponse(403, '参数错误，未获取用户信息：' . $e->getMessage(), 1003);
         }
 
         switch ($type) {
