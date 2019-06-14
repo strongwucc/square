@@ -12,7 +12,7 @@ class MerchantHotTransformer extends TransformerAbstract
         return [
             'mer_id' => $merchantHot->mer_id,
             'name' => $merchantHot->mer_name,
-            'pic' => $merchantHot->merr_pic,
+            'pic' => $merchantHot->mer_pic,
             'per_cost' => $merchantHot->per_cost
         ];
     }
