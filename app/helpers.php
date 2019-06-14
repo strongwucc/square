@@ -53,7 +53,7 @@ function get_member_id()
 
 function get_qrcode()
 {
-    return '01' . date('YmdHis', time()) . str_pad(rand(1, 99999999), 6, '0', STR_PAD_LEFT) ;
+    return '01' . date('YmdHis', time()) . str_pad(rand(1, 999999), 6, '0', STR_PAD_LEFT) ;
 }
 
 function get_order_no($prefix)
