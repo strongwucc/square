@@ -61,6 +61,11 @@ function get_order_no($prefix)
     return $prefix . date('YmdHis', time()) . str_pad(rand(1, 99999999), 8, '0', STR_PAD_LEFT) ;
 }
 
+function get_type_code($now_time)
+{
+    return date('ynjG', $now_time) . intval(date('i', $now_time)) . intval(date('s', $now_time)) . str_pad(rand(1, 9999), 4, '0', STR_PAD_LEFT);
+}
+
 function timestamp_cmp($a, $b)
 {
     return $b->tran_time - $a->tran_time;

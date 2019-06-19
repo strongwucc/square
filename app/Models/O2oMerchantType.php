@@ -65,9 +65,9 @@ class O2oMerchantType extends Model
 
     public function getTypeCode()
     {
+        $now_time = time();
         do {
-
-            $type_code = uniqid();
+            $type_code = get_type_code($now_time);
             $row = $this->where('type_code', $type_code)->count();
 
         } while ($row);
