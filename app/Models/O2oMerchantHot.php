@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class O2oMerchantHot extends Model
 {
     protected $table = 'o2o_merchant_hot';
+    public $timestamps = false;
 
     public function scopeWithOrder($query, $order)
     {

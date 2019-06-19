@@ -46,4 +46,12 @@ Route::group([
     $router->delete('search_keywords/{id}', 'O2oSearchKeywordController@destroy');
     $router->get('search_keywords/{id}', 'O2oSearchKeywordController@show');
 
+    $router->get('merchant_hots', 'O2oMerchantHotController@index');
+    $router->get('merchant_hots/create', 'O2oMerchantHotController@create');
+    $router->post('merchant_hots', 'O2oMerchantHotController@store');
+    $router->get('merchant_hots/{id}/edit', 'O2oMerchantHotController@edit');
+    $router->put('merchant_hots/{id}', 'O2oMerchantHotController@update');
+    $router->delete('merchant_hots/{id}', 'O2oMerchantHotController@destroy');
+    $router->get('merchant_hots/{id}', 'O2oMerchantHotController@show');
+
 });

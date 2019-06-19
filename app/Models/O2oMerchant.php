@@ -37,4 +37,28 @@ class O2oMerchant extends Model
     {
         return $this->hasMany('App\Models\O2oCoupon', 'mer_id', 'mer_id');
     }
+
+    public function selectHotOptions()
+    {
+        $hot_model = new O2oMerchantHot();
+
+        $hots = $hot_model->select('mer_id')->get();
+
+        $hot_ids = [];
+
+        foreach ($hots as $hot) {
+            $hot_ids[] = $hot->mer_id;
+        }
+
+        $merchants = $this->whereNotIn('mer_id', $hot_ids)->get();
+
+        $options = [];
+
+        foreach ($merchants as $merchant) {
+            $key = $merchant->mer_id;
+            $options[$key] = $merchant->mer_name;
+        }
+        return $options;
+
+    }
 }
