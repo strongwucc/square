@@ -54,4 +54,7 @@ Route::group([
     $router->delete('merchant_hots/{id}', 'O2oMerchantHotController@destroy');
     $router->get('merchant_hots/{id}', 'O2oMerchantHotController@show');
 
+    $router->get('merchants', 'O2oMerchantController@index');
+    $router->get('merchants/{id}', 'O2oMerchantController@show');
+
 });
