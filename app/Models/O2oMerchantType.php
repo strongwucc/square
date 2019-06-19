@@ -2,11 +2,25 @@
 
 namespace App\Models;
 
+use Encore\Admin\Traits\AdminBuilder;
+use Encore\Admin\Traits\ModelTree;
 use Illuminate\Database\Eloquent\Model;
 
 class O2oMerchantType extends Model
 {
+    use ModelTree, AdminBuilder;
+    protected $primaryKey = 'type_code';
     protected $table = 'o2o_merchant_type';
+    public $timestamps = false;
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+        $this->setParentColumn('pcode');
+        $this->setOrderColumn('sort_rank');
+        $this->setTitleColumn('type_name');
+    }
 
     public function scopeWithOrder($query, $order)
     {
@@ -47,5 +61,17 @@ class O2oMerchantType extends Model
         }
 
         return $typeCodes;
+    }
+
+    public function getTypeCode()
+    {
+        do {
+
+            $type_code = uniqid();
+            $row = $this->where('type_code', $type_code)->count();
+
+        } while ($row);
+
+        return $type_code;
     }
 }
