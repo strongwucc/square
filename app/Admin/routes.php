@@ -57,4 +57,18 @@ Route::group([
     $router->get('merchants', 'O2oMerchantController@index');
     $router->get('merchants/{id}', 'O2oMerchantController@show');
 
+    $router->get('members', 'O2oMemberController@index');
+
+    $router->get('member_points', 'O2oMemberPointController@index');
+
+    $router->get('coupons', 'O2oCouponController@index');
+    $router->get('coupons/create', 'O2oCouponController@create');
+    $router->post('coupons', 'O2oCouponController@store');
+    $router->get('coupons/{id}/edit', 'O2oCouponController@edit');
+    $router->put('coupons/{id}', 'O2oCouponController@update');
+    $router->delete('coupons/{id}', 'O2oCouponController@destroy');
+    $router->get('coupons/{id}', 'O2oCouponController@show');
+
+    $router->get('coupon_buy', 'O2oCouponBuyController@index');
+
 });

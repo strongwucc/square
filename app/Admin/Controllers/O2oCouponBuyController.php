@@ -2,7 +2,7 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\O2oOrder;
+use App\Models\O2oCouponBuy;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
@@ -10,7 +10,7 @@ use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
 
-class O2oOrderController extends Controller
+class O2oCouponBuyController extends Controller
 {
     use HasResourceActions;
 
@@ -23,7 +23,7 @@ class O2oOrderController extends Controller
     public function index(Content $content)
     {
         return $content
-            ->header('订单列表')
+            ->header('已发放优惠券列表')
 //            ->description('description')
             ->body($this->grid());
     }
@@ -79,28 +79,12 @@ class O2oOrderController extends Controller
      */
     protected function grid()
     {
-        $grid = new Grid(new O2oOrder);
-
-//        $grid->id('Id');
-        $grid->order_no('订单号');
-        $grid->pay_amount('订单金额');
-        $grid->source('订单来源');
-        $grid->pay_type('支付方式');
-        $grid->pay_result('付款状态');
-        $grid->tran_time('下单时间');
-        $grid->mch_id('商户号');
-//        $grid->member_id('Member id');
-//        $grid->shopno('Shopno');
-//        $grid->scan_pay_type('Scan pay type');
-//        $grid->pay_info('Pay info');
-//        $grid->etone_order_id('Etone order id');
-//        $grid->remark('Remark');
-        $grid->disableCreateButton();
+        $grid = new Grid(new O2oCouponBuy);
 
         $grid->actions(function ($actions) {
             $actions->disableDelete();
             $actions->disableEdit();
-//            $actions->disableView();
+            $actions->disableView();
         });
 
         $grid->tools(function ($tools) {
@@ -108,6 +92,23 @@ class O2oOrderController extends Controller
                 $batch->disableDelete();
             });
         });
+
+        $grid->disableCreateButton();
+
+        $grid->pcid('优惠券编号');
+        $grid->qrcode('核销码');
+//        $grid->order_id('Order id');
+        $grid->from_order_id('来源订单号');
+//        $grid->cid('Cid');
+        $grid->member_id('会员昵称');
+//        $grid->openid('Openid');
+//        $grid->cashier_id('Cashier id');
+//        $grid->pay_status('Pay status');
+//        $grid->buy_status('Buy status');
+        $grid->use_status('使用状态');
+        $grid->createtime('领取时间');
+//        $grid->last_modified('Last modified');
+//        $grid->platform_member_id('Platform member id');
 
         return $grid;
     }
@@ -120,22 +121,22 @@ class O2oOrderController extends Controller
      */
     protected function detail($id)
     {
-        $show = new Show(O2oOrder::findOrFail($id));
+        $show = new Show(O2oCouponBuy::findOrFail($id));
 
-        $show->id('Id');
-        $show->order_no('Order no');
-        $show->mch_id('Mch id');
+        $show->pcid('Pcid');
+        $show->qrcode('Qrcode');
+        $show->order_id('Order id');
+        $show->from_order_id('From order id');
+        $show->cid('Cid');
         $show->member_id('Member id');
-        $show->source('Source');
-        $show->shopno('Shopno');
-        $show->pay_amount('Pay amount');
-        $show->pay_type('Pay type');
-        $show->scan_pay_type('Scan pay type');
-        $show->pay_result('Pay result');
-        $show->pay_info('Pay info');
-        $show->tran_time('Tran time');
-        $show->etone_order_id('Etone order id');
-        $show->remark('Remark');
+        $show->openid('Openid');
+        $show->cashier_id('Cashier id');
+        $show->pay_status('Pay status');
+        $show->buy_status('Buy status');
+        $show->use_status('Use status');
+        $show->createtime('Createtime');
+        $show->last_modified('Last modified');
+        $show->platform_member_id('Platform member id');
 
         return $show;
     }
@@ -147,21 +148,20 @@ class O2oOrderController extends Controller
      */
     protected function form()
     {
-        $form = new Form(new O2oOrder);
+        $form = new Form(new O2oCouponBuy);
 
-        $form->text('order_no', 'Order no');
-        $form->text('mch_id', 'Mch id');
+        $form->text('pcid', 'Pcid');
+        $form->text('qrcode', 'Qrcode');
+        $form->text('order_id', 'Order id');
+        $form->text('from_order_id', 'From order id');
+        $form->number('cid', 'Cid');
         $form->text('member_id', 'Member id');
-        $form->text('source', 'Source')->default('01');
-        $form->text('shopno', 'Shopno');
-        $form->text('pay_amount', 'Pay amount');
-        $form->text('pay_type', 'Pay type')->default('03');
-        $form->text('scan_pay_type', 'Scan pay type')->default('01');
-        $form->text('pay_result', 'Pay result')->default('1111');
-        $form->text('pay_info', 'Pay info');
-        $form->datetime('tran_time', 'Tran time')->default(date('Y-m-d H:i:s'));
-        $form->text('etone_order_id', 'Etone order id');
-        $form->text('remark', 'Remark');
+        $form->text('openid', 'Openid');
+        $form->text('cashier_id', 'Cashier id');
+        $form->text('pay_status', 'Pay status');
+        $form->text('buy_status', 'Buy status');
+        $form->text('use_status', 'Use status');
+        $form->text('platform_member_id', 'Platform member id');
 
         return $form;
     }
