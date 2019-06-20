@@ -8,6 +8,7 @@ class O2oMerchant extends Model
 {
     protected $table = 'o2o_merchant';
     protected $primaryKey = 'id';
+    public $timestamps = false;
 
     public function scopeWithOrder($query, $order)
     {
@@ -60,5 +61,15 @@ class O2oMerchant extends Model
         }
         return $options;
 
+    }
+
+    public function getTitleAttribute($value)
+    {
+        return explode(',', $value);
+    }
+
+    public function setTitleAttribute($value)
+    {
+        $this->attributes['title'] = implode(',', $value);
     }
 }

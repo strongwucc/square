@@ -56,6 +56,9 @@ Route::group([
 
     $router->get('merchants', 'O2oMerchantController@index');
     $router->get('merchants/{id}', 'O2oMerchantController@show');
+    $router->get('merchants/{id}/edit', 'O2oMerchantController@edit');
+    $router->put('merchants/{id}', 'O2oMerchantController@update');
+    $router->post('merchants/hot', 'O2oMerchantController@hot');
 
     $router->get('members', 'O2oMemberController@index');
 
