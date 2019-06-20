@@ -81,6 +81,24 @@ class O2oMerchantController extends Controller
     {
         $grid = new Grid(new O2oMerchant);
 
+        $grid->filter(function($filter){
+
+            // 去掉默认的id过滤器
+            $filter->disableIdFilter();
+
+            // 在这里添加字段过滤器
+            $filter->like('mer_id', '商户编号');
+            $filter->like('mer_name', '商户名称');
+            $filter->like('contact_person', '联系人');
+            $filter->like('contact_mobile', '联系电话');
+            $filter->equal('status', '是否激活')->radio([
+                ''   => '所有',
+                0    => '已激活',
+                1    => '未激活',
+            ]);
+
+        });
+
         $grid->actions(function ($actions) {
             $actions->disableDelete();
             $actions->disableEdit();

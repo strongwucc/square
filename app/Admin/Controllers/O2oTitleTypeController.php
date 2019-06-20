@@ -81,6 +81,16 @@ class O2oTitleTypeController extends Controller
     {
         $grid = new Grid(new O2oTitleType);
 
+        $grid->filter(function($filter){
+
+            // 去掉默认的id过滤器
+            $filter->disableIdFilter();
+
+            // 在这里添加字段过滤器
+            $filter->like('type_name', '类型名称');
+
+        });
+
         $grid->id('ID');
         $grid->type_name('类型名称');
 //        $grid->type_code('Type code');

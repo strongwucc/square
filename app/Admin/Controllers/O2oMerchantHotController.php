@@ -82,6 +82,16 @@ class O2oMerchantHotController extends Controller
     {
         $grid = new Grid(new O2oMerchantHot);
 
+        $grid->filter(function($filter){
+
+            // 去掉默认的id过滤器
+            $filter->disableIdFilter();
+
+            // 在这里添加字段过滤器
+            $filter->like('mer_name', '商户名称');
+
+        });
+
 //        $grid->id('ID');
         $grid->mer_id('商户编号');
         $grid->mer_name('商户名称');

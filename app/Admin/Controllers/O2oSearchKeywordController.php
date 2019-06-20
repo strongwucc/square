@@ -81,6 +81,16 @@ class O2oSearchKeywordController extends Controller
     {
         $grid = new Grid(new O2oSearchKeyword);
 
+        $grid->filter(function($filter){
+
+            // 去掉默认的id过滤器
+            $filter->disableIdFilter();
+
+            // 在这里添加字段过滤器
+            $filter->like('keyword', '关键字');
+
+        });
+
         $grid->id('ID');
         $grid->keyword('关键字');
         $grid->num('序号');
