@@ -13,6 +13,7 @@ Route::group([
     $router->get('/', 'HomeController@index');
 
     $router->get('orders', 'O2oOrderController@index');
+    $router->get('b2c_orders', 'SdbB2cOrdersController@index');
 
     $router->get('merchant_types', 'O2oMerchantTypeController@index');
     $router->get('merchant_types/create', 'O2oMerchantTypeController@create');

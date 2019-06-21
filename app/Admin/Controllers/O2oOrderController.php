@@ -23,7 +23,7 @@ class O2oOrderController extends Controller
     public function index(Content $content)
     {
         return $content
-            ->header('订单列表')
+            ->header('商圈订单列表')
 //            ->description('description')
             ->body($this->grid());
     }
@@ -81,15 +81,67 @@ class O2oOrderController extends Controller
     {
         $grid = new Grid(new O2oOrder);
 
+        $grid->filter(function($filter){
+
+            // 去掉默认的id过滤器
+            $filter->disableIdFilter();
+
+            // 在这里添加字段过滤器
+            $filter->like('order_no', '订单号');
+            $filter->like('mer_id', '商户号');
+            $filter->like('member_id', '会员ID');
+            $filter->equal('source', '订单来源')->radio([
+                ''   => '全部',
+                '01'    => '停车缴费',
+                '02'    => '优惠券购买'
+            ]);
+            $filter->equal('pay_type', '支付方式')->radio([
+                ''   => '全部',
+                '02'    => '支付宝支付',
+                '03'    => '微信支付'
+            ]);
+            $filter->equal('pay_result', '付款状态')->radio([
+                ''   => '全部',
+                '0000'    => '支付成功',
+                '1111'    => '支付初始状态',
+                '8888'    => '未支付',
+                '9999'    => '支付失败'
+            ]);
+            $filter->between('tran_time', '下单时间')->datetime();
+
+        });
+
+        $grid->disableRowSelector();
+        $grid->disableActions();
+
 //        $grid->id('Id');
         $grid->order_no('订单号');
-        $grid->pay_amount('订单金额');
-        $grid->source('订单来源');
-        $grid->pay_type('支付方式');
-        $grid->pay_result('付款状态');
+        $grid->pay_amount('订单金额')->display(function ($pay_amount) {
+            return number_format($pay_amount / 100, 2, '.', '');
+        });
+        $grid->source('订单来源')->display(function ($source) {
+            return $source == '01' ? '停车缴费' : '优惠券购买';
+        });
+        $grid->pay_type('支付方式')->display(function ($pay_type) {
+            return $pay_type == '02' ? '支付宝支付' : '微信支付';
+        });
+        $grid->pay_result('付款状态')->display(function ($pay_result) {
+           if ($pay_result == '0000') {
+               return '支付成功';
+           }
+           if ($pay_result == '1111') {
+               return '支付初始状态';
+           }
+           if ($pay_result == '8888') {
+               return '未支付';
+           }
+           if ($pay_result == '9999') {
+               return '支付失败';
+           }
+        });
         $grid->tran_time('下单时间');
         $grid->mch_id('商户号');
-//        $grid->member_id('Member id');
+        $grid->member_id('会员ID');
 //        $grid->shopno('Shopno');
 //        $grid->scan_pay_type('Scan pay type');
 //        $grid->pay_info('Pay info');
