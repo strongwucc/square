@@ -61,6 +61,7 @@ Route::group([
     $router->post('merchants/hot', 'O2oMerchantController@hot');
 
     $router->get('members', 'O2oMemberController@index');
+    $router->post('members/lock', 'O2oMemberController@lock');
 
     $router->get('member_points', 'O2oMemberPointController@index');
 

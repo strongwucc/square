@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Admin\Extensions\UserLock;
 use App\Models\O2oMember;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
@@ -9,6 +10,8 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
+use Encore\Admin\Widgets\Table;
+use Illuminate\Http\Request;
 
 class O2oMemberController extends Controller
 {
@@ -81,10 +84,26 @@ class O2oMemberController extends Controller
     {
         $grid = new Grid(new O2oMember);
 
+        $grid->filter(function($filter){
+
+            // 去掉默认的id过滤器
+            $filter->disableIdFilter();
+
+            // 在这里添加字段过滤器
+            $filter->like('platform_member_id', '平台会员ID');
+            $filter->like('mobile', '手机号');
+            $filter->like('name', '姓名');
+            $filter->like('nickname', '昵称');
+
+        });
+
+        $grid->disableRowSelector();
+
         $grid->actions(function ($actions) {
             $actions->disableDelete();
             $actions->disableEdit();
             $actions->disableView();
+            $actions->append(new UserLock($actions->getKey(),$actions->row));
         });
 
         $grid->tools(function ($tools) {
@@ -97,14 +116,21 @@ class O2oMemberController extends Controller
 
 //        $grid->member_id('Member id');
 //        $grid->member_lv_id('Member lv id');
-//        $grid->platform_member_id('Platform member id');
+        $grid->platform_member_id('平台会员ID');
 //        $grid->username('会员姓名');
 //        $grid->password('Password');
 //        $grid->crm_member_id('Crm member id');
 //        $grid->operator_id('Operator id');
 //        $grid->store_id('Store id');
         $grid->name('会员姓名');
-        $grid->point('积分');
+        $grid->point('积分')->expand(function ($model) {
+
+            $points = $model->points()->get()->map(function ($point) {
+                return $point->only(['id', 'change_point', 'consume_point', 'addtime', 'expiretime', 'reason', 'remark']);
+            });
+
+            return new Table(['ID', '改变积分', '单笔积分消耗的积分值', '添加时间', '过期时间', '理由', '备注'], $points->toArray());
+        });
 //        $grid->lastname('Lastname');
 //        $grid->firstname('Firstname');
 //        $grid->area('Area');
@@ -147,7 +173,9 @@ class O2oMemberController extends Controller
 //        $grid->cur('Cur');
 //        $grid->lang('Lang');
 //        $grid->unreadmsg('Unreadmsg');
-//        $grid->disabled('Disabled');
+        $grid->disabled('是否冻结')->display(function ($disabled) {
+            return $disabled == 'true' ? '是' : '否';
+        });
 //        $grid->remark('Remark');
 //        $grid->remark_type('Remark type');
 //        $grid->login_count('Login count');
@@ -159,6 +187,25 @@ class O2oMemberController extends Controller
 //        $grid->source('Source');
 
         return $grid;
+    }
+
+    public function lock(Request $request)
+    {
+        $member_id = $request->post('id');
+        $action = $request->post('action');
+        $member_model = new O2oMember();
+        if ($action == 'lock') {
+            $lock_res = $member_model->where('member_id', $member_id)->update(['disabled' => 'true']);
+        } else {
+            $lock_res = $member_model->where('member_id', $member_id)->update(['disabled' => 'false']);
+        }
+
+        if (!$lock_res) {
+            return response()->json([
+                'status'  => false,
+                'message' => '操作失败，请重试',
+            ]);
+        }
     }
 
     /**

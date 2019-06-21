@@ -81,6 +81,16 @@ class O2oMemberPointController extends Controller
     {
         $grid = new Grid(new O2oMemberPoint);
 
+        $grid->filter(function($filter){
+
+            // 去掉默认的id过滤器
+            $filter->disableIdFilter();
+
+            // 在这里添加字段过滤器
+            $filter->like('platform_member_id', '平台会员ID');
+
+        });
+
         $grid->actions(function ($actions) {
             $actions->disableDelete();
             $actions->disableEdit();
@@ -92,6 +102,8 @@ class O2oMemberPointController extends Controller
                 $batch->disableDelete();
             });
         });
+
+        $grid->disableRowSelector();
 
         $grid->disableCreateButton();
 
