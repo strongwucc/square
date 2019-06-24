@@ -39,6 +39,11 @@ class O2oMerchant extends Model
         return $this->hasMany('App\Models\O2oCoupon', 'mer_id', 'mer_id');
     }
 
+    public function b2cOrders()
+    {
+        return $this->hasMany('App\Models\B2cOrder', 'merchant_bn', 'mer_id');
+    }
+
     public function selectHotOptions()
     {
         $hot_model = new O2oMerchantHot();
