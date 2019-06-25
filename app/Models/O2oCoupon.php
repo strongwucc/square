@@ -78,4 +78,24 @@ class O2oCoupon extends Model
         }
         $this->increment('grant_quantity', $amount);
     }
+
+//    public function getMerIdAttribute($value)
+//    {
+//        return explode(',', $value);
+//    }
+//
+//    public function setMerIdAttribute($value)
+//    {
+//        $this->attributes['mer_id'] = implode(',', $value);
+//    }
+
+    public function getPcid()
+    {
+        return time() . str_pad(mt_rand(1, 99999999), 8, '0', STR_PAD_LEFT);
+    }
+
+    public function merchants()
+    {
+        return $this->hasMany(O2oCouponMerchant::class, 'pcid', 'pcid');
+    }
 }

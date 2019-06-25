@@ -11,6 +11,7 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
+use Encore\Admin\Widgets\Table;
 
 class SdbB2cOrdersController extends Controller
 {
@@ -138,10 +139,17 @@ class SdbB2cOrdersController extends Controller
             $actions->disableDelete();
             $actions->disableEdit();
             $actions->disableView();
-            $actions->prepend('<a href="/admin/b2c_orders/' . $actions->row->order_id . '"><i class="fa fa-eye"></i></a>');
+            $actions->prepend('<a class="btn btn-xs" href="/admin/b2c_orders/' . $actions->row->order_id . '">查看详情</a>');
         });
 
-        $grid->order_id('订单号');
+        $grid->order_id('订单号')->expand(function ($model) {
+
+            $items = $model->items()->get()->map(function ($item) {
+                return $item->only(['name', 'cost', 'price', 'nums', 'amount']);
+            });
+
+            return new Table(['商品名称', '成本价', '销售价', '商品数量', '总额'], $items->toArray());
+        });
 //        $grid->seller_order_id('Seller order id');
         $grid->total_amount('订单金额')->display(function ($total_amount) {
             return number_format($total_amount, '2', '.', '');

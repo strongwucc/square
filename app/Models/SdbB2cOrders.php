@@ -14,4 +14,9 @@ class SdbB2cOrders extends Model
     {
         return $this->belongsTo('App\Models\O2oMerchant', 'merchant_bn', 'mer_id');
     }
+
+    public function items()
+    {
+        return $this->hasMany('App\Models\SdbB2cOrderItems', 'order_id', 'order_id');
+    }
 }
