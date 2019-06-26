@@ -79,15 +79,15 @@ class O2oCoupon extends Model
         $this->increment('grant_quantity', $amount);
     }
 
-//    public function getMerIdAttribute($value)
-//    {
-//        return explode(',', $value);
-//    }
-//
-//    public function setMerIdAttribute($value)
-//    {
-//        $this->attributes['mer_id'] = implode(',', $value);
-//    }
+    public function getMerIdAttribute($value)
+    {
+        return explode(',', $value);
+    }
+
+    public function setMerIdAttribute($value)
+    {
+        $this->attributes['mer_id'] = implode(',', $value);
+    }
 
     public function getPcid()
     {
