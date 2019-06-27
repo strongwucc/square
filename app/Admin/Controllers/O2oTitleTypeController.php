@@ -91,6 +91,8 @@ class O2oTitleTypeController extends Controller
 
         });
 
+        $grid->disableExport();
+
         $grid->id('ID');
         $grid->type_name('类型名称');
 //        $grid->type_code('Type code');

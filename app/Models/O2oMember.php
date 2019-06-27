@@ -14,4 +14,9 @@ class O2oMember extends Model
     {
         return $this->hasMany('App\Models\O2oMemberPoint', 'platform_member_id', 'platform_member_id');
     }
+
+    public function coupons()
+    {
+        return $this->hasMany('App\Models\O2oCouponBuy', 'member_id', 'platform_member_id');
+    }
 }

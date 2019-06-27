@@ -12,6 +12,7 @@ use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
 use Encore\Admin\Widgets\Table;
+use App\Admin\Extensions\Exporters\B2cOrdersExporter;
 
 class SdbB2cOrdersController extends Controller
 {
@@ -84,13 +85,19 @@ class SdbB2cOrdersController extends Controller
     {
         $grid = new Grid(new SdbB2cOrders);
 
+        $grid->model()->orderBy('createtime', 'desc');
+
         $grid->tools(function ($tools) {
             $tools->batch(function ($batch) {
                 $batch->disableDelete();
             });
         });
 
-        $grid->disableRowSelector();
+//        $grid->disableExport();
+        $grid->disableCreateButton();
+        $grid->exporter(new B2cOrdersExporter());
+
+//        $grid->disableRowSelector();
 
         $grid->filter(function($filter){
 
@@ -139,10 +146,10 @@ class SdbB2cOrdersController extends Controller
             $actions->disableDelete();
             $actions->disableEdit();
             $actions->disableView();
-            $actions->prepend('<a class="btn btn-xs" href="/admin/b2c_orders/' . $actions->row->order_id . '">查看详情</a>');
+            $actions->prepend('<a class="btn btn-xs" href="/admin/b2c_orders/' . $actions->row->seller_order_id . '">查看详情</a>');
         });
 
-        $grid->order_id('订单号')->expand(function ($model) {
+        $grid->seller_order_id('订单号')->expand(function ($model) {
 
             $items = $model->items()->get()->map(function ($item) {
                 return $item->only(['name', 'cost', 'price', 'nums', 'amount']);
@@ -310,8 +317,8 @@ class SdbB2cOrdersController extends Controller
                 $tools->disableDelete();
             });
 
-        $show->order_id('订单号');
-//        $show->seller_order_id('商户订单号');
+//        $show->order_id('订单号');
+        $show->seller_order_id('商户订单号');
         $show->total_amount('订单金额');
 //        $show->final_amount('Final amount');
         $show->pay_status('支付状态')->as(function ($pay_status) {

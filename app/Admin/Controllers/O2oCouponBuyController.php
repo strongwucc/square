@@ -4,6 +4,7 @@ namespace App\Admin\Controllers;
 
 use App\Models\O2oCouponBuy;
 use App\Http\Controllers\Controller;
+use App\Models\O2oMember;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -93,19 +94,34 @@ class O2oCouponBuyController extends Controller
             });
         });
 
+        $grid->disableRowSelector();
         $grid->disableCreateButton();
+        $grid->disableActions();
+        $grid->disableExport();
 
         $grid->pcid('优惠券编号');
         $grid->qrcode('核销码');
 //        $grid->order_id('Order id');
         $grid->from_order_id('来源订单号');
 //        $grid->cid('Cid');
-        $grid->member_id('会员昵称');
+        $grid->member()->platform_member_id('会员ID');
+        $grid->member()->username('会员昵称');
+        $grid->member()->mobile('会员手机号');
 //        $grid->openid('Openid');
 //        $grid->cashier_id('Cashier id');
 //        $grid->pay_status('Pay status');
 //        $grid->buy_status('Buy status');
-        $grid->use_status('使用状态');
+        $grid->use_status('使用状态')->display(function ($use_status) {
+            if ($use_status == '0') {
+                return '未使用';
+            }
+            if ($use_status == '1') {
+                return '已使用';
+            }
+            if ($use_status == '2') {
+                return '已冻结';
+            }
+        });
         $grid->createtime('领取时间');
 //        $grid->last_modified('Last modified');
 //        $grid->platform_member_id('Platform member id');

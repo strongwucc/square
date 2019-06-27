@@ -44,4 +44,9 @@ class O2oCouponBuy extends Model
     {
         return $this->hasOne('App\Models\O2oOrder', 'order_no', 'from_order_id');
     }
+
+    public function member()
+    {
+        return $this->belongsTo('App\Models\O2oMember', 'member_id', 'platform_member_id');
+    }
 }

@@ -91,6 +91,8 @@ class O2oSearchKeywordController extends Controller
 
         });
 
+        $grid->disableExport();
+
         $grid->id('ID');
         $grid->keyword('关键字');
         $grid->num('序号');

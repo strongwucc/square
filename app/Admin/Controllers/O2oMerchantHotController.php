@@ -91,6 +91,7 @@ class O2oMerchantHotController extends Controller
             $filter->like('mer_name', '商户名称');
 
         });
+        $grid->disableExport();
 
 //        $grid->id('ID');
         $grid->mer_id('商户编号');

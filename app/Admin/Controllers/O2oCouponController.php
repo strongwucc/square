@@ -107,6 +107,9 @@ class O2oCouponController extends Controller
     {
         $grid = new Grid(new O2oCoupon);
 
+        $grid->disableRowSelector();
+        $grid->disableExport();
+
         $grid->filter(function($filter){
 
             // 去掉默认的id过滤器
@@ -382,8 +385,27 @@ class O2oCouponController extends Controller
                     $new_model = new O2oCouponMerchant();
                     $new_model->mer_id = $mer_id;
                     $new_model->pcid = $pcid;
-                    $new_model->save();
+                    if (!$new_model->save()) {
+                        $error = new MessageBag([
+                            'title'   => '创建失败',
+                            'message' => '优惠券创建失败，请重试',
+                        ]);
+
+                        return back()->with(compact('error'));
+                    }
                 }
+            }
+        });
+
+        $form->deleting(function () {
+            $pcid = request()->route()->parameter('id');
+
+            $coupon_merchant_model = new O2oCouponMerchant();
+            if (!$coupon_merchant_model->where('pcid', $pcid)->delete()) {
+                return response()->json([
+                    'status'  => false,
+                    'message' => '删除失败，请重试'
+                ]);
             }
         });
 

@@ -113,6 +113,7 @@ class O2oMemberController extends Controller
         });
 
         $grid->disableCreateButton();
+        $grid->disableExport();
 
 //        $grid->member_id('Member id');
 //        $grid->member_lv_id('Member lv id');

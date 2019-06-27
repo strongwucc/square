@@ -126,6 +126,7 @@ class O2oMerchantController extends Controller
         });
 
         $grid->disableCreateButton();
+        $grid->disableExport();
 
 //        $grid->id('Id');
         $grid->mer_id('商户编号');

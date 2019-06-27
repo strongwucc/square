@@ -106,6 +106,7 @@ class O2oMemberPointController extends Controller
         $grid->disableRowSelector();
 
         $grid->disableCreateButton();
+        $grid->disableExport();
 
         $grid->id('ID');
 //        $grid->operation_score_id('Operation score id');

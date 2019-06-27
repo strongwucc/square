@@ -113,6 +113,7 @@ class O2oOrderController extends Controller
 
         $grid->disableRowSelector();
         $grid->disableActions();
+        $grid->disableExport();
 
 //        $grid->id('Id');
         $grid->order_no('订单号');

@@ -92,6 +92,8 @@ class O2oMerchantTypeController extends Controller
     {
         $grid = new Grid(new O2oMerchantType);
 
+        $grid->disableExport();
+
         $grid->id('ID');
         $grid->type_name('类型名称');
 //        $grid->type_code('Type code');
