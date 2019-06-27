@@ -97,7 +97,7 @@ class O2oSearchKeywordController extends Controller
         $grid->keyword('关键字');
         $grid->num('序号');
         $grid->status('是否启用')->display(function ($status) {
-            return $status ? '是' : '否';
+            return $status ? '<span class="label label-success">是</span>' : '<span class="label label-danger">否</span>';
         });
 
         return $grid;

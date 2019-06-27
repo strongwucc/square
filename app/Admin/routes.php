@@ -65,6 +65,8 @@ Route::group([
 
     $router->get('members', 'O2oMemberController@index');
     $router->post('members/lock', 'O2oMemberController@lock');
+    $router->post('members/score', 'O2oMemberController@score');
+    $router->post('members/score_edit', 'O2oMemberController@score_edit');
 
     $router->get('member_points', 'O2oMemberPointController@index');
 

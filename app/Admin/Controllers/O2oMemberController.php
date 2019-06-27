@@ -2,9 +2,12 @@
 
 namespace App\Admin\Controllers;
 
+use App\Admin\Extensions\EditScore;
 use App\Admin\Extensions\UserLock;
 use App\Models\O2oMember;
 use App\Http\Controllers\Controller;
+use App\Models\O2oMemberPoint;
+use Encore\Admin\Admin;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -12,6 +15,7 @@ use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
 use Encore\Admin\Widgets\Table;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class O2oMemberController extends Controller
 {
@@ -104,6 +108,7 @@ class O2oMemberController extends Controller
             $actions->disableEdit();
             $actions->disableView();
             $actions->append(new UserLock($actions->getKey(),$actions->row));
+            $actions->append(new EditScore($actions->getKey(),$actions->row));
         });
 
         $grid->tools(function ($tools) {
@@ -175,7 +180,8 @@ class O2oMemberController extends Controller
 //        $grid->lang('Lang');
 //        $grid->unreadmsg('Unreadmsg');
         $grid->disabled('是否冻结')->display(function ($disabled) {
-            return $disabled == 'true' ? '是' : '否';
+            return $disabled == 'true' ? '<span class="label label-success">是</span>' : '<span class="label label-danger">否</span>';
+
         });
 //        $grid->remark('Remark');
 //        $grid->remark_type('Remark type');
@@ -207,6 +213,104 @@ class O2oMemberController extends Controller
                 'message' => '操作失败，请重试',
             ]);
         }
+    }
+
+    public function score(Request $request)
+    {
+        $member_id = $request->post('id');
+        $member_model = new O2oMember();
+
+        $member_info = $member_model->where('member_id', $member_id)->first();
+
+        if ($member_info) {
+            return response()->json([
+                'status'  => true,
+                'message' => '查询成功',
+                'data' => ['point' => $member_info->point]
+            ]);
+        }
+
+        return response()->json([
+            'status'  => false,
+            'message' => '查询失败'
+        ]);
+
+    }
+
+    public function score_edit(Request $request)
+    {
+        $member_id = $request->post('id');
+        $edit_score = intval($request->post('score'));
+        $mark = trim($request->post('mark'));
+        $member_model = new O2oMember();
+
+        $member_info = $member_model->where('member_id', $member_id)->first();
+
+        if (!$member_info) {
+            return response()->json([
+                'status'  => false,
+                'message' => '修改失败'
+            ]);
+        }
+
+        $point = intval($member_info->point);
+
+        if ($point + $edit_score < 0) {
+            return response()->json([
+                'status'  => false,
+                'message' => '修改失败'
+            ]);
+        }
+
+        $member_point_model = new O2oMemberPoint();
+
+        DB::beginTransaction();
+
+        $member_point_model->platform_member_id = $member_info->platform_member_id;
+        $member_point_model->operation_score_id = '';
+        $member_point_model->point = $point + $edit_score;
+
+        if ($edit_score > 0) {
+            $member_point_model->type = 1;
+        } else {
+            $member_point_model->type = 2;
+        }
+
+        $member_point_model->change_point = $member_point_model->consume_point = $edit_score;
+
+        $admin_model = new Admin();
+
+        $member_point_model->addtime = date('Y-m-d H:i:s');
+        $member_point_model->remark = $mark;
+        $member_point_model->operator =  $admin_model->user()->id;
+
+        $save_res = $member_point_model->save();
+
+        if (!$save_res) {
+            DB::rollBack();
+            return response()->json([
+                'status'  => false,
+                'message' => '修改失败'
+            ]);
+        }
+
+        $update_res = $member_model->where('member_id', $member_id)->update(['point' => $point + $edit_score]);
+
+        if (!$update_res) {
+            DB::rollBack();
+            return response()->json([
+                'status'  => false,
+                'message' => '修改失败'
+            ]);
+        }
+
+        DB::commit();
+
+        return response()->json([
+            'status'  => true,
+            'message' => '修改成功'
+        ]);
+
     }
 
     /**

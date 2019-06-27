@@ -97,7 +97,7 @@ class O2oPicTypeController extends Controller
         $grid->type_name('类型名称');
 //        $grid->type_code('Type code');
         $grid->is_del('是否启用')->display(function ($is_del) {
-            return $is_del ? '否' : '是';
+            return $is_del ? '<span class="label label-danger">否</span>' : '<span class="label label-success">是</span>';
         });
 
         return $grid;

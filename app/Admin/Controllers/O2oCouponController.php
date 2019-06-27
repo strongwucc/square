@@ -228,7 +228,7 @@ class O2oCouponController extends Controller
 //        $grid->last_modified('Last modified');
 //        $grid->is_del('Is del');
         $grid->coupon_status('是否激活')->display(function ($coupon_status) {
-            return $coupon_status == '0' ? '是' : '否';
+            return $coupon_status == '0' ? '<span class="label label-success">是</span>' : '<span class="label label-danger">否</span>';
         });
 
         return $grid;
