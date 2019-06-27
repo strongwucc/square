@@ -10,7 +10,8 @@ Route::group([
     'middleware'    => config('admin.route.middleware'),
 ], function (Router $router) {
 
-    $router->get('/', 'HomeController@index');
+//    $router->get('/', 'HomeController@index');
+    $router->redirect('/', 'admin/merchants');
 
     $router->get('orders', 'O2oOrderController@index');
     $router->get('b2c_orders', 'SdbB2cOrdersController@index');

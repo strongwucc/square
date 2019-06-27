@@ -203,8 +203,12 @@ class O2oMerchantController extends Controller
         $show->orders_total_percent('商户订单统计权重');
         $show->last_time('最后修改时间');
         $show->create_user('创建人');
-        $show->is_del('是否显示');
-        $show->status('是否激活');
+        $show->is_del('是否显示')->as(function ($is_del) {
+            return $is_del ? '否' : '是';
+        });
+        $show->status('是否激活')->as(function ($status) {
+            return $status ? '否' : '是';
+        });
 //        $show->sdm('Sdm');
 
         return $show;

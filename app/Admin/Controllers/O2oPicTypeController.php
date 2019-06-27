@@ -116,7 +116,9 @@ class O2oPicTypeController extends Controller
         $show->id('ID');
         $show->type_name('类型名称');
 //        $show->type_code('Type code');
-        $show->is_del('是否启用');
+        $show->is_del('是否启用')->as(function ($is_del) {
+            return $is_del ? '否' : '是';
+        });
 
         return $show;
     }

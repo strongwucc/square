@@ -116,7 +116,7 @@ class O2oSearchKeywordController extends Controller
         $show->id('ID');
         $show->keyword('关键字');
         $show->num('序号');
-        $show->status('是否启用')->display(function ($status) {
+        $show->status('是否启用')->as(function ($status) {
             return $status ? '是' : '否';
         });
 
