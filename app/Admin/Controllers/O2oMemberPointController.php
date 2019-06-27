@@ -119,7 +119,9 @@ class O2oMemberPointController extends Controller
         $grid->reason('理由');
         $grid->remark('备注');
 //        $grid->related_id('Related id');
-        $grid->type('操作类型');
+        $grid->type('操作类型')->display(function ($type) {
+            return $type == 1 ? '<span class="label label-success">增加</span>' : '<span class="label label-danger">减少</span>';
+        });
 //        $grid->operator('Operator');
 //        $grid->pay_reason('Pay reason');
 //        $grid->pay_info('Pay info');
