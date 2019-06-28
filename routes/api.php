@@ -69,6 +69,14 @@ $api->version('v1', [
         $api->post('coupon/detail', 'CouponsController@detail')
             ->name('api.coupons.detail');
 
+        // 根据 openid 查询所有优惠券
+        $api->post('coupons/openid', 'CouponsController@couponsByOpenid')
+            ->name('api.coupons.openid');
+
+        // 根据 openid 核销优惠券
+        $api->post('coupon/write_off', 'CouponsController@writeOff')
+            ->name('api.coupons.write_off');
+
         // 支付通知
         $api->post('pay/notify', 'DistrictController@notify')
             ->name('api.pay.notify');

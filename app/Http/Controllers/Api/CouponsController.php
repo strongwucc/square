@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\O2oMember;
 use Illuminate\Http\Request;
 
 use App\Models\O2oCoupon;
@@ -181,4 +182,85 @@ class CouponsController extends Controller
 
         return $this->item($coupon, new CouponBuyTransformer());
     }
+
+    public function couponsByOpenid(Request $request, O2oCouponBuy $couponBuy)
+    {
+        $openid = $request->openid ? $request->openid : '';
+
+        if (!$openid) {
+            return $this->errorResponse(422, 'Bad Request', 1003);
+        }
+
+        $member_model = new O2oMember();
+        $member = $member_model->where('openid', $openid)->first();
+
+        if (!$member) {
+            return $this->errorResponse(404, '用户不存在', 1003);
+        }
+
+        $pageLimit = $request->page_limit ? $request->page_limit : $this->pageLimit;
+        $status = $request->status ? $request->status : 'unused';
+
+        $query = $couponBuy->query();
+        $query->with('coupon');
+        $query->where('buy_status', '1');
+        $query->where('pay_status', '1');
+        $query->where('platform_member_id', $member->platform_member_id);
+
+        switch ($status) {
+            case 'unused':
+                $query->where('use_status', '0');
+                break;
+            case 'used':
+                $query->whereIn('use_status', ['1', '2']);
+                break;
+            default:
+                break;
+        }
+
+        $query->recentReplied();
+        $coupons = $query->get();
+
+        if ($status == 'dated') {
+            $filtered = $coupons->filter(function ($coupon, $key) {
+                if ($coupon->coupon->date_type == 'DATE_TYPE_FIX_TIME_RANGE') {
+                    $now = date('Y-m-d H:i:s', time());
+                    return $coupon->coupon->end_timestamp < $now;
+                } else {
+                    return strtotime($coupon->createtime) + ($coupon->coupon->fixed_begin_term + $coupon->coupon->fixed_term) * 24 * 3600 < time();
+                }
+            });
+        } else {
+            $filtered = $coupons->filter(function ($coupon, $key) {
+                if ($coupon->coupon->date_type == 'DATE_TYPE_FIX_TIME_RANGE') {
+                    $now = date('Y-m-d H:i:s', time());
+                    return $coupon->coupon->end_timestamp >= $now;
+                } else {
+                    return strtotime($coupon->createtime) + ($coupon->coupon->fixed_begin_term + $coupon->coupon->fixed_term) * 24 * 3600 >= time();
+                }
+            });
+        }
+
+        return $this->response->collection($filtered, new CouponBuyTransformer());
+    }
+
+    public function writeOff(Request $request, O2oCouponBuy $couponBuy)
+    {
+        $openid = $request->openid ? $request->openid : '';
+        $qrcode = $request->qrcode ? $request->qrcode : '';
+        $cid = $request->cid ? $request->cid : '';
+
+        if (!$qrcode || !$cid) {
+            return $this->errorResponse(422, 'Bad Request', 1003);
+        }
+
+        $update_res = $couponBuy->where(['pcid', '=', $cid], ['qrcode', '=', $qrcode], ['use_status', '=', '0'])->update(['use_status' => '1', 'last_modified' => date('Y-m-d H:i:s')]);
+
+        if (!$update_res) {
+            return $this->errorResponse(422, '核销失败', 1004);
+        }
+
+        return $this->response->noContent();
+    }
+
 }
