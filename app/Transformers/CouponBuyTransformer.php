@@ -47,7 +47,7 @@ class CouponBuyTransformer extends TransformerAbstract
             'mer_id' => $coupon->coupon->mer_id,
             'brand_name' => $coupon->coupon->brand_name,
             'card_type' => $coupon->coupon->card_type,
-            'logo' => $coupon->coupon->logo_url,
+            'logo' => env('APP_URL') . '/uploads/' . $coupon->coupon->logo_url,
             'title' => $coupon->coupon->title,
             'sub_title' => $coupon->coupon->sub_title,
             'notice' => $coupon->coupon->notice,

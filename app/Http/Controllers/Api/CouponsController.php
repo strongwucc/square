@@ -248,13 +248,15 @@ class CouponsController extends Controller
     {
         $openid = $request->openid ? $request->openid : '';
         $qrcode = $request->qrcode ? $request->qrcode : '';
-        $cid = $request->cid ? $request->cid : '';
+//        $cid = $request->cid ? $request->cid : '';
 
-        if (!$qrcode || !$cid) {
+        if (!$qrcode ) {
             return $this->errorResponse(422, 'Bad Request', 1003);
         }
 
-        $update_res = $couponBuy->where(['pcid', '=', $cid], ['qrcode', '=', $qrcode], ['use_status', '=', '0'])->update(['use_status' => '1', 'last_modified' => date('Y-m-d H:i:s')]);
+        $update_res = $couponBuy->where('qrcode', $qrcode)
+            ->where('use_status', '0')
+            ->update(['use_status' => '1', 'last_modified' => date('Y-m-d H:i:s')]);
 
         if (!$update_res) {
             return $this->errorResponse(422, '核销失败', 1004);
