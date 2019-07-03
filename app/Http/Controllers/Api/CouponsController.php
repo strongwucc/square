@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\O2oCouponUser;
 use App\Models\O2oMember;
 use Illuminate\Http\Request;
 
@@ -13,6 +14,7 @@ use App\Transformers\CouponTransformer;
 use App\Transformers\CouponBuyTransformer;
 
 use App\Http\Requests\Api\CouponRequest;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class CouponsController extends Controller
@@ -248,19 +250,92 @@ class CouponsController extends Controller
     {
         $openid = $request->openid ? $request->openid : '';
         $qrcode = $request->qrcode ? $request->qrcode : '';
-//        $cid = $request->cid ? $request->cid : '';
+        $order_no = $request->order_no ? $request->order_no : '';
+        $order_amt = $request->order_amt ? $request->order_amt : '';
 
-        if (!$qrcode ) {
+        $request_time = time();
+
+        if (!$qrcode) {
             return $this->errorResponse(422, 'Bad Request', 1003);
+        }
+
+        $order_amt = floatval($order_amt);
+
+        $coupon_data = $couponBuy->where('qrcode', $qrcode)
+            ->where('use_status', '0')
+            ->first();
+
+        if (!$coupon_data) {
+            return $this->errorResponse(404, '优惠券不存在', 1002);
+        }
+
+        // 检查有效期
+        $end_timestamp = strtotime($coupon_data->coupon->end_timestamp);
+        if ($coupon_data->coupon->fixed_begin_term > 0) {
+            $end_time = strtotime($coupon_data->createtime) + $coupon_data->coupon->fixed_begin_term * 24 * 3600;
+            $end_time = $end_timestamp >= $end_time ? $end_time : $end_timestamp;
+        } else {
+            $end_time = $end_timestamp;
+        }
+
+        $begin_timestamp = strtotime($coupon_data->coupon->begin_timestamp);
+
+        if ($request_time < $begin_timestamp) {
+            return $this->errorResponse(422, '该优惠券未生效', 1004);
+        }
+
+        if ($request_time >= $end_time) {
+            return $this->errorResponse(422, '该优惠券已过期', 1005);
+        }
+
+        // 计算优惠金额
+        $card_type = $coupon_data->coupon->card_type;
+        $order_pay_amt = $order_amt;
+        $order_derate_amt = 0;
+
+        if ($card_type == 'DISCOUNT') {
+            $order_derate_amt = $order_amt * (100 - $coupon_data->coupon->discount) / 100;
+            $order_pay_amt = $order_amt - $order_derate_amt;
+        } elseif ($card_type == 'CASH') {
+            $order_derate_amt = floatval($coupon_data->coupon->reduce_cost);
+            $order_pay_amt = $order_amt - $order_derate_amt;
+        } elseif ($card_type == 'FULL_REDUCTION') {
+            if ($order_amt < $coupon_data->coupon->least_cost) {
+                return $this->errorResponse(422, '未达到最低消费金额', 1005);
+            }
+            $order_derate_amt = floatval($coupon_data->coupon->reduce_cost);
+            $order_pay_amt = $order_amt - $order_derate_amt;
+        }
+
+        DB::beginTransaction();
+
+        $record_model = new O2oCouponUser();
+
+        $record_model->pcid = $coupon_data->pcid;
+        $record_model->qrcode = $qrcode;
+        $record_model->order_no = $order_no;
+        $record_model->order_amt = $order_amt;
+        $record_model->order_pay_amt = $order_pay_amt;
+        $record_model->order_derate_amt = $order_derate_amt;
+        $record_model->mer_id = '';
+        $record_model->member_id = '';
+        $record_model->createtime = date('Y-m-d H:i:s', $request_time);
+
+        if (!$record_model->save()) {
+            DB::rollBack();
+            return $this->errorResponse(422, '核销失败', 1006);
         }
 
         $update_res = $couponBuy->where('qrcode', $qrcode)
             ->where('use_status', '0')
-            ->update(['use_status' => '1', 'last_modified' => date('Y-m-d H:i:s')]);
+            ->update(['use_status' => '1', 'last_modified' => date('Y-m-d H:i:s', $request_time)]);
 
         if (!$update_res) {
-            return $this->errorResponse(422, '核销失败', 1004);
+            DB::rollBack();
+            return $this->errorResponse(422, '核销失败', 1007);
         }
+
+        DB::commit();
 
         return $this->response->noContent();
     }

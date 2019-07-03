@@ -467,7 +467,7 @@ class O2oCouponController extends Controller
         $form->multipleSelect('mer_id', '适用商户')->options(O2oMerchant::all()->pluck('mer_name', 'mer_id'))->rules('required');
         $form->image('logo_url', '券展示图')->rules('required');
         $form->number('quantity', '库存数量')->rules('required');
-        $form->number('least_cost', '最低消费金额')->rules('required');
+//        $form->number('least_cost', '最低消费金额')->rules('required');
         $form->number('reduce_cost', '减免金额')->rules('required')->help('100元代金券，填写数字100');
         $form->mobile('service_phone', '客服电话')->rules('required');
         $form->text('notice', '使用须知')->rules('required');
