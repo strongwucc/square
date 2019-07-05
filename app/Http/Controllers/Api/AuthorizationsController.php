@@ -6,9 +6,94 @@ use Auth;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\Api\SocialAuthorizationRequest;
+use Illuminate\Support\Facades\Log;
 
 class AuthorizationsController extends Controller
 {
+
+    public function etoneStore(Request $request)
+    {
+
+        $code = $request->code;
+
+        if (!$code) {
+            return $this->response->errorBadRequest();
+        }
+
+        // 获取 access_token
+        $token_url = env('WXGW_BASE_URL') . 'accessToken';
+        $token_post_data = [
+            'etone_id' => env('ETONE_ID'),
+            'code' => $code
+        ];
+
+        Log::channel('weixin')->info('获取 access_token 地址：' . $token_url);
+        Log::channel('weixin')->info('获取 access_token 参数：' . print_r($token_post_data, true));
+
+        $token_res = post_json($token_url, $token_post_data);
+
+        Log::channel('weixin')->info('获取 access_token 结果：' . $token_res);
+
+        $token_data = json_decode($token_res, true);
+
+        if (isset($token_data['return_code']) && $token_data['return_code'] == '0000') {
+            $access_token = $token_data['data']['access_token'];
+            $token_data['expires_in'] = time() + $token_data['data']['expires_in'];
+            $openid = $token_data['data']['openid'];
+
+            $userinfo_url = env('WXGW_BASE_URL') . 'userInfo';
+            $userinfo_post_data = [
+                'etone_id' => env('ETONE_ID'),
+                'access_token' => $access_token,
+                'openid' => $openid
+            ];
+
+            Log::channel('weixin')->info('获取 userinfo 地址：' . $userinfo_url);
+            Log::channel('weixin')->info('获取 userinfo 参数：' . print_r($userinfo_post_data, true));
+
+            $userinfo_res = post_json($userinfo_url, $userinfo_post_data);
+
+            Log::channel('weixin')->info('获取 userinfo 结果：' . $userinfo_res);
+            $userinfo_data = json_decode($userinfo_res, true);
+
+            if (isset($userinfo_data['return_code']) && $userinfo_data['return_code'] == '0000') {
+                $user = User::where('openid', $openid)->first();
+                if (!$user) {
+
+                    $platform_member_id = 0;
+
+                    do {
+
+                        $platform_member_id = get_member_id();
+                        $row = User::where('platform_member_id', $platform_member_id)->count();
+
+                    } while ($row);
+
+                    $user = User::create([
+                        'nickname' => $userinfo_data['data']['nickname'],
+                        'headimgurl' => $userinfo_data['data']['headimgurl'],
+                        'openid' => $openid,
+                        'unionid' => isset($userinfo_data['data']['unionid']) ? $userinfo_data['data']['unionid'] : '',
+                        'regtime' => time(),
+                        'platform_member_id' => $platform_member_id,
+                        'source' => 'weixin'
+                    ]);
+                }
+
+                $token = Auth::guard('api')->fromUser($user);
+                return $this->respondWithToken($token)->setStatusCode(201);
+
+            } else {
+                return $this->errorResponse(422, '获取 userinfo 失败', 1003);
+            }
+
+
+        } else {
+            return $this->errorResponse(422, '获取 access_token 失败', 1002);
+        }
+
+    }
+
     public function socialStore(SocialAuthorizationRequest $request)
     {
 

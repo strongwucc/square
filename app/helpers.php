@@ -161,3 +161,27 @@ function is_return_vaild($arr)
     }
     return false;
 }
+
+function post_json($url,$data) {
+
+    $headers = array(
+        "Content-type: application/json;charset='utf-8'",
+        "Accept: application/json",
+        "Cache-Control: no-cache",
+        "Pragma: no-cache",
+    );
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 60); //设置超时
+    if(0 === strpos(strtolower($url), 'https')) {
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0); //对认证证书来源的检查
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0); //从证书中检查SSL加密算法是否存在
+    }
+    curl_setopt($ch, CURLOPT_POST, TRUE);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+    $return = curl_exec($ch);//CURLOPT_RETURNTRANSFER 不设置  curl_exec返回TRUE 设置  curl_exec返回json(此处) 失败都返回FALSE
+    curl_close($ch);
+
+    return $return;
+}

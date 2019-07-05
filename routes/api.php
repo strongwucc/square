@@ -33,6 +33,10 @@ $api->version('v1', [
         $api->post('socials/authorizations', 'AuthorizationsController@socialStore')
             ->name('api.socials.authorizations.store');
 
+        // 第三方登录(etone)
+        $api->post('etone/authorizations', 'AuthorizationsController@etoneStore')
+            ->name('api.etone.authorizations.store');
+
         // 热门活动
         $api->post('activities', 'ActivitiesController@index')
             ->name('api.activities.index');

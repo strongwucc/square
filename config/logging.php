@@ -110,6 +110,13 @@ return [
             'level' => 'debug',
             'days' => 14,
         ],
+
+        'weixin' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/weixin.log'),
+            'level' => 'debug',
+            'days' => 14,
+        ],
     ],
 
 ];
