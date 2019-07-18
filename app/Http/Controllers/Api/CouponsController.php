@@ -282,6 +282,10 @@ class CouponsController extends Controller
         $query->recentReplied();
         $coupon = $query->first();
 
+        if (!$coupon) {
+            return $this->errorResponse(404, '优惠券不存在', 1004);
+        }
+
         return $this->response->item($coupon, new CouponBuyTransformer());
     }
 
