@@ -190,6 +190,10 @@ class CouponsController extends Controller
         $query->orderBy('createtime', 'desc');
         $coupon = $query->first();
 
+        if (!$coupon) {
+            return $this->errorResponse(404, '优惠券不存在', 1001);
+        }
+
         return $this->item($coupon, new CouponBuyTransformer());
     }
 
