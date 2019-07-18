@@ -258,6 +258,33 @@ class CouponsController extends Controller
         return $this->response->collection($filtered, new CouponBuyTransformer());
     }
 
+    public function couponByOpenid(Request $request, O2oCouponBuy $couponBuy)
+    {
+        $openid = $request->openid ? $request->openid : '';
+        $qrcode = $request->qrcode ? $request->qrcode : '';
+
+        if (!$openid || !$qrcode) {
+            return $this->errorResponse(422, 'Bad Request', 1003);
+        }
+
+        $member_model = new O2oMember();
+        $member = $member_model->where('openid', $openid)->first();
+
+        if (!$member) {
+            return $this->errorResponse(404, '用户不存在', 1003);
+        }
+
+        $query = $couponBuy->query();
+        $query->with('coupon');
+        $query->where('qrcode', $qrcode);
+        $query->where('platform_member_id', $member->platform_member_id);
+
+        $query->recentReplied();
+        $coupon = $query->first();
+
+        return $this->response->item($coupon, new CouponBuyTransformer());
+    }
+
     public function writeOff(Request $request, O2oCouponBuy $couponBuy)
     {
         $openid = $request->openid ? $request->openid : '';
