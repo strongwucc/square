@@ -86,6 +86,14 @@ class CouponsController extends Controller
             }
         }
 
+        if ($couponData->day_get_limit > 0) {
+            $date_today = date('Y-m-d 00:00:00');
+            $today_reveived = $couponBuy->where([['pcid', $request->pcid], ['platform_member_id', $this->user->platform_member_id], ['buy_status', '1'], ['pay_status', '1'], ['createtime', '>=', $date_today]])->count();
+            if ($today_reveived >= $couponData->day_get_limit) {
+                return $this->errorResponse(422, '已超过当日领取数量限制', 1006);
+            }
+        }
+
         do {
 
             $qrcode = get_qrcode();

@@ -80,4 +80,6 @@ Route::group([
 
     $router->get('coupon_buy', 'O2oCouponBuyController@index');
 
+    $router->get('charts/{action}', 'ChartsController@index');
+
 });

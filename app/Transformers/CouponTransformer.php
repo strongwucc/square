@@ -4,6 +4,7 @@ namespace App\Transformers;
 
 use App\Models\O2oCoupon;
 use App\Models\O2oCouponBuy;
+use App\Models\O2oMerchant;
 use League\Fractal\TransformerAbstract;
 
 class CouponTransformer extends TransformerAbstract
@@ -25,10 +26,17 @@ class CouponTransformer extends TransformerAbstract
             $user_count = O2oCouponBuy::where([['member_id', $this->member_id], ['pcid', $coupon->pcid], ['buy_status', '1'], ['pay_status', '1']])->count();
         }
 
+        $merchants = [];
+
+        if ($coupon->mer_id) {
+            $merchants = O2oMerchant::whereIn('mer_id', $coupon->mer_id)->get()->toArray();
+        }
+
         return [
             'id' => strval($coupon->pcid),
             'cid' => $coupon->cid,
             'mer_id' => $coupon->mer_id,
+            'merchants' => $merchants,
             'brand_name' => $coupon->brand_name,
             'card_type' => $coupon->card_type,
             'logo' => $coupon->logo_url,
@@ -45,6 +53,7 @@ class CouponTransformer extends TransformerAbstract
             'fixed_begin_term' => $coupon->fixed_begin_term,
             'service_phone' => $coupon->service_phone,
             'get_limit' => $coupon->get_limit,
+            'day_get_limit' => $coupon->day_get_limit,
             'deal_detail' => $coupon->deal_detail,
             'least_cost' => $coupon->least_cost,
             'reduce_cost' => $coupon->reduce_cost,
