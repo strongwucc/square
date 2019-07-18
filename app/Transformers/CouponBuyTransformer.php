@@ -3,6 +3,7 @@
 namespace App\Transformers;
 
 use App\Models\O2oCouponBuy;
+use App\Models\O2oMerchant;
 use League\Fractal\TransformerAbstract;
 use PhpParser\Node\Expr\Cast\Object_;
 
@@ -37,6 +38,12 @@ class CouponBuyTransformer extends TransformerAbstract
             $order['tranRime'] = $coupon->order->tran_time;
         }
 
+        $merchants = [];
+
+        if ($coupon->coupon->mer_id) {
+            $merchants = O2oMerchant::whereIn('mer_id', $coupon->coupon->mer_id)->get()->toArray();
+        }
+
         return [
             'id' => $coupon->pcid,
             'cid' => $coupon->cid,
@@ -45,6 +52,7 @@ class CouponBuyTransformer extends TransformerAbstract
             'buy_status' => $coupon->buy_status,
             'use_status' => $coupon->use_status,
             'mer_id' => $coupon->coupon->mer_id,
+            'merchants' => $merchants,
             'brand_name' => $coupon->coupon->brand_name,
             'card_type' => $coupon->coupon->card_type,
             'logo' => $coupon->coupon->logo_url,
