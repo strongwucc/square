@@ -35,6 +35,7 @@ class CouponsController extends Controller
 
         $query->where('is_del', 0);
         $query->where('coupon_status', 0);
+        $query->where('end_timestamp', '<', date('Y-m-d H:i:s'));
 
         $query->recentReplied();
         $coupons = $query->paginate($pageLimit);
