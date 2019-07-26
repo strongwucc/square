@@ -64,7 +64,9 @@ class CouponTransformer extends TransformerAbstract
             'sale_price' => $coupon->sale_price,
             'is_buy' => $coupon->is_buy,
             'user_count' => $user_count,
-            'expire_date' => date('Y.m.d', strtotime($coupon->begin_timestamp)) . '-' .date('Y.m.d', strtotime($coupon->end_timestamp))
+            'expire_date' => date('Y.m.d', strtotime($coupon->begin_timestamp)) . '-' .date('Y.m.d', strtotime($coupon->end_timestamp)),
+            'limit_time_type' => $coupon->limit_time_type,
+            'limit_days_and_weeks' => $coupon->limitDaysAndWeeks()
         ];
     }
 }

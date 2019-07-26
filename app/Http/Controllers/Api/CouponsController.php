@@ -332,6 +332,30 @@ class CouponsController extends Controller
             return $this->errorResponse(422, '该优惠券已过期', 1005);
         }
 
+        // 检查可用时间段
+        $now_day = date('j');
+        $now_week = date('w');
+        $limit_time_checked = true;
+        if ($coupon_data->coupon->limit_time_type == '0') {
+            if (($coupon_data->coupon->days && !in_array($now_day, $coupon_data->coupon->days)) && ($coupon_data->coupon->weeks && !in_array($now_week, $coupon_data->coupon->weeks))) {
+                $limit_time_checked = false;
+            }
+            if (($coupon_data->coupon->days && !in_array($now_day, $coupon_data->coupon->days)) && !$coupon_data->coupon->weeks) {
+                $limit_time_checked = false;
+            }
+            if (!$coupon_data->coupon->days && ($coupon_data->coupon->weeks && !in_array($now_week, $coupon_data->coupon->weeks))) {
+                $limit_time_checked = false;
+            }
+        } else {
+            if (($coupon_data->coupon->days && in_array($now_day, $coupon_data->coupon->days)) || ($coupon_data->coupon->weeks && in_array($now_week, $coupon_data->coupon->weeks))) {
+                $limit_time_checked = false;
+            }
+        }
+
+        if (!$limit_time_checked) {
+            return $this->errorResponse(422, '不在可用时间段', 1008);
+        }
+
         // 计算优惠金额
         $card_type = $coupon_data->coupon->card_type;
         $order_pay_amt = $order_amt;

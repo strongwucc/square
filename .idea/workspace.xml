@@ -3,11 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="7d68e055-cbd6-46e1-8aa6-73b201f3a5b6" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Admin/Controllers/O2oCouponBuyController.php" afterPath="$PROJECT_DIR$/app/Admin/Controllers/O2oCouponBuyController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Admin/Controllers/O2oCouponController.php" afterPath="$PROJECT_DIR$/app/Admin/Controllers/O2oCouponController.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/CouponsController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/CouponsController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Models/O2oCoupon.php" afterPath="$PROJECT_DIR$/app/Models/O2oCoupon.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Models/O2oCouponBuy.php" afterPath="$PROJECT_DIR$/app/Models/O2oCouponBuy.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Transformers/CouponTransformer.php" afterPath="$PROJECT_DIR$/app/Transformers/CouponTransformer.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -18,57 +15,31 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="SdbB2cOrdersController.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/Admin/Controllers/SdbB2cOrdersController.php">
+      <file leaf-file-name="CouponsController.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/CouponsController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="625">
-              <caret line="99" column="38" lean-forward="true" selection-start-line="99" selection-start-column="38" selection-end-line="99" selection-end-column="38" />
+            <state relative-caret-position="480">
+              <caret line="45" column="5" lean-forward="true" selection-start-line="45" selection-start-column="5" selection-end-line="45" selection-end-column="5" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="O2oCouponBuyController.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/Admin/Controllers/O2oCouponBuyController.php">
+      <file leaf-file-name="CouponTransformer.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/Transformers/CouponTransformer.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="488">
-              <caret line="98" column="37" lean-forward="true" selection-start-line="98" selection-start-column="37" selection-end-line="98" selection-end-column="37" />
-              <folding>
-                <element signature="e#41#94#0#PHP" expanded="true" />
-              </folding>
+            <state relative-caret-position="615">
+              <caret line="44" column="40" lean-forward="true" selection-start-line="44" selection-start-column="40" selection-end-line="44" selection-end-column="40" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CouponBuyExporter.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/Admin/Extensions/Exporters/CouponBuyExporter.php">
+      <file leaf-file-name="O2oCoupon.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/Models/O2oCoupon.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="21" column="44" lean-forward="true" selection-start-line="21" selection-start-column="44" selection-end-line="21" selection-end-column="44" />
-              <folding>
-                <element signature="e#139#164#0#PHP" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="B2cOrdersExporter.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/Admin/Extensions/Exporters/B2cOrdersExporter.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="673">
-              <caret line="53" column="50" lean-forward="true" selection-start-line="53" selection-start-column="12" selection-end-line="53" selection-end-column="50" />
-              <folding>
-                <element signature="e#139#185#0#PHP" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SdbB2cOrders.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/Models/SdbB2cOrders.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state relative-caret-position="315">
+              <caret line="111" column="37" lean-forward="false" selection-start-line="111" selection-start-column="20" selection-end-line="111" selection-end-column="37" />
               <folding />
             </state>
           </provider>
@@ -175,16 +146,16 @@
         <option value="$PROJECT_DIR$/app/Admin/Controllers/ChartsController.php" />
         <option value="$PROJECT_DIR$/resources/views/admin/chartjs/doughnut-source.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/admin/chartjs/doughnut-payment.blade.php" />
-        <option value="$PROJECT_DIR$/app/Transformers/CouponTransformer.php" />
         <option value="$PROJECT_DIR$/app/Transformers/CouponBuyTransformer.php" />
         <option value="$PROJECT_DIR$/routes/api.php" />
         <option value="$PROJECT_DIR$/app/Models/O2oCoupon.php" />
         <option value="$PROJECT_DIR$/app/Admin/Controllers/O2oCouponController.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/Api/CouponsController.php" />
         <option value="$PROJECT_DIR$/app/Models/O2oCouponBuy.php" />
         <option value="$PROJECT_DIR$/app/Admin/Extensions/Exporters/CouponBuyExporter.php" />
         <option value="$PROJECT_DIR$/app/Admin/Controllers/SdbB2cOrdersController.php" />
         <option value="$PROJECT_DIR$/app/Admin/Controllers/O2oCouponBuyController.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/Api/CouponsController.php" />
+        <option value="$PROJECT_DIR$/app/Transformers/CouponTransformer.php" />
       </list>
     </option>
   </component>
@@ -399,6 +370,12 @@
             <path>
               <item name="district" type="b2602c69:ProjectViewProjectNode" />
               <item name="district" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Transformers" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="district" type="b2602c69:ProjectViewProjectNode" />
+              <item name="district" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="database" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
             <path>
@@ -459,12 +436,12 @@
       <workItem from="1554690943388" duration="24919000" />
       <workItem from="1559725260342" duration="1540000" />
       <workItem from="1560474501805" duration="4095000" />
-      <workItem from="1560837289585" duration="176004000" />
+      <workItem from="1560837289585" duration="180100000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="230405000" />
+    <option name="totallyTimeSpent" value="234501000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
@@ -834,26 +811,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Transformers/CouponTransformer.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="705">
-          <caret line="50" column="26" lean-forward="false" selection-start-line="50" selection-start-column="13" selection-end-line="50" selection-end-column="26" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/routes/api.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="493">
           <caret line="80" column="20" lean-forward="true" selection-start-line="80" selection-start-column="20" selection-end-line="80" selection-end-column="41" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Models/O2oCoupon.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="643">
-          <caret line="124" column="27" lean-forward="false" selection-start-line="124" selection-start-column="27" selection-end-line="124" selection-end-column="27" />
           <folding />
         </state>
       </provider>
@@ -876,14 +837,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/CouponsController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="618">
-          <caret line="374" column="45" lean-forward="false" selection-start-line="374" selection-start-column="45" selection-end-line="374" selection-end-column="45" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Admin/Controllers/O2oCouponController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="791">
@@ -891,14 +844,6 @@
           <folding>
             <element signature="e#41#66#0#PHP" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Models/O2oCouponBuy.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="555">
-          <caret line="37" column="26" lean-forward="false" selection-start-line="37" selection-start-column="20" selection-end-line="37" selection-end-column="26" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -915,7 +860,7 @@
         <state relative-caret-position="673">
           <caret line="53" column="50" lean-forward="true" selection-start-line="53" selection-start-column="12" selection-end-line="53" selection-end-column="50" />
           <folding>
-            <element signature="e#139#185#0#PHP" expanded="true" />
+            <element signature="e#139#185#0#PHP" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -943,8 +888,40 @@
         <state relative-caret-position="488">
           <caret line="98" column="37" lean-forward="true" selection-start-line="98" selection-start-column="37" selection-end-line="98" selection-end-column="37" />
           <folding>
-            <element signature="e#41#94#0#PHP" expanded="true" />
+            <element signature="e#41#94#0#PHP" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Models/O2oCouponBuy.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="555">
+          <caret line="37" column="26" lean-forward="false" selection-start-line="37" selection-start-column="20" selection-end-line="37" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/CouponsController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="480">
+          <caret line="45" column="5" lean-forward="true" selection-start-line="45" selection-start-column="5" selection-end-line="45" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Models/O2oCoupon.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="111" column="37" lean-forward="false" selection-start-line="111" selection-start-column="20" selection-end-line="111" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Transformers/CouponTransformer.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="615">
+          <caret line="44" column="40" lean-forward="true" selection-start-line="44" selection-start-column="40" selection-end-line="44" selection-end-column="40" />
+          <folding />
         </state>
       </provider>
     </entry>
