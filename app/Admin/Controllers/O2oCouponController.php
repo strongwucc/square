@@ -117,6 +117,7 @@ class O2oCouponController extends Controller
 
             // 在这里添加字段过滤器
             $filter->like('pcid', '券编号');
+            $filter->like('title', '券名称');
             $filter->equal('card_type', '类型')->radio([
                 ''                          => '全部',
                 'CASH'                      => '代金券',
@@ -125,17 +126,36 @@ class O2oCouponController extends Controller
                 'FULL_REDUCTION'            => '满减券'
             ]);
 
-            $filter->equal('coupon_status', '是否激活')->radio([
-                ''   => '全部',
-                '0'           => '是',
-                '1'           => '否'
-            ]);
-            $filter->equal('status', '状态')->radio([
+            $filter->where(function ($query) {
+
+                $now_date = date('Y-m-d H:i:s');
+
+                switch ($this->input) {
+                    case '':
+                        break;
+                    case '1':
+                        $query->whereRaw("`begin_timestamp` <= '{$now_date}' AND `end_timestamp` >= '{$now_date}'");
+                        break;
+                    case '2':
+                        $query->whereRaw("`begin_timestamp` > '{$now_date}'");
+                        break;
+                    case '3':
+                        $query->whereRaw("`end_timestamp` < '{$now_date}'");
+                        break;
+                }
+            }, '状态')->radio([
                 ''  => '全部',
                 '1' => '进行中',
                 '2' => '未开始',
                 '3' => '已结束'
             ]);
+
+//            $filter->equal('status', '状态')->radio([
+//                ''  => '全部',
+//                '1' => '进行中',
+//                '2' => '未开始',
+//                '3' => '已结束'
+//            ]);
 
         });
 
@@ -200,7 +220,12 @@ class O2oCouponController extends Controller
 //        $grid->promotion_url_name('Promotion url name');
 //        $grid->promotion_url('Promotion url');
 //        $grid->promotion_url_sub_title('Promotion url sub title');
-//        $grid->get_limit('Get limit');
+        $grid->get_limit('领取限制')->display(function ($limit) {
+            return $limit > 0 ? $limit : '无限制';
+        });
+        $grid->day_get_limit('每日领取限制')->display(function ($limit) {
+            return $limit > 0 ? $limit : '无限制';
+        });
 //        $grid->use_custom_code('Use custom code');
 //        $grid->can_share('Can share');
 //        $grid->can_give_friend('Can give friend');
@@ -210,26 +235,40 @@ class O2oCouponController extends Controller
 //        $grid->discount('Discount');
 //        $grid->gift('Gift');
 //        $grid->default_detail('Default detail');
-        $grid->status('状态')->display(function ($status) {
-            if ($status == '1') {
-                return '进行中';
+//        $grid->status('状态')->display(function ($status) {
+//            if ($status == '1') {
+//                return '进行中';
+//            }
+//            if ($status == '2') {
+//                return '未开始';
+//            }
+//            if ($status == '3') {
+//                return '已结束';
+//            }
+//        });
+        $grid->column('status', '状态')->display(function () {
+
+            $now = date('Y-m-d H:i:s');
+            if ($this->end_timestamp < $now) {
+                return '<span class="label label-default">已过期</span>';
+            } elseif ($this->begin_timestamp > $now) {
+                return '<span class="label label-info">未开始</span>';
+            } else {
+                return '<span class="label label-success">进行中</span>';
             }
-            if ($status == '2') {
-                return '未开始';
-            }
-            if ($status == '3') {
-                return '已结束';
-            }
+
         });
+        $grid->begin_timestamp('开始时间');
+        $grid->end_timestamp('结束时间');
 //        $grid->is_buy('Is buy');
 //        $grid->market_price('Market price');
 //        $grid->sale_price('Sale price');
 //        $grid->createtime('Createtime');
 //        $grid->last_modified('Last modified');
 //        $grid->is_del('Is del');
-        $grid->coupon_status('是否激活')->display(function ($coupon_status) {
-            return $coupon_status == '0' ? '<span class="label label-success">是</span>' : '<span class="label label-danger">否</span>';
-        });
+//        $grid->coupon_status('是否激活')->display(function ($coupon_status) {
+//            return $coupon_status == '0' ? '<span class="label label-success">是</span>' : '<span class="label label-danger">否</span>';
+//        });
 
         return $grid;
     }
@@ -278,6 +317,16 @@ class O2oCouponController extends Controller
 //        $show->date_type('Date type');
         $show->begin_timestamp('开始时间');
         $show->end_timestamp('结束时间');
+        $show->limit_time_type('限制使用时间类型')->as(function ($limit_time_type) {
+            if ($limit_time_type == '0') {
+                return '可用时间';
+            }
+            return '不可用时间';
+        });
+        $show->days('限制使用时间')->as(function () {
+            $daysAndWeeks = $this->limitDaysAndWeeks();
+            return $daysAndWeeks['days'] && $daysAndWeeks['weeks'] ? implode('；', $daysAndWeeks) : implode('', $daysAndWeeks);
+        });
 //        $show->fixed_term('Fixed term');
         if (in_array($coupon->card_type, ['GIFT', 'FULL_REDUCTION'])) {
             $show->fixed_begin_term('领取有效期天数');
@@ -312,24 +361,25 @@ class O2oCouponController extends Controller
             $show->gift('兑换内容');
         }
 //        $show->default_detail('Default detail');
-        $show->status('状态')->as(function ($status) {
-            if ($status == '1') {
+        $show->status('状态')->as(function () {
+
+            $now = date('Y-m-d H:i:s');
+            if ($this->end_timestamp < $now) {
+                return '已过期';
+            } elseif ($this->begin_timestamp > $now) {
+                return '未开始';
+            } else {
                 return '进行中';
             }
-            if ($status == '2') {
-                return '未开始';
-            }
-            if ($status == '3') {
-                return '已结束';
-            }
+
         });
 //        $show->is_buy('Is buy');
 //        $show->market_price('Market price');
         $show->sale_price('购买价格');
 //        $show->is_del('Is del');
-        $show->coupon_status('是否激活')->as(function ($coupon_status) {
-            return $coupon_status == '0' ? '是' : '否';
-        });
+//        $show->coupon_status('是否激活')->as(function ($coupon_status) {
+//            return $coupon_status == '0' ? '是' : '否';
+//        });
         $show->createtime('创建时间')->as(function ($createtime) {
             return date('Y-m-d H:i:s', $createtime);
         });
@@ -357,6 +407,42 @@ class O2oCouponController extends Controller
         $form->decimal('sale_price', '售价')->default(0.000);
         $form->datetime('begin_timestamp', '开始时间')->default(date('Y-m-d H:i:s'));
         $form->datetime('end_timestamp', '结束时间')->default(date('Y-m-d H:i:s'));
+        $form->datetime('limit_time_type', '结束时间')->default(date('Y-m-d H:i:s'));
+        $form->radio('limit_time_type', '限制使用时间类型')->options(['0' => '可用时间', '1'=> '不可用时间'])->default('0');
+        $form->multipleSelect('weeks', '每周限制时间')->options([0 => '星期天', 1 => '星期一', 2 => '星期二', 3 => '星期三', 4 => '星期四', 5 => '星期五', 6 => '星期六']);
+        $form->multipleSelect('days', '每月限制时间')->options([
+            1 => '1日',
+            2 => '2日',
+            3 => '3日',
+            4 => '4日',
+            5 => '5日',
+            6 => '6日',
+            7 => '7日',
+            8 => '8日',
+            9 => '9日',
+            10 => '10日',
+            11 => '11日',
+            12 => '12日',
+            13 => '13日',
+            14 => '14日',
+            15 => '15日',
+            16 => '16日',
+            17 => '17日',
+            18 => '18日',
+            19 => '19日',
+            20 => '20日',
+            21 => '21日',
+            22 => '22日',
+            23 => '23日',
+            24 => '24日',
+            25 => '25日',
+            26 => '26日',
+            27 => '27日',
+            28 => '28日',
+            29 => '29日',
+            30 => '30日',
+            31 => '31日'
+        ]);
         $form->multipleSelect('mer_id', '适用商户')->options(O2oMerchant::all()->pluck('mer_name', 'mer_id'))->rules('required');
         $form->image('logo_url', '券展示图');
         $form->number('quantity', '库存数量')->rules('required');
@@ -436,6 +522,41 @@ class O2oCouponController extends Controller
         $form->decimal('sale_price', '售价')->default(0.000);
         $form->datetime('begin_timestamp', '开始时间')->default(date('Y-m-d H:i:s'));
         $form->datetime('end_timestamp', '结束时间')->default(date('Y-m-d H:i:s'));
+        $form->radio('limit_time_type', '限制使用时间类型')->options(['0' => '可用时间', '1'=> '不可用时间'])->default('0');
+        $form->multipleSelect('weeks', '每周限制时间')->options([0 => '星期天', 1 => '星期一', 2 => '星期二', 3 => '星期三', 4 => '星期四', 5 => '星期五', 6 => '星期六']);
+        $form->multipleSelect('days', '每月限制时间')->options([
+            1 => '1日',
+            2 => '2日',
+            3 => '3日',
+            4 => '4日',
+            5 => '5日',
+            6 => '6日',
+            7 => '7日',
+            8 => '8日',
+            9 => '9日',
+            10 => '10日',
+            11 => '11日',
+            12 => '12日',
+            13 => '13日',
+            14 => '14日',
+            15 => '15日',
+            16 => '16日',
+            17 => '17日',
+            18 => '18日',
+            19 => '19日',
+            20 => '20日',
+            21 => '21日',
+            22 => '22日',
+            23 => '23日',
+            24 => '24日',
+            25 => '25日',
+            26 => '26日',
+            27 => '27日',
+            28 => '28日',
+            29 => '29日',
+            30 => '30日',
+            31 => '31日'
+        ]);
         $form->multipleSelect('mer_id', '适用商户')->options(O2oMerchant::all()->pluck('mer_name', 'mer_id'))->rules('required');
         $form->image('logo_url', '券展示图');
         $form->number('quantity', '库存数量')->rules('required')->default(0);
@@ -468,6 +589,41 @@ class O2oCouponController extends Controller
         $form->decimal('sale_price', '售价')->default(0.000);
         $form->datetime('begin_timestamp', '开始时间')->default(date('Y-m-d H:i:s'));
         $form->datetime('end_timestamp', '结束时间')->default(date('Y-m-d H:i:s'));
+        $form->radio('limit_time_type', '限制使用时间类型')->options(['0' => '可用时间', '1'=> '不可用时间'])->default('0');
+        $form->multipleSelect('weeks', '每周限制时间')->options([0 => '星期天', 1 => '星期一', 2 => '星期二', 3 => '星期三', 4 => '星期四', 5 => '星期五', 6 => '星期六']);
+        $form->multipleSelect('days', '每月限制时间')->options([
+            1 => '1日',
+            2 => '2日',
+            3 => '3日',
+            4 => '4日',
+            5 => '5日',
+            6 => '6日',
+            7 => '7日',
+            8 => '8日',
+            9 => '9日',
+            10 => '10日',
+            11 => '11日',
+            12 => '12日',
+            13 => '13日',
+            14 => '14日',
+            15 => '15日',
+            16 => '16日',
+            17 => '17日',
+            18 => '18日',
+            19 => '19日',
+            20 => '20日',
+            21 => '21日',
+            22 => '22日',
+            23 => '23日',
+            24 => '24日',
+            25 => '25日',
+            26 => '26日',
+            27 => '27日',
+            28 => '28日',
+            29 => '29日',
+            30 => '30日',
+            31 => '31日'
+        ]);
         $form->multipleSelect('mer_id', '适用商户')->options(O2oMerchant::all()->pluck('mer_name', 'mer_id'))->rules('required');
         $form->image('logo_url', '券展示图');
         $form->number('quantity', '库存数量')->rules('required')->default(0);
@@ -502,6 +658,41 @@ class O2oCouponController extends Controller
         $form->decimal('sale_price', '售价')->default(0.000);
         $form->datetime('begin_timestamp', '开始时间')->default(date('Y-m-d H:i:s'));
         $form->datetime('end_timestamp', '结束时间')->default(date('Y-m-d H:i:s'));
+        $form->radio('limit_time_type', '限制使用时间类型')->options(['0' => '可用时间', '1'=> '不可用时间'])->default('0');
+        $form->multipleSelect('weeks', '每周限制时间')->options([0 => '星期天', 1 => '星期一', 2 => '星期二', 3 => '星期三', 4 => '星期四', 5 => '星期五', 6 => '星期六']);
+        $form->multipleSelect('days', '每月限制时间')->options([
+            1 => '1日',
+            2 => '2日',
+            3 => '3日',
+            4 => '4日',
+            5 => '5日',
+            6 => '6日',
+            7 => '7日',
+            8 => '8日',
+            9 => '9日',
+            10 => '10日',
+            11 => '11日',
+            12 => '12日',
+            13 => '13日',
+            14 => '14日',
+            15 => '15日',
+            16 => '16日',
+            17 => '17日',
+            18 => '18日',
+            19 => '19日',
+            20 => '20日',
+            21 => '21日',
+            22 => '22日',
+            23 => '23日',
+            24 => '24日',
+            25 => '25日',
+            26 => '26日',
+            27 => '27日',
+            28 => '28日',
+            29 => '29日',
+            30 => '30日',
+            31 => '31日'
+        ]);
         $form->multipleSelect('mer_id', '适用商户')->options(O2oMerchant::all()->pluck('mer_name', 'mer_id'))->rules('required');
         $form->image('logo_url', '券展示图');
         $form->number('quantity', '库存数量')->rules('required')->default(0);
@@ -535,6 +726,41 @@ class O2oCouponController extends Controller
         $form->decimal('sale_price', '售价')->default(0.000);
         $form->datetime('begin_timestamp', '开始时间')->default(date('Y-m-d H:i:s'));
         $form->datetime('end_timestamp', '结束时间')->default(date('Y-m-d H:i:s'));
+        $form->radio('limit_time_type', '限制使用时间类型')->options(['0' => '可用时间', '1'=> '不可用时间'])->default('0');
+        $form->multipleSelect('weeks', '每周限制时间')->options([0 => '星期天', 1 => '星期一', 2 => '星期二', 3 => '星期三', 4 => '星期四', 5 => '星期五', 6 => '星期六']);
+        $form->multipleSelect('days', '每月限制时间')->options([
+            1 => '1日',
+            2 => '2日',
+            3 => '3日',
+            4 => '4日',
+            5 => '5日',
+            6 => '6日',
+            7 => '7日',
+            8 => '8日',
+            9 => '9日',
+            10 => '10日',
+            11 => '11日',
+            12 => '12日',
+            13 => '13日',
+            14 => '14日',
+            15 => '15日',
+            16 => '16日',
+            17 => '17日',
+            18 => '18日',
+            19 => '19日',
+            20 => '20日',
+            21 => '21日',
+            22 => '22日',
+            23 => '23日',
+            24 => '24日',
+            25 => '25日',
+            26 => '26日',
+            27 => '27日',
+            28 => '28日',
+            29 => '29日',
+            30 => '30日',
+            31 => '31日'
+        ]);
         $form->multipleSelect('mer_id', '适用商户')->options(O2oMerchant::all()->pluck('mer_name', 'mer_id'))->rules('required');
         $form->image('logo_url', '券展示图');
         $form->number('quantity', '库存数量')->rules('required')->default(0);

@@ -49,4 +49,10 @@ class O2oCouponBuy extends Model
     {
         return $this->belongsTo('App\Models\O2oMember', 'member_id', 'platform_member_id');
     }
+
+    public function useInfo()
+    {
+//        return O2oCouponUser::where([['pcid', '=', $this->pcid], ['qrcode', '=', $this->qrcode]])->first();
+        return $this->hasOne('App\Models\O2oCouponUser', 'qrcode', 'qrcode');
+    }
 }

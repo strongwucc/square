@@ -81,12 +81,57 @@ class O2oCoupon extends Model
 
     public function getMerIdAttribute($value)
     {
-        return explode(',', $value);
+        return $value == '' ? [] : explode(',', $value);
     }
 
     public function setMerIdAttribute($value)
     {
         $this->attributes['mer_id'] = implode(',', $value);
+    }
+
+    public function getDaysAttribute($value)
+    {
+        return $value == '' ? [] : explode(',', $value);
+    }
+
+    public function setDaysAttribute($value)
+    {
+        $this->attributes['days'] = implode(',', $value);
+    }
+
+    public function getWeeksAttribute($value)
+    {
+        return  $value == '' ? [] : explode(',', $value);
+    }
+
+    public function setWeeksAttribute($value)
+    {
+        $this->attributes['weeks'] = implode(',', $value);
+    }
+
+    public function limitDaysAndWeeks()
+    {
+        $days = '';
+        $weeks = '';
+        $type = $this->limit_time_type == '0' ? '可用' : '不可用';
+        if ($this->days) {
+            $days = '每月';
+            $daysArr = $this->days;
+            foreach ($daysArr as $day) {
+                $days .= $day . '、';
+            }
+            $days = rtrim($days, '、') . '号' . $type;
+        }
+        if ($this->weeks) {
+            $weekMaps = [0 => '日', 1 => '一', 2 => '二', 3 => '三', 4 => '四', 5 => '五', 6 => '六'];
+            $weeks = '每周';
+            $weeksArr = $this->weeks;
+            foreach ($weeksArr as $week) {
+                $weeks .= $weekMaps[$week] . '、';
+            }
+            $weeks = rtrim($weeks, '、') . $type;
+        }
+        return ['days' => $days, 'weeks' => $weeks];
     }
 
     public function getPcid()

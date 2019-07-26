@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Admin\Extensions\Exporters\CouponBuyExporter;
 use App\Models\O2oCouponBuy;
 use App\Http\Controllers\Controller;
 use App\Models\O2oMember;
@@ -94,12 +95,35 @@ class O2oCouponBuyController extends Controller
             });
         });
 
-        $grid->disableRowSelector();
+//        $grid->disableRowSelector();
         $grid->disableCreateButton();
         $grid->disableActions();
-        $grid->disableExport();
+//        $grid->disableExport();
+        $grid->exporter(new CouponBuyExporter());
+
+        $grid->filter(function($filter){
+
+            // 去掉默认的id过滤器
+            $filter->disableIdFilter();
+
+            // 在这里添加字段过滤器
+            $filter->like('pcid', '券编号');
+            $filter->like('qrcode', '核销码');
+
+            $filter->where(function ($query) {
+
+                $query->whereHas('coupon', function ($query) {
+                    $query->where('title', 'like', "%{$this->input}%");
+                });
+
+            }, '券名称');
+
+        });
 
         $grid->pcid('优惠券编号');
+        $grid->column('coupon_name', '优惠券名称')->display(function () {
+           return $this->coupon->title;
+        });
         $grid->qrcode('核销码');
 //        $grid->order_id('Order id');
         $grid->from_order_id('来源订单号');
@@ -121,6 +145,21 @@ class O2oCouponBuyController extends Controller
             if ($use_status == '2') {
                 return '已冻结';
             }
+        });
+        $grid->column('use_time' ,'核销时间')->display(function () {
+            return $this->use_status == '1' ? $this->useInfo->createtime : '-';
+        });
+        $grid->column('mer_id' ,'核销商户')->display(function () {
+            return $this->use_status == '1' ? $this->useInfo->mer_id : '-';
+        });
+        $grid->column('order_amt' ,'交易金额')->display(function () {
+            return $this->use_status == '1' ? $this->useInfo->order_amt : '-';
+        });
+        $grid->column('order_derate_amt' ,'优惠金额')->display(function () {
+            return $this->use_status == '1' ? $this->useInfo->order_derate_amt : '-';
+        });
+        $grid->column('order_pay_amt' ,'实付金额')->display(function () {
+            return $this->use_status == '1' ? $this->useInfo->order_pay_amt : '-';
         });
         $grid->createtime('领取时间');
 //        $grid->last_modified('Last modified');

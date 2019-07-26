@@ -35,7 +35,7 @@ class CouponsController extends Controller
 
         $query->where('is_del', 0);
         $query->where('coupon_status', 0);
-        $query->where('end_timestamp', '<', date('Y-m-d H:i:s'));
+        $query->where('end_timestamp', '>=', date('Y-m-d H:i:s'));
 
         $query->recentReplied();
         $coupons = $query->paginate($pageLimit);
@@ -372,7 +372,7 @@ class CouponsController extends Controller
 
         $update_res = $couponBuy->where('qrcode', $qrcode)
             ->where('use_status', '0')
-            ->update(['use_status' => '1', 'last_modified' => date('Y-m-d H:i:s', $request_time)]);
+            ->update(['order_id' => $order_no, 'use_status' => '1', 'last_modified' => date('Y-m-d H:i:s', $request_time)]);
 
         if (!$update_res) {
             DB::rollBack();
