@@ -37,6 +37,10 @@ $api->version('v1', [
         $api->post('etone/authorizations', 'AuthorizationsController@etoneStore')
             ->name('api.etone.authorizations.store');
 
+        // 根据 openid 登录
+        $api->post('openid/authorizations', 'AuthorizationsController@autoLoginByOpenId')
+            ->name('api.openid.authorizations.store');
+
         // 热门活动
         $api->post('activities', 'ActivitiesController@index')
             ->name('api.activities.index');

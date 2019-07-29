@@ -11,6 +11,40 @@ use Illuminate\Support\Facades\Log;
 class AuthorizationsController extends Controller
 {
 
+    public function autoLoginByOpenId(Request $request)
+    {
+        $open_id = $request->openId;
+
+        if (!$open_id) {
+            return $this->response->errorBadRequest();
+        }
+
+        $user = User::where('openid', $open_id)->first();
+        if (!$user) {
+            $platform_member_id = 0;
+
+            do {
+
+                $platform_member_id = get_member_id();
+                $row = User::where('platform_member_id', $platform_member_id)->count();
+
+            } while ($row);
+
+            $user = User::create([
+                'nickname' => '',
+                'headimgurl' => '',
+                'openid' => $open_id,
+                'unionid' => '',
+                'regtime' => time(),
+                'platform_member_id' => $platform_member_id,
+                'source' => 'api'
+            ]);
+        }
+
+        $token = Auth::guard('api')->fromUser($user);
+        return $this->respondWithToken($token)->setStatusCode(201);
+    }
+
     public function etoneStore(Request $request)
     {
 
