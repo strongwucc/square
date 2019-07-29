@@ -16,6 +16,7 @@ class CouponBuyTransformer extends TransformerAbstract
         $begin_date_time = '';
         $end_date_time = '';
         $left_days = '';
+        $use_time = '';
 
         if ($coupon->coupon->date_type == 'DATE_TYPE_FIX_TIME_RANGE') {
             $now = date('Y-m-d H:i:s', time());
@@ -38,6 +39,10 @@ class CouponBuyTransformer extends TransformerAbstract
             $order['tranRime'] = $coupon->order->tran_time;
         }
 
+        if ($coupon->use_status == '1') {
+            $use_time = $coupon->useInfo->createtime;
+        }
+
         $merchants = [];
 
         if ($coupon->coupon->mer_id) {
@@ -51,6 +56,7 @@ class CouponBuyTransformer extends TransformerAbstract
             'pay_status' => $coupon->pay_status,
             'buy_status' => $coupon->buy_status,
             'use_status' => $coupon->use_status,
+            'use_time' => $coupon->use_time,
             'mer_id' => $coupon->coupon->mer_id,
             'merchants' => $merchants,
             'brand_name' => $coupon->coupon->brand_name,
