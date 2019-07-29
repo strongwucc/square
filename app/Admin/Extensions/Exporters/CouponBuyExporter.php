@@ -20,9 +20,10 @@ class CouponBuyExporter extends ExcelExporter implements WithMapping
         'pcid'                  => '优惠券编号',
         'order_id'              => '优惠券名称',
         'qrcode'                => '优惠券核销码',
+        'openid'                => '用户openid',
         'from_order_id'         => '核销时间',
         'member_id'             => '核销商户',
-        'openid'                => '交易金额',
+        'use_status'            => '交易金额',
         'cashier_id'            => '优惠金额',
         'pay_status'            => '实付金额'
     ];
@@ -33,6 +34,7 @@ class CouponBuyExporter extends ExcelExporter implements WithMapping
             $row->pcid,
             $this->getTitle($row->pcid),
             $row->qrcode,
+            $row->openid,
             $this->getUseTime($row->pcid, $row->qrcode),
             $this->getMerId($row->pcid, $row->qrcode),
             $this->getOrderAmt($row->pcid, $row->qrcode),

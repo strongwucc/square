@@ -6,6 +6,7 @@ use App\Admin\Extensions\Exporters\CouponBuyExporter;
 use App\Models\O2oCouponBuy;
 use App\Http\Controllers\Controller;
 use App\Models\O2oMember;
+use App\Models\O2oMerchant;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -118,23 +119,59 @@ class O2oCouponBuyController extends Controller
 
             }, '券名称');
 
+            $filter->where(function ($query) {
+
+                $query->whereHas('useInfo', function ($query) {
+                    $query->whereHas('merchant', function ($query) {
+                        $query->where('mer_name', 'like', "%{$this->input}%");
+                    });
+                });
+
+            }, '核销商户');
+
+            $filter->where(function ($query) {
+
+                switch ($this->input) {
+                    case '':
+                        break;
+                    case '1':
+                        $query->whereHas('coupon', function ($query) {
+                            $query->where('card_type', '=', 'CASH');
+                        });
+                        break;
+                    case '2':
+                        $query->whereHas('coupon', function ($query) {
+                            $query->where('card_type', '=', 'DISCOUNT');
+                        });
+                        break;
+                    case '3':
+                        $query->whereHas('coupon', function ($query) {
+                            $query->where('card_type', '=', 'FULL_REDUCTION');
+                        });
+                        break;
+                }
+            }, '券类型')->radio([
+                ''  => '全部',
+                '1' => '代金券',
+                '2' => '折扣券',
+                '3' => '满减券'
+            ]);
+
+            $filter->equal('use_status', '使用状态')->radio([
+                ''              => '全部',
+                '0'             => '未使用',
+                '1'             => '已使用',
+                '2'             => '已冻结'
+            ]);
+
         });
 
         $grid->pcid('优惠券编号');
         $grid->column('coupon_name', '优惠券名称')->display(function () {
            return $this->coupon->title;
         });
-        $grid->qrcode('核销码');
-//        $grid->order_id('Order id');
-        $grid->from_order_id('来源订单号');
-//        $grid->cid('Cid');
-        $grid->member()->platform_member_id('会员ID');
-        $grid->member()->username('会员昵称');
-        $grid->member()->mobile('会员手机号');
-//        $grid->openid('Openid');
-//        $grid->cashier_id('Cashier id');
-//        $grid->pay_status('Pay status');
-//        $grid->buy_status('Buy status');
+        $grid->createtime('领取时间');
+        $grid->openid('用户openid');
         $grid->use_status('使用状态')->display(function ($use_status) {
             if ($use_status == '0') {
                 return '未使用';
@@ -146,12 +183,31 @@ class O2oCouponBuyController extends Controller
                 return '已冻结';
             }
         });
+        $grid->qrcode('核销码');
+//        $grid->order_id('Order id');
+//        $grid->from_order_id('来源订单号');
+//        $grid->cid('Cid');
+//        $grid->member()->platform_member_id('会员ID');
+//        $grid->member()->username('会员昵称');
+//        $grid->member()->mobile('会员手机号');
+//        $grid->cashier_id('Cashier id');
+//        $grid->pay_status('Pay status');
+//        $grid->buy_status('Buy status');
+
         $grid->column('use_time' ,'核销时间')->display(function () {
             return $this->use_status == '1' ? $this->useInfo->createtime : '-';
         });
         $grid->column('mer_id' ,'核销商户')->display(function () {
-            return $this->use_status == '1' ? $this->useInfo->mer_id : '-';
+
+            if ($this->use_status == '1') {
+                $mer_id = $this->useInfo->mer_id;
+                $merchant = O2oMerchant::where('mer_id', $mer_id)->first();
+                return $merchant ? $merchant->mer_name : '-';
+            }
+
+            return '-';
         });
+
         $grid->column('order_amt' ,'交易金额')->display(function () {
             return $this->use_status == '1' ? $this->useInfo->order_amt : '-';
         });
@@ -161,9 +217,10 @@ class O2oCouponBuyController extends Controller
         $grid->column('order_pay_amt' ,'实付金额')->display(function () {
             return $this->use_status == '1' ? $this->useInfo->order_pay_amt : '-';
         });
-        $grid->createtime('领取时间');
 //        $grid->last_modified('Last modified');
 //        $grid->platform_member_id('Platform member id');
+
+        $grid->model()->orderBy('createtime', 'desc');
 
         return $grid;
     }

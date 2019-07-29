@@ -273,6 +273,8 @@ class O2oCouponController extends Controller
 //            return $coupon_status == '0' ? '<span class="label label-success">是</span>' : '<span class="label label-danger">否</span>';
 //        });
 
+        $grid->model()->orderBy('createtime', 'desc');
+
         return $grid;
     }
 
