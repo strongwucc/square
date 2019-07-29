@@ -400,11 +400,11 @@ class O2oCouponController extends Controller
         $form->hidden('pcid');
         $form->hidden('card_type');
         $form->text('title', '优惠券名称')->rules('required');
-        $form->number('get_limit', '领取限制')->rules('required')->help('单个用户领取数量限制');
-        $form->number('day_get_limit', '每日领取限制')->rules('required')->help('单个用户每日领取数量限制');
+        $form->number('get_limit', '领取限制')->rules('required')->attribute(['min' => 0])->help('单个用户领取数量限制');
+        $form->number('day_get_limit', '每日领取限制')->rules('required')->attribute(['min' => 0])->help('单个用户每日领取数量限制');
         $form->text('description', '优惠券描述')->rules('required');
-        $form->number('fixed_begin_term', '领取有效期天数')->rules('required')->help('券有效期不超过券模板结束时间，不填时默认有效期等同券模板结束时间,上限100天');
-        $form->decimal('sale_price', '售价')->default(0.000);
+        $form->number('fixed_begin_term', '领取有效期天数')->rules('required')->attribute(['min' => 0])->help('券有效期不超过券模板结束时间，不填时默认有效期等同券模板结束时间,上限100天');
+//        $form->decimal('sale_price', '售价')->default(0.000);
         $form->datetime('begin_timestamp', '开始时间')->default(date('Y-m-d H:i:s'));
         $form->datetime('end_timestamp', '结束时间')->default(date('Y-m-d H:i:s'));
         $form->datetime('limit_time_type', '结束时间')->default(date('Y-m-d H:i:s'));
@@ -445,10 +445,10 @@ class O2oCouponController extends Controller
         ]);
         $form->multipleSelect('mer_id', '适用商户')->options(O2oMerchant::all()->pluck('mer_name', 'mer_id'))->rules('required');
         $form->image('logo_url', '券展示图');
-        $form->number('quantity', '库存数量')->rules('required');
-        $form->number('discount', '打折额度百分比')->rules('required')->help('打折额度百分比，填30就是七折');
-        $form->number('least_cost', '最低消费金额')->rules('required');
-        $form->number('reduce_cost', '减免金额')->rules('required')->help('100元代金券，填写数字100');
+        $form->number('quantity', '库存数量')->rules('required')->attribute(['min' => 0]);
+        $form->number('discount', '打折额度百分比')->rules('required')->attribute(['min' => 0, 'max' => 100])->help('打折额度百分比，填30就是三折');
+        $form->number('least_cost', '最低消费金额')->rules('required')->attribute(['min' => 0]);
+        $form->number('reduce_cost', '减免金额')->rules('required')->attribute(['min' => 0])->help('100元代金券，填写数字100');
         $form->text('gift', '兑换内容')->rules('required');
         $form->mobile('service_phone', '客服电话')->rules('required');
         $form->text('notice', '使用须知')->rules('required');
@@ -516,10 +516,10 @@ class O2oCouponController extends Controller
         $form->hidden('pcid');
         $form->hidden('card_type')->default('DISCOUNT');
         $form->text('title', '优惠券名称')->rules('required');
-        $form->number('get_limit', '领取限制')->rules('required')->help('单个用户领取数量限制')->default(0);
-        $form->number('day_get_limit', '每日领取限制')->rules('required')->help('单个用户每日领取数量限制')->default(0);
+        $form->number('get_limit', '领取限制')->rules('required')->attribute(['min' => 0])->help('单个用户领取数量限制')->default(0);
+        $form->number('day_get_limit', '每日领取限制')->rules('required')->attribute(['min' => 0])->help('单个用户每日领取数量限制')->default(0);
         $form->text('description', '优惠券描述')->rules('required');
-        $form->decimal('sale_price', '售价')->default(0.000);
+//        $form->decimal('sale_price', '售价')->default(0.000);
         $form->datetime('begin_timestamp', '开始时间')->default(date('Y-m-d H:i:s'));
         $form->datetime('end_timestamp', '结束时间')->default(date('Y-m-d H:i:s'));
         $form->radio('limit_time_type', '限制使用时间类型')->options(['0' => '可用时间', '1'=> '不可用时间'])->default('0');
@@ -559,8 +559,8 @@ class O2oCouponController extends Controller
         ]);
         $form->multipleSelect('mer_id', '适用商户')->options(O2oMerchant::all()->pluck('mer_name', 'mer_id'))->rules('required');
         $form->image('logo_url', '券展示图');
-        $form->number('quantity', '库存数量')->rules('required')->default(0);
-        $form->number('discount', '打折额度百分比')->rules('required')->help('打折额度百分比，填30就是七折')->default(0);
+        $form->number('quantity', '库存数量')->rules('required')->attribute(['min' => 0])->default(0);
+        $form->number('discount', '打折额度百分比')->rules('required')->attribute(['min' => 0, 'max' => 100])->help('打折额度百分比，填30就是三折')->default(0);
         $form->mobile('service_phone', '客服电话')->rules('required');
         $form->text('notice', '使用须知')->rules('required');
 
@@ -583,10 +583,10 @@ class O2oCouponController extends Controller
         $form->hidden('pcid');
         $form->hidden('card_type')->default('CASH');
         $form->text('title', '优惠券名称')->rules('required');
-        $form->number('get_limit', '领取限制')->rules('required')->help('单个用户领取数量限制')->default(0);
-        $form->number('day_get_limit', '每日领取限制')->rules('required')->help('单个用户每日领取数量限制')->default(0);
+        $form->number('get_limit', '领取限制')->rules('required')->attribute(['min' => 0])->help('单个用户领取数量限制')->default(0);
+        $form->number('day_get_limit', '每日领取限制')->rules('required')->attribute(['min' => 0])->help('单个用户每日领取数量限制')->default(0);
         $form->text('description', '优惠券描述')->rules('required');
-        $form->decimal('sale_price', '售价')->default(0.000);
+//        $form->decimal('sale_price', '售价')->default(0.000);
         $form->datetime('begin_timestamp', '开始时间')->default(date('Y-m-d H:i:s'));
         $form->datetime('end_timestamp', '结束时间')->default(date('Y-m-d H:i:s'));
         $form->radio('limit_time_type', '限制使用时间类型')->options(['0' => '可用时间', '1'=> '不可用时间'])->default('0');
@@ -626,9 +626,9 @@ class O2oCouponController extends Controller
         ]);
         $form->multipleSelect('mer_id', '适用商户')->options(O2oMerchant::all()->pluck('mer_name', 'mer_id'))->rules('required');
         $form->image('logo_url', '券展示图');
-        $form->number('quantity', '库存数量')->rules('required')->default(0);
+        $form->number('quantity', '库存数量')->rules('required')->attribute(['min' => 0])->default(0);
 //        $form->number('least_cost', '最低消费金额')->rules('required');
-        $form->number('reduce_cost', '减免金额')->rules('required')->help('100元代金券，填写数字100')->default(0);
+        $form->number('reduce_cost', '减免金额')->rules('required')->attribute(['min' => 0])->help('100元代金券，填写数字100')->default(0);
         $form->mobile('service_phone', '客服电话')->rules('required');
         $form->text('notice', '使用须知')->rules('required');
 
@@ -651,11 +651,11 @@ class O2oCouponController extends Controller
         $form->hidden('pcid');
         $form->hidden('card_type')->default('GIFT');
         $form->text('title', '优惠券名称')->rules('required');
-        $form->number('get_limit', '领取限制')->rules('required')->help('单个用户领取数量限制')->default(0);
-        $form->number('day_get_limit', '每日领取限制')->rules('required')->help('单个用户每日领取数量限制')->default(0);
+        $form->number('get_limit', '领取限制')->rules('required')->attribute(['min' => 0])->help('单个用户领取数量限制')->default(0);
+        $form->number('day_get_limit', '每日领取限制')->rules('required')->attribute(['min' => 0])->help('单个用户每日领取数量限制')->default(0);
         $form->text('description', '优惠券描述')->rules('required');
-        $form->number('fixed_begin_term', '领取有效期天数')->rules('required')->help('券有效期不超过券模板结束时间，不填时默认有效期等同券模板结束时间,上限100天')->default(0);
-        $form->decimal('sale_price', '售价')->default(0.000);
+        $form->number('fixed_begin_term', '领取有效期天数')->rules('required')->attribute(['min' => 0])->help('券有效期不超过券模板结束时间，不填时默认有效期等同券模板结束时间,上限100天')->default(0);
+//        $form->decimal('sale_price', '售价')->default(0.000);
         $form->datetime('begin_timestamp', '开始时间')->default(date('Y-m-d H:i:s'));
         $form->datetime('end_timestamp', '结束时间')->default(date('Y-m-d H:i:s'));
         $form->radio('limit_time_type', '限制使用时间类型')->options(['0' => '可用时间', '1'=> '不可用时间'])->default('0');
@@ -695,7 +695,7 @@ class O2oCouponController extends Controller
         ]);
         $form->multipleSelect('mer_id', '适用商户')->options(O2oMerchant::all()->pluck('mer_name', 'mer_id'))->rules('required');
         $form->image('logo_url', '券展示图');
-        $form->number('quantity', '库存数量')->rules('required')->default(0);
+        $form->number('quantity', '库存数量')->rules('required')->attribute(['min' => 0])->default(0);
         $form->text('gift', '兑换内容')->rules('required');
         $form->mobile('service_phone', '客服电话')->rules('required');
         $form->text('notice', '使用须知')->rules('required');
@@ -719,11 +719,11 @@ class O2oCouponController extends Controller
         $form->hidden('pcid');
         $form->hidden('card_type')->default('FULL_REDUCTION');
         $form->text('title', '优惠券名称')->rules('required');
-        $form->number('get_limit', '领取限制')->rules('required')->help('单个用户领取数量限制')->default(0);
-        $form->number('day_get_limit', '每日领取限制')->rules('required')->help('单个用户每日领取数量限制')->default(0);
+        $form->number('get_limit', '领取限制')->rules('required')->attribute(['min' => 0])->help('单个用户领取数量限制')->default(0);
+        $form->number('day_get_limit', '每日领取限制')->rules('required')->attribute(['min' => 0])->help('单个用户每日领取数量限制')->default(0);
         $form->text('description', '优惠券描述')->rules('required');
-        $form->number('fixed_begin_term', '领取有效期天数')->rules('required')->help('券有效期不超过券模板结束时间，不填时默认有效期等同券模板结束时间,上限100天')->default(0);
-        $form->decimal('sale_price', '售价')->default(0.000);
+        $form->number('fixed_begin_term', '领取有效期天数')->rules('required')->attribute(['min' => 0])->help('券有效期不超过券模板结束时间，不填时默认有效期等同券模板结束时间,上限100天')->default(0);
+//        $form->decimal('sale_price', '售价')->default(0.000);
         $form->datetime('begin_timestamp', '开始时间')->default(date('Y-m-d H:i:s'));
         $form->datetime('end_timestamp', '结束时间')->default(date('Y-m-d H:i:s'));
         $form->radio('limit_time_type', '限制使用时间类型')->options(['0' => '可用时间', '1'=> '不可用时间'])->default('0');
@@ -763,9 +763,9 @@ class O2oCouponController extends Controller
         ]);
         $form->multipleSelect('mer_id', '适用商户')->options(O2oMerchant::all()->pluck('mer_name', 'mer_id'))->rules('required');
         $form->image('logo_url', '券展示图');
-        $form->number('quantity', '库存数量')->rules('required')->default(0);
-        $form->number('least_cost', '最低消费金额')->rules('required')->default(0);
-        $form->number('reduce_cost', '减免金额')->rules('required')->help('100元代金券，填写数字100')->default(0);
+        $form->number('quantity', '库存数量')->rules('required')->attribute(['min' => 0])->default(0);
+        $form->number('least_cost', '最低消费金额')->rules('required')->attribute(['min' => 0])->default(0);
+        $form->number('reduce_cost', '减免金额')->rules('required')->attribute(['min' => 0])->help('100元代金券，填写数字100')->default(0);
         $form->mobile('service_phone', '客服电话')->rules('required');
         $form->text('notice', '使用须知')->rules('required');
 

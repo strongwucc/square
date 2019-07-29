@@ -3,8 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="7d68e055-cbd6-46e1-8aa6-73b201f3a5b6" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/AuthorizationsController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/AuthorizationsController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/api.php" afterPath="$PROJECT_DIR$/routes/api.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Admin/Controllers/O2oCouponController.php" afterPath="$PROJECT_DIR$/app/Admin/Controllers/O2oCouponController.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -25,11 +24,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AuthorizationsController.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/AuthorizationsController.php">
+      <file leaf-file-name="O2oCouponController.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/Admin/Controllers/O2oCouponController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="282">
-              <caret line="25" column="16" lean-forward="true" selection-start-line="25" selection-start-column="16" selection-end-line="25" selection-end-column="16" />
+            <state relative-caret-position="5761">
+              <caret line="557" column="23" lean-forward="true" selection-start-line="557" selection-start-column="23" selection-end-line="557" selection-end-column="23" />
               <folding />
             </state>
           </provider>
@@ -39,10 +38,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>n set</find>
-      <find>where</find>
-      <find>order</find>
-      <find>n table</find>
       <find>$form</find>
       <find>$form-&gt;saving(function</find>
       <find>create</find>
@@ -69,6 +64,10 @@
       <find>$form-&gt;image(</find>
       <find>$order_no</find>
       <find>n show</find>
+      <find>打折额度百分比，填30就是七折</find>
+      <find>$form-&gt;number(</find>
+      <find>discount</find>
+      <find>售价</find>
     </findStrings>
     <replaceStrings>
       <replace>O2oTitleTypeController</replace>
@@ -80,13 +79,14 @@
       <replace>use James\Admin\Grid;</replace>
       <replace>use Encore\Admin\Grid;</replace>
       <replace>return isset($maps[$key]) ? $maps[$key] : '-';</replace>
+      <replace>打折额度百分比，填30就是三折</replace>
     </replaceStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$/vendor/tymon/jwt-auth</dir>
-      <dir>$PROJECT_DIR$/app</dir>
       <dir>$PROJECT_DIR$/vendor/encore</dir>
       <dir>$PROJECT_DIR$</dir>
       <dir>$PROJECT_DIR$/app/Admin/Controllers</dir>
+      <dir>$PROJECT_DIR$/app</dir>
     </dirStrings>
   </component>
   <component name="Git.Settings">
@@ -136,7 +136,6 @@
         <option value="$PROJECT_DIR$/resources/views/admin/chartjs/doughnut-source.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/admin/chartjs/doughnut-payment.blade.php" />
         <option value="$PROJECT_DIR$/app/Models/O2oCoupon.php" />
-        <option value="$PROJECT_DIR$/app/Admin/Controllers/O2oCouponController.php" />
         <option value="$PROJECT_DIR$/app/Models/O2oCouponBuy.php" />
         <option value="$PROJECT_DIR$/app/Admin/Extensions/Exporters/CouponBuyExporter.php" />
         <option value="$PROJECT_DIR$/app/Admin/Controllers/SdbB2cOrdersController.php" />
@@ -146,6 +145,7 @@
         <option value="$PROJECT_DIR$/app/Transformers/CouponBuyTransformer.php" />
         <option value="$PROJECT_DIR$/routes/api.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/Api/AuthorizationsController.php" />
+        <option value="$PROJECT_DIR$/app/Admin/Controllers/O2oCouponController.php" />
       </list>
     </option>
   </component>
@@ -306,72 +306,6 @@
             <path>
               <item name="district" type="b2602c69:ProjectViewProjectNode" />
               <item name="district" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="Admin" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="district" type="b2602c69:ProjectViewProjectNode" />
-              <item name="district" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="Admin" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="Controllers" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="district" type="b2602c69:ProjectViewProjectNode" />
-              <item name="district" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="Admin" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="Extensions" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="district" type="b2602c69:ProjectViewProjectNode" />
-              <item name="district" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="Admin" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="Extensions" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="Exporters" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="district" type="b2602c69:ProjectViewProjectNode" />
-              <item name="district" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="Http" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="district" type="b2602c69:ProjectViewProjectNode" />
-              <item name="district" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="Http" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="Controllers" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="district" type="b2602c69:ProjectViewProjectNode" />
-              <item name="district" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="Http" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="Controllers" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="Api" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="district" type="b2602c69:ProjectViewProjectNode" />
-              <item name="district" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="Models" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="district" type="b2602c69:ProjectViewProjectNode" />
-              <item name="district" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="Transformers" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="district" type="b2602c69:ProjectViewProjectNode" />
-              <item name="district" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="database" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="district" type="b2602c69:ProjectViewProjectNode" />
-              <item name="district" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="routes" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
           </expand>
@@ -427,12 +361,12 @@
       <workItem from="1559725260342" duration="1540000" />
       <workItem from="1560474501805" duration="4095000" />
       <workItem from="1560837289585" duration="180574000" />
-      <workItem from="1564371056169" duration="2259000" />
+      <workItem from="1564371056169" duration="5129000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="237234000" />
+    <option name="totallyTimeSpent" value="240104000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
@@ -442,6 +376,7 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32958034" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32958034" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -454,7 +389,6 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32958034" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -474,13 +408,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="14" lean-forward="true" selection-start-line="14" selection-start-column="14" selection-end-line="14" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/database/migrations/2014_10_12_000000_create_users_table.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -569,6 +496,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -641,6 +569,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="435">
           <caret line="29" column="20" lean-forward="false" selection-start-line="29" selection-start-column="20" selection-end-line="29" selection-end-column="20" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -743,6 +672,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="422">
           <caret line="340" column="50" lean-forward="false" selection-start-line="340" selection-start-column="44" selection-end-line="340" selection-end-column="50" />
+          <folding>
+            <marker date="1561284728000" expanded="true" signature="11886:11892" ph=" " />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -750,16 +682,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Admin/Extensions/Exporters/B2cOrdersExporter.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="673">
-          <caret line="53" column="50" lean-forward="true" selection-start-line="53" selection-start-column="12" selection-end-line="53" selection-end-column="50" />
-          <folding>
-            <element signature="e#139#185#0#PHP" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -806,14 +728,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Admin/Controllers/O2oCouponController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1725">
-          <caret line="125" column="43" lean-forward="false" selection-start-line="125" selection-start-column="43" selection-end-line="125" selection-end-column="43" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/UsersController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1260">
@@ -848,6 +762,14 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/AuthorizationsController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="312">
+          <caret line="27" column="40" lean-forward="false" selection-start-line="27" selection-start-column="40" selection-end-line="27" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/routes/api.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="302">
@@ -856,10 +778,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/AuthorizationsController.php">
+    <entry file="file://$PROJECT_DIR$/vendor/encore/laravel-admin/src/Form/Field.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="282">
-          <caret line="25" column="16" lean-forward="true" selection-start-line="25" selection-start-column="16" selection-end-line="25" selection-end-column="16" />
+        <state relative-caret-position="-223">
+          <caret line="650" column="20" lean-forward="false" selection-start-line="650" selection-start-column="20" selection-end-line="650" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Admin/Extensions/Exporters/B2cOrdersExporter.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="705">
+          <caret line="166" column="20" lean-forward="false" selection-start-line="166" selection-start-column="20" selection-end-line="166" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Admin/Controllers/O2oCouponController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5761">
+          <caret line="557" column="23" lean-forward="true" selection-start-line="557" selection-start-column="23" selection-end-line="557" selection-end-column="23" />
           <folding />
         </state>
       </provider>
