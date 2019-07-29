@@ -56,7 +56,7 @@ class CouponBuyTransformer extends TransformerAbstract
             'pay_status' => $coupon->pay_status,
             'buy_status' => $coupon->buy_status,
             'use_status' => $coupon->use_status,
-            'use_time' => $coupon->use_time,
+            'use_time' => $use_time,
             'mer_id' => $coupon->coupon->mer_id,
             'merchants' => $merchants,
             'brand_name' => $coupon->coupon->brand_name,
