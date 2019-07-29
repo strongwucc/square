@@ -122,7 +122,7 @@ class O2oCouponController extends Controller
                 ''                          => '全部',
                 'CASH'                      => '代金券',
                 'DISCOUNT'                  => '折扣券',
-                'GIFT'                      => '礼品券',
+//                'GIFT'                      => '礼品券',
                 'FULL_REDUCTION'            => '满减券'
             ]);
 
@@ -149,6 +149,9 @@ class O2oCouponController extends Controller
                 '2' => '未开始',
                 '3' => '已结束'
             ]);
+
+            $filter->between('begin_timestamp', '开始时间')->date();
+            $filter->between('end_timestamp', '结束时间')->date();
 
 //            $filter->equal('status', '状态')->radio([
 //                ''  => '全部',
@@ -405,9 +408,8 @@ class O2oCouponController extends Controller
         $form->text('description', '优惠券描述')->rules('required');
         $form->number('fixed_begin_term', '领取有效期天数')->rules('required')->attribute(['min' => 0])->help('券有效期不超过券模板结束时间，不填时默认有效期等同券模板结束时间,上限100天');
 //        $form->decimal('sale_price', '售价')->default(0.000);
-        $form->datetime('begin_timestamp', '开始时间')->default(date('Y-m-d H:i:s'));
-        $form->datetime('end_timestamp', '结束时间')->default(date('Y-m-d H:i:s'));
-        $form->datetime('limit_time_type', '结束时间')->default(date('Y-m-d H:i:s'));
+        $form->date('begin_timestamp', '开始时间');
+        $form->date('end_timestamp', '结束时间');
         $form->radio('limit_time_type', '限制使用时间类型')->options(['0' => '可用时间', '1'=> '不可用时间'])->default('0');
         $form->multipleSelect('weeks', '每周限制时间')->options([0 => '星期天', 1 => '星期一', 2 => '星期二', 3 => '星期三', 4 => '星期四', 5 => '星期五', 6 => '星期六']);
         $form->multipleSelect('days', '每月限制时间')->options([
@@ -520,8 +522,8 @@ class O2oCouponController extends Controller
         $form->number('day_get_limit', '每日领取限制')->rules('required')->attribute(['min' => 0])->help('单个用户每日领取数量限制')->default(0);
         $form->text('description', '优惠券描述')->rules('required');
 //        $form->decimal('sale_price', '售价')->default(0.000);
-        $form->datetime('begin_timestamp', '开始时间')->default(date('Y-m-d H:i:s'));
-        $form->datetime('end_timestamp', '结束时间')->default(date('Y-m-d H:i:s'));
+        $form->date('begin_timestamp', '开始时间');
+        $form->date('end_timestamp', '结束时间');
         $form->radio('limit_time_type', '限制使用时间类型')->options(['0' => '可用时间', '1'=> '不可用时间'])->default('0');
         $form->multipleSelect('weeks', '每周限制时间')->options([0 => '星期天', 1 => '星期一', 2 => '星期二', 3 => '星期三', 4 => '星期四', 5 => '星期五', 6 => '星期六']);
         $form->multipleSelect('days', '每月限制时间')->options([
@@ -587,8 +589,8 @@ class O2oCouponController extends Controller
         $form->number('day_get_limit', '每日领取限制')->rules('required')->attribute(['min' => 0])->help('单个用户每日领取数量限制')->default(0);
         $form->text('description', '优惠券描述')->rules('required');
 //        $form->decimal('sale_price', '售价')->default(0.000);
-        $form->datetime('begin_timestamp', '开始时间')->default(date('Y-m-d H:i:s'));
-        $form->datetime('end_timestamp', '结束时间')->default(date('Y-m-d H:i:s'));
+        $form->date('begin_timestamp', '开始时间');
+        $form->date('end_timestamp', '结束时间');
         $form->radio('limit_time_type', '限制使用时间类型')->options(['0' => '可用时间', '1'=> '不可用时间'])->default('0');
         $form->multipleSelect('weeks', '每周限制时间')->options([0 => '星期天', 1 => '星期一', 2 => '星期二', 3 => '星期三', 4 => '星期四', 5 => '星期五', 6 => '星期六']);
         $form->multipleSelect('days', '每月限制时间')->options([
@@ -656,8 +658,8 @@ class O2oCouponController extends Controller
         $form->text('description', '优惠券描述')->rules('required');
         $form->number('fixed_begin_term', '领取有效期天数')->rules('required')->attribute(['min' => 0])->help('券有效期不超过券模板结束时间，不填时默认有效期等同券模板结束时间,上限100天')->default(0);
 //        $form->decimal('sale_price', '售价')->default(0.000);
-        $form->datetime('begin_timestamp', '开始时间')->default(date('Y-m-d H:i:s'));
-        $form->datetime('end_timestamp', '结束时间')->default(date('Y-m-d H:i:s'));
+        $form->date('begin_timestamp', '开始时间');
+        $form->date('end_timestamp', '结束时间');
         $form->radio('limit_time_type', '限制使用时间类型')->options(['0' => '可用时间', '1'=> '不可用时间'])->default('0');
         $form->multipleSelect('weeks', '每周限制时间')->options([0 => '星期天', 1 => '星期一', 2 => '星期二', 3 => '星期三', 4 => '星期四', 5 => '星期五', 6 => '星期六']);
         $form->multipleSelect('days', '每月限制时间')->options([
@@ -724,8 +726,8 @@ class O2oCouponController extends Controller
         $form->text('description', '优惠券描述')->rules('required');
         $form->number('fixed_begin_term', '领取有效期天数')->rules('required')->attribute(['min' => 0])->help('券有效期不超过券模板结束时间，不填时默认有效期等同券模板结束时间,上限100天')->default(0);
 //        $form->decimal('sale_price', '售价')->default(0.000);
-        $form->datetime('begin_timestamp', '开始时间')->default(date('Y-m-d H:i:s'));
-        $form->datetime('end_timestamp', '结束时间')->default(date('Y-m-d H:i:s'));
+        $form->date('begin_timestamp', '开始时间');
+        $form->date('end_timestamp', '结束时间');
         $form->radio('limit_time_type', '限制使用时间类型')->options(['0' => '可用时间', '1'=> '不可用时间'])->default('0');
         $form->multipleSelect('weeks', '每周限制时间')->options([0 => '星期天', 1 => '星期一', 2 => '星期二', 3 => '星期三', 4 => '星期四', 5 => '星期五', 6 => '星期六']);
         $form->multipleSelect('days', '每月限制时间')->options([

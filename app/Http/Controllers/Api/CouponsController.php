@@ -296,10 +296,11 @@ class CouponsController extends Controller
         $qrcode = $request->qrcode ? $request->qrcode : '';
         $order_no = $request->order_no ? $request->order_no : '';
         $order_amt = $request->order_amt ? $request->order_amt : '';
+        $mer_id = $request->mer_id ? $request->mer_id : '';
 
         $request_time = time();
 
-        if (!$qrcode) {
+        if (!$qrcode || !$mer_id) {
             return $this->errorResponse(422, 'Bad Request', 1003);
         }
 
@@ -311,6 +312,13 @@ class CouponsController extends Controller
 
         if (!$coupon_data) {
             return $this->errorResponse(404, '优惠券不存在', 1002);
+        }
+
+        // 检查适用商户
+        if (!empty($coupon_data->coupon->mer_id)) {
+            if (!in_array($mer_id, $coupon_data->coupon->mer_id)) {
+                return $this->errorResponse(422, '不适用该商户', 1008);
+            }
         }
 
         // 检查有效期
@@ -385,7 +393,7 @@ class CouponsController extends Controller
         $record_model->order_amt = $order_amt;
         $record_model->order_pay_amt = $order_pay_amt;
         $record_model->order_derate_amt = $order_derate_amt;
-        $record_model->mer_id = '';
+        $record_model->mer_id = $mer_id;
         $record_model->member_id = '';
         $record_model->createtime = date('Y-m-d H:i:s', $request_time);
 
