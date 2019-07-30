@@ -3,6 +3,7 @@
 namespace App\Admin\Controllers;
 
 use App\Admin\Extensions\Filters\TimestampBetween;
+use App\Models\O2oCouponBuy;
 use App\Models\O2oMerchant;
 use App\Models\SdbB2cOrders;
 use App\Http\Controllers\Controller;
@@ -318,10 +319,12 @@ class SdbB2cOrdersController extends Controller
             });
 
 //        $show->order_id('订单号');
+        $show->merchant_bn('商户号');
+        $show->field('', '商户名称')->as(function () use ($order) {
+            return $order->merchant ? $order->merchant->mer_name : '';
+        });
         $show->seller_order_id('商户订单号');
-        $show->total_amount('订单金额');
-//        $show->final_amount('Final amount');
-        $show->pay_status('支付状态')->as(function ($pay_status) {
+        $show->pay_status('订单状态')->as(function ($pay_status) {
             if ($pay_status == '0') {
                 return '未支付';
             }
@@ -341,12 +344,13 @@ class SdbB2cOrdersController extends Controller
                 return '全额退款';
             }
         });
-//        $show->ship_status('Ship status');
-//        $show->is_delivery('Is delivery');
-        $show->createtime('下单时间')->as(function ($createtime) {
-            return date('Y-m-d H:i:s', $createtime);
+        $show->total_amount('订单金额');
+        $show->pmt_order('优惠金额')->as(function ($pmt_order) {
+            return number_format($pmt_order, 2, '.', '');
         });
-//        $show->last_modified('Last modified');
+        $show->payed('支付金额')->as(function ($payed) {
+            return number_format($payed, 2, '.', '');
+        });
         $show->payment('支付方式')->as(function ($payment) {
             if ($payment == 'offline') {
                 return '现金支付';
@@ -370,53 +374,69 @@ class SdbB2cOrdersController extends Controller
                 return '一卡通支付';
             }
         });
+//        $show->final_amount('Final amount');
+//        $show->ship_status('Ship status');
+//        $show->is_delivery('Is delivery');
+        $show->createtime('下单时间')->as(function ($createtime) {
+            return date('Y-m-d H:i:s', $createtime);
+        });
+//        $show->last_modified('Last modified');
 //        $show->shipping_id('Shipping id');
 //        $show->shipping('Shipping');
 //        $show->member_id('Member id');
-        $show->platform_member_id('会员ID');
+//        $show->platform_member_id('会员ID');
 //        $show->store_id('Store id');
-        $show->confirm_status('确认状态')->as(function ($confirm_status) {
-            if ($confirm_status == '0') {
-                return '未接单';
-            }
-            if ($confirm_status == '1') {
-                return '已接单';
-            }
-            if ($confirm_status == '2') {
-                return '已拒绝';
-            }
-            if ($confirm_status == '3') {
-                return '已完成';
-            }
-        });
-        $show->confirm_time('确认时间');
-        $show->pickself_status('自提状态')->as(function ($pickself_status) {
-            if ($pickself_status == '0') {
-                return '未自提';
-            }
-            if ($pickself_status == '1') {
-                return '已自提';
-            }
-        });
-        $show->pickself_time('自提时间');
+//        $show->confirm_status('确认状态')->as(function ($confirm_status) {
+//            if ($confirm_status == '0') {
+//                return '未接单';
+//            }
+//            if ($confirm_status == '1') {
+//                return '已接单';
+//            }
+//            if ($confirm_status == '2') {
+//                return '已拒绝';
+//            }
+//            if ($confirm_status == '3') {
+//                return '已完成';
+//            }
+//        });
+//        $show->confirm_time('确认时间');
+//        $show->pickself_status('自提状态')->as(function ($pickself_status) {
+//            if ($pickself_status == '0') {
+//                return '未自提';
+//            }
+//            if ($pickself_status == '1') {
+//                return '已自提';
+//            }
+//        });
+//        $show->pickself_time('自提时间');
 //        $show->pickself_id('Pickself id');
 //        $show->operator_id('Operator id');
-        $show->weixinscan_qrcode('微信付款码');
-        $show->alipay_qrcode('支付宝付款码');
-        $show->unionpay_qrcode('银联付款码');
+//        $show->weixinscan_qrcode('微信付款码');
+//        $show->alipay_qrcode('支付宝付款码');
+//        $show->unionpay_qrcode('银联付款码');
+        $show->field('', '优惠券名称')->as(function () use ($order) {
+            if ($order->qrcode) {
+                $coupon = O2oCouponBuy::where('qrcode', $order->qrcode)->first();
+                if ($coupon && $coupon->coupon) {
+                    return $coupon->coupon->title;
+                }
+            }
+            return '';
+        });
         $show->qrcode('核销码');
 //        $show->promotion_type('Promotion type');
-        $show->status('订单状态')->as(function ($status) {
-            if ($status == 'active') {
-                return '活动订单';
-            }
-            if ($status == 'dead') {
-                return '已作废';
-            }
-            if ($status == 'finished') {
-                return '已完成';
-            }
-        });
+//        $show->status('订单状态')->as(function ($status) {
+//            if ($status == 'active') {
+//                return '活动订单';
+//            }
+//            if ($status == 'dead') {
+//                return '已作废';
+//            }
+//            if ($status == 'finished') {
+//                return '已完成';
+//            }
+//        });
 //        $show->confirm('Confirm');
 //        $show->ship_area('Ship area');
 //        $show->ship_name('Ship name');
@@ -430,53 +450,53 @@ class SdbB2cOrdersController extends Controller
 //        $show->ship_email('Ship email');
 //        $show->ship_time('Ship time');
 //        $show->ship_mobile('Ship mobile');
-        $show->cost_item('订单商品总价格')->as(function ($cost_item) {
-            return number_format($cost_item, 2, '.', '');
-        });
-        $show->is_tax('是否需要开发票')->as(function ($is_tax) {
-            return $is_tax == 'false' ? '否' : '是';
-        });
-        $show->tax_type('发票类型')->as(function ($tax_type) {
-            if ($tax_type == 'personal') {
-                return '个人';
-            }
-            if ($tax_type == 'company') {
-                return '公司';
-            }
-            return '未知';
-        });
-        $show->tax_content('发票内容');
-        $show->cost_tax('订单税率');
-        $show->tax_company('发票抬头');
-        $show->is_protect('是否还有保价费')->as(function ($is_protect) {
-            return $is_protect == 'false' ? '否' : '是';
-        });
-        $show->cost_protect('保价费')->as(function ($cost_protect) {
-            return number_format($cost_protect, 2, '.', '');
-        });
-        $show->cost_payment('支付费用')->as(function ($cost_payment) {
-            return number_format($cost_payment, 2, '.', '');
-        });
+//        $show->cost_item('订单商品总价格')->as(function ($cost_item) {
+//            return number_format($cost_item, 2, '.', '');
+//        });
+//        $show->is_tax('是否需要开发票')->as(function ($is_tax) {
+//            return $is_tax == 'false' ? '否' : '是';
+//        });
+//        $show->tax_type('发票类型')->as(function ($tax_type) {
+//            if ($tax_type == 'personal') {
+//                return '个人';
+//            }
+//            if ($tax_type == 'company') {
+//                return '公司';
+//            }
+//            return '未知';
+//        });
+//        $show->tax_content('发票内容');
+//        $show->cost_tax('订单税率');
+//        $show->tax_company('发票抬头');
+//        $show->is_protect('是否还有保价费')->as(function ($is_protect) {
+//            return $is_protect == 'false' ? '否' : '是';
+//        });
+//        $show->cost_protect('保价费')->as(function ($cost_protect) {
+//            return number_format($cost_protect, 2, '.', '');
+//        });
+//        $show->cost_payment('支付费用')->as(function ($cost_payment) {
+//            return number_format($cost_payment, 2, '.', '');
+//        });
 //        $show->currency('Currency');
 //        $show->cur_rate('Cur rate');
-        $show->score_u('订单使用积分')->as(function ($score_u) {
-            return number_format($score_u, 2, '.', '');
-        });
-        $show->score_g('订单获得积分')->as(function ($score_g) {
-            return number_format($score_g, 2, '.', '');
-        });
-        $show->discount('订单减免')->as(function ($discount) {
-            return number_format($discount, 2, '.', '');
-        });
-        $show->pmt_goods('商品促销优惠')->as(function ($pmt_goods) {
-            return number_format($pmt_goods, 2, '.', '');
-        });
-        $show->pmt_order('订单促销优惠')->as(function ($pmt_order) {
-            return number_format($pmt_order, 2, '.', '');
-        });
-        $show->payed('订单支付金额')->as(function ($payed) {
-            return number_format($payed, 2, '.', '');
-        });
+//        $show->score_u('订单使用积分')->as(function ($score_u) {
+//            return number_format($score_u, 2, '.', '');
+//        });
+//        $show->score_g('订单获得积分')->as(function ($score_g) {
+//            return number_format($score_g, 2, '.', '');
+//        });
+//        $show->discount('订单减免')->as(function ($discount) {
+//            return number_format($discount, 2, '.', '');
+//        });
+//        $show->pmt_goods('商品促销优惠')->as(function ($pmt_goods) {
+//            return number_format($pmt_goods, 2, '.', '');
+//        });
+//        $show->pmt_order('订单促销优惠')->as(function ($pmt_order) {
+//            return number_format($pmt_order, 2, '.', '');
+//        });
+//        $show->payed('订单支付金额')->as(function ($payed) {
+//            return number_format($payed, 2, '.', '');
+//        });
 //        $show->memo('Memo');
 //        $show->disabled('Disabled');
 //        $show->displayonsite('Displayonsite');
@@ -486,31 +506,30 @@ class SdbB2cOrdersController extends Controller
 //        $show->extend('Extend');
 //        $show->order_refer('Order refer');
 //        $show->addon('Addon');
-        $show->source('订单来源')->as(function ($source) {
-            if ($source == 'pc') {
-                return '平台网站';
-            }
-            if ($source == 'wap') {
-                return '移动端';
-            }
-            if ($source == 'pc') {
-                return '微信';
-            }
-            if ($source == 'cashier') {
-                return '堂食';
-            }
-            if ($source == 'paycode') {
-                return '扫码';
-            }
-            if ($source == 'eleme') {
-                return '饿了么';
-            }
-            if ($source == 'meituan') {
-                return '美团';
-            }
-        });
+//        $show->source('订单来源')->as(function ($source) {
+//            if ($source == 'pc') {
+//                return '平台网站';
+//            }
+//            if ($source == 'wap') {
+//                return '移动端';
+//            }
+//            if ($source == 'pc') {
+//                return '微信';
+//            }
+//            if ($source == 'cashier') {
+//                return '堂食';
+//            }
+//            if ($source == 'paycode') {
+//                return '扫码';
+//            }
+//            if ($source == 'eleme') {
+//                return '饿了么';
+//            }
+//            if ($source == 'meituan') {
+//                return '美团';
+//            }
+//        });
 //        $show->source_name('Source name');
-        $show->merchant_bn('商户号');
 
         return $show;
     }

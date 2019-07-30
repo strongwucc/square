@@ -218,7 +218,7 @@ class O2oCouponController extends Controller
 //        $grid->notice('Notice');
 //        $grid->description('Description');
 //        $grid->grant_quantity('Grant quantity');
-        $grid->quantity('库存数量');
+        $grid->quantity('库存数量(张)');
 //        $grid->date_type('Date type');
 //        $grid->begin_timestamp('Begin timestamp');
 //        $grid->end_timestamp('End timestamp');
@@ -237,11 +237,11 @@ class O2oCouponController extends Controller
 //        $grid->promotion_url_name('Promotion url name');
 //        $grid->promotion_url('Promotion url');
 //        $grid->promotion_url_sub_title('Promotion url sub title');
-        $grid->get_limit('领取限制')->display(function ($limit) {
-            return $limit > 0 ? $limit : '无限制';
+        $grid->get_limit('领取限制(张)')->display(function ($limit) {
+            return $limit > 0 ? $limit : '-';
         });
-        $grid->day_get_limit('每日领取限制')->display(function ($limit) {
-            return $limit > 0 ? $limit : '无限制';
+        $grid->day_get_limit('每日领取限制(张)')->display(function ($limit) {
+            return $limit > 0 ? $limit : '-';
         });
 //        $grid->use_custom_code('Use custom code');
 //        $grid->can_share('Can share');
