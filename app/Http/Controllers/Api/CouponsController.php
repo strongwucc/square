@@ -371,16 +371,16 @@ class CouponsController extends Controller
 
         if ($card_type == 'DISCOUNT') {
             $order_derate_amt = $order_amt * (100 - $coupon_data->coupon->discount) / 100;
-            $order_pay_amt = $order_amt - $order_derate_amt;
+            $order_pay_amt = bcsub($order_amt, $order_derate_amt, 2);
         } elseif ($card_type == 'CASH') {
             $order_derate_amt = floatval($coupon_data->coupon->reduce_cost);
-            $order_pay_amt = $order_amt - $order_derate_amt;
+            $order_pay_amt = bcsub($order_amt, $order_derate_amt, 2);
         } elseif ($card_type == 'FULL_REDUCTION') {
             if ($order_amt < $coupon_data->coupon->least_cost) {
                 return $this->errorResponse(422, '未达到最低消费金额', 1005);
             }
             $order_derate_amt = floatval($coupon_data->coupon->reduce_cost);
-            $order_pay_amt = $order_amt - $order_derate_amt;
+            $order_pay_amt = bcsub($order_amt, $order_derate_amt, 2);
         }
 
         DB::beginTransaction();
