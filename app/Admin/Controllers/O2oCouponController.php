@@ -163,6 +163,35 @@ class O2oCouponController extends Controller
         });
 
         $grid->pcid('编号');
+        $grid->card_type('优惠券类型')->display(function ($card_type) {
+            if ($card_type == 'CASH') {
+                return '代金券';
+            }
+            if ($card_type == 'DISCOUNT') {
+                return '折扣券';
+            }
+            if ($card_type == 'GIFT') {
+                return '礼品券';
+            }
+            if ($card_type == 'FULL_REDUCTION') {
+                return '满减券';
+            }
+        });
+        $grid->title('优惠券名称');
+        $grid->begin_timestamp('开始时间');
+        $grid->end_timestamp('结束时间');
+        $grid->column('status', '状态')->display(function () {
+
+            $now = date('Y-m-d H:i:s');
+            if ($this->end_timestamp < $now) {
+                return '<span class="label label-default">已过期</span>';
+            } elseif ($this->begin_timestamp > $now) {
+                return '<span class="label label-info">未开始</span>';
+            } else {
+                return '<span class="label label-success">进行中</span>';
+            }
+
+        });
 //        $grid->cid('Cid');
 //        $grid->mer_id('适用商户');
         $grid->column('merchants', '适用商户')->display(function () {
@@ -180,25 +209,10 @@ class O2oCouponController extends Controller
         });
 //        $grid->promotion_id('Promotion id');
 //        $grid->brand_name('Brand name');
-        $grid->card_type('优惠券类型')->display(function ($card_type) {
-            if ($card_type == 'CASH') {
-                return '代金券';
-            }
-            if ($card_type == 'DISCOUNT') {
-                return '折扣券';
-            }
-            if ($card_type == 'GIFT') {
-                return '礼品券';
-            }
-            if ($card_type == 'FULL_REDUCTION') {
-                return '满减券';
-            }
-        });
 //        $grid->logo_url('Logo url');
 //        $grid->is_sync('Is sync');
 //        $grid->wei_logo_url('Wei logo url');
 //        $grid->code_type('Code type');
-        $grid->title('优惠券名称');
 //        $grid->sub_title('Sub title');
 //        $grid->color('Color');
 //        $grid->notice('Notice');
@@ -249,20 +263,6 @@ class O2oCouponController extends Controller
 //                return '已结束';
 //            }
 //        });
-        $grid->column('status', '状态')->display(function () {
-
-            $now = date('Y-m-d H:i:s');
-            if ($this->end_timestamp < $now) {
-                return '<span class="label label-default">已过期</span>';
-            } elseif ($this->begin_timestamp > $now) {
-                return '<span class="label label-info">未开始</span>';
-            } else {
-                return '<span class="label label-success">进行中</span>';
-            }
-
-        });
-        $grid->begin_timestamp('开始时间');
-        $grid->end_timestamp('结束时间');
 //        $grid->is_buy('Is buy');
 //        $grid->market_price('Market price');
 //        $grid->sale_price('Sale price');
