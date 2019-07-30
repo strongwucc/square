@@ -89,7 +89,9 @@ class CouponBuyTransformer extends TransformerAbstract
             'left_days' => $left_days,
             'order' => $order ? $order : (object)null,
             'limit_time_type' => $coupon->coupon->limit_time_type,
-            'limit_days_and_weeks' => $coupon->coupon->limitDaysAndWeeks()
+            'limit_days_and_weeks' => $coupon->coupon->limitDaysAndWeeks(),
+            'limit_days' => $coupon->coupon->days,
+            'limit_weeks' => $coupon->coupon->weeks
         ];
     }
 }
