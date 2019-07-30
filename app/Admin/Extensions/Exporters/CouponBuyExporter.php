@@ -31,7 +31,7 @@ class CouponBuyExporter extends ExcelExporter implements WithMapping
     public function map($row): array
     {
         return [
-            $row->pcid,
+            ''.$row->pcid,
             $this->getTitle($row->pcid),
             $row->qrcode,
             $row->openid,
