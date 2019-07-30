@@ -49,6 +49,26 @@ class CouponBuyTransformer extends TransformerAbstract
             $merchants = O2oMerchant::whereIn('mer_id', $coupon->coupon->mer_id)->get()->toArray();
         }
 
+        // 检查可用时间段
+        $now_day = date('j');
+        $now_week = date('w');
+        $limit_time_checked = true;
+        if ($coupon->coupon->limit_time_type == '0') {
+            if (($coupon->coupon->days && !in_array($now_day, $coupon->coupon->days)) && ($coupon->coupon->weeks && !in_array($now_week, $coupon->coupon->weeks))) {
+                $limit_time_checked = false;
+            }
+            if (($coupon->coupon->days && !in_array($now_day, $coupon->coupon->days)) && !$coupon->coupon->weeks) {
+                $limit_time_checked = false;
+            }
+            if (!$coupon->coupon->days && ($coupon->coupon->weeks && !in_array($now_week, $coupon->coupon->weeks))) {
+                $limit_time_checked = false;
+            }
+        } else {
+            if (($coupon->coupon->days && in_array($now_day, $coupon->coupon->days)) || ($coupon->coupon->weeks && in_array($now_week, $coupon->coupon->weeks))) {
+                $limit_time_checked = false;
+            }
+        }
+
         return [
             'id' => $coupon->pcid,
             'cid' => $coupon->cid,
@@ -91,7 +111,8 @@ class CouponBuyTransformer extends TransformerAbstract
             'limit_time_type' => $coupon->coupon->limit_time_type,
             'limit_days_and_weeks' => $coupon->coupon->limitDaysAndWeeks(),
             'limit_days' => $coupon->coupon->days,
-            'limit_weeks' => $coupon->coupon->weeks
+            'limit_weeks' => $coupon->coupon->weeks,
+            'limit_checked' => $limit_time_checked ? 1 : 0
         ];
     }
 }

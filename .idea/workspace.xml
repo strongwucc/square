@@ -17,8 +17,8 @@
       <file leaf-file-name="CouponsController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/CouponsController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="371">
-              <caret line="258" column="68" lean-forward="false" selection-start-line="258" selection-start-column="68" selection-end-line="258" selection-end-column="68" />
+            <state relative-caret-position="705">
+              <caret line="362" column="32" lean-forward="false" selection-start-line="362" selection-start-column="13" selection-end-line="362" selection-end-column="32" />
               <folding>
                 <element signature="e#44#73#0#PHP" expanded="true" />
               </folding>
@@ -29,8 +29,8 @@
       <file leaf-file-name="CouponBuyTransformer.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/Transformers/CouponBuyTransformer.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="810">
-              <caret line="93" column="51" lean-forward="false" selection-start-line="93" selection-start-column="51" selection-end-line="93" selection-end-column="51" />
+            <state relative-caret-position="742">
+              <caret line="114" column="58" lean-forward="false" selection-start-line="114" selection-start-column="58" selection-end-line="114" selection-end-column="58" />
               <folding />
             </state>
           </provider>
@@ -84,7 +84,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>$form</find>
       <find>$form-&gt;saving(function</find>
       <find>create</find>
       <find>box-title</find>
@@ -114,6 +113,7 @@
       <find>$form-&gt;number(</find>
       <find>discount</find>
       <find>售价</find>
+      <find>$coupon_data</find>
     </findStrings>
     <replaceStrings>
       <replace>O2oTitleTypeController</replace>
@@ -126,6 +126,7 @@
       <replace>use Encore\Admin\Grid;</replace>
       <replace>return isset($maps[$key]) ? $maps[$key] : '-';</replace>
       <replace>打折额度百分比，填30就是三折</replace>
+      <replace>$coupon</replace>
     </replaceStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$/vendor/tymon/jwt-auth</dir>
@@ -448,12 +449,12 @@
       <workItem from="1559725260342" duration="1540000" />
       <workItem from="1560474501805" duration="4095000" />
       <workItem from="1560837289585" duration="180574000" />
-      <workItem from="1564371056169" duration="14989000" />
+      <workItem from="1564371056169" duration="15179000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="249964000" />
+    <option name="totallyTimeSpent" value="250154000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
@@ -877,8 +878,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/CouponsController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="371">
-          <caret line="258" column="68" lean-forward="false" selection-start-line="258" selection-start-column="68" selection-end-line="258" selection-end-column="68" />
+        <state relative-caret-position="705">
+          <caret line="362" column="32" lean-forward="false" selection-start-line="362" selection-start-column="13" selection-end-line="362" selection-end-column="32" />
           <folding>
             <element signature="e#44#73#0#PHP" expanded="true" />
           </folding>
@@ -887,8 +888,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Transformers/CouponBuyTransformer.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="810">
-          <caret line="93" column="51" lean-forward="false" selection-start-line="93" selection-start-column="51" selection-end-line="93" selection-end-column="51" />
+        <state relative-caret-position="742">
+          <caret line="114" column="58" lean-forward="false" selection-start-line="114" selection-start-column="58" selection-end-line="114" selection-end-column="58" />
           <folding />
         </state>
       </provider>
