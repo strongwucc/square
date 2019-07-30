@@ -180,7 +180,7 @@ class O2oCouponBuyController extends Controller
                 return '已使用';
             }
             if ($use_status == '2') {
-                return '已冻结';
+                return '已过期';
             }
         });
         $grid->qrcode('核销码');
