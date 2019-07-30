@@ -63,7 +63,7 @@ class CouponBuyExporter extends ExcelExporter implements WithMapping
     public function getMerId($pcid, $qrcode)
     {
         $coupon = O2oCouponUser::where([['pcid', '=', $pcid], ['qrcode', '=', $qrcode]])->first();
-        return $coupon ? $coupon->mer_id : '';
+        return $coupon ? $coupon->merchant->mer_name : '';
     }
 
     public function getOrderAmt($pcid, $qrcode)

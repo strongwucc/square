@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="7d68e055-cbd6-46e1-8aa6-73b201f3a5b6" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Transformers/CouponBuyTransformer.php" afterPath="$PROJECT_DIR$/app/Transformers/CouponBuyTransformer.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Admin/Extensions/Exporters/CouponBuyExporter.php" afterPath="$PROJECT_DIR$/app/Admin/Extensions/Exporters/CouponBuyExporter.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -26,10 +26,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CouponBuyTransformer.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="CouponBuyTransformer.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Transformers/CouponBuyTransformer.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="742">
+            <state relative-caret-position="1321">
               <caret line="114" column="58" lean-forward="false" selection-start-line="114" selection-start-column="58" selection-end-line="114" selection-end-column="58" />
               <folding />
             </state>
@@ -70,11 +70,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CouponBuyExporter.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="CouponBuyExporter.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/Admin/Extensions/Exporters/CouponBuyExporter.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="915">
-              <caret line="69" column="5" lean-forward="true" selection-start-line="69" selection-start-column="5" selection-end-line="69" selection-end-column="5" />
+            <state relative-caret-position="540">
+              <caret line="65" column="58" lean-forward="true" selection-start-line="65" selection-start-column="58" selection-end-line="65" selection-end-column="58" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="O2oCouponUser.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/Models/O2oCouponUser.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="165">
+              <caret line="11" column="28" lean-forward="false" selection-start-line="11" selection-start-column="20" selection-end-line="11" selection-end-column="28" />
               <folding />
             </state>
           </provider>
@@ -190,9 +200,9 @@
         <option value="$PROJECT_DIR$/app/Models/O2oCouponUser.php" />
         <option value="$PROJECT_DIR$/app/Admin/Controllers/O2oCouponBuyController.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/Api/CouponsController.php" />
-        <option value="$PROJECT_DIR$/app/Admin/Extensions/Exporters/CouponBuyExporter.php" />
         <option value="$PROJECT_DIR$/app/Admin/Controllers/O2oCouponController.php" />
         <option value="$PROJECT_DIR$/app/Transformers/CouponBuyTransformer.php" />
+        <option value="$PROJECT_DIR$/app/Admin/Extensions/Exporters/CouponBuyExporter.php" />
       </list>
     </option>
   </component>
@@ -449,12 +459,12 @@
       <workItem from="1559725260342" duration="1540000" />
       <workItem from="1560474501805" duration="4095000" />
       <workItem from="1560837289585" duration="180574000" />
-      <workItem from="1564371056169" duration="15179000" />
+      <workItem from="1564371056169" duration="15372000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="250154000" />
+    <option name="totallyTimeSpent" value="250347000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
@@ -749,6 +759,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -824,26 +835,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Models/O2oCouponUser.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" column="28" lean-forward="false" selection-start-line="11" selection-start-column="20" selection-end-line="11" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Models/O2oCouponBuy.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="780">
           <caret line="52" column="27" lean-forward="false" selection-start-line="52" selection-start-column="20" selection-end-line="52" selection-end-column="27" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Admin/Extensions/Exporters/CouponBuyExporter.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="915">
-          <caret line="69" column="5" lean-forward="true" selection-start-line="69" selection-start-column="5" selection-end-line="69" selection-end-column="5" />
           <folding />
         </state>
       </provider>
@@ -888,8 +883,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Transformers/CouponBuyTransformer.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="742">
+        <state relative-caret-position="1321">
           <caret line="114" column="58" lean-forward="false" selection-start-line="114" selection-start-column="58" selection-end-line="114" selection-end-column="58" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Models/O2oCouponUser.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" column="28" lean-forward="false" selection-start-line="11" selection-start-column="20" selection-end-line="11" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Admin/Extensions/Exporters/CouponBuyExporter.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="540">
+          <caret line="65" column="58" lean-forward="true" selection-start-line="65" selection-start-column="58" selection-end-line="65" selection-end-column="58" />
           <folding />
         </state>
       </provider>
