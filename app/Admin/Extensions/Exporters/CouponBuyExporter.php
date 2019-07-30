@@ -51,36 +51,36 @@ class CouponBuyExporter extends ExcelExporter implements WithMapping
     public function getTitle($key)
     {
         $coupon = O2oCoupon::where('pcid', $key)->first();
-        return $coupon->title;
+        return $coupon ? $coupon->title : '';
     }
 
     public function getUseTime($pcid, $qrcode)
     {
         $coupon = O2oCouponUser::where([['pcid', '=', $pcid], ['qrcode', '=', $qrcode]])->first();
-        return $coupon->createtime;
+        return $coupon ? $coupon->createtime : '';
     }
 
     public function getMerId($pcid, $qrcode)
     {
         $coupon = O2oCouponUser::where([['pcid', '=', $pcid], ['qrcode', '=', $qrcode]])->first();
-        return $coupon->mer_id;
+        return $coupon ? $coupon->mer_id : '';
     }
 
     public function getOrderAmt($pcid, $qrcode)
     {
         $coupon = O2oCouponUser::where([['pcid', '=', $pcid], ['qrcode', '=', $qrcode]])->first();
-        return $coupon->order_amt;
+        return $coupon ? $coupon->order_amt : '';
     }
 
     public function getDerateAmt($pcid, $qrcode)
     {
         $coupon = O2oCouponUser::where([['pcid', '=', $pcid], ['qrcode', '=', $qrcode]])->first();
-        return $coupon->order_derate_amt;
+        return $coupon ? $coupon->order_derate_amt : '';
     }
 
     public function getPayAmt($pcid, $qrcode)
     {
         $coupon = O2oCouponUser::where([['pcid', '=', $pcid], ['qrcode', '=', $qrcode]])->first();
-        return $coupon->order_pay_amt;
+        return $coupon ? $coupon->order_pay_amt : '';
     }
 }
