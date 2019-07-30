@@ -208,13 +208,13 @@ class O2oCouponBuyController extends Controller
             return '-';
         });
 
-        $grid->column('order_amt' ,'交易金额')->display(function () {
+        $grid->column('order_amt' ,'交易金额(元)')->display(function () {
             return $this->use_status == '1' ? $this->useInfo->order_amt : '-';
         });
-        $grid->column('order_derate_amt' ,'优惠金额')->display(function () {
+        $grid->column('order_derate_amt' ,'优惠金额(元)')->display(function () {
             return $this->use_status == '1' ? $this->useInfo->order_derate_amt : '-';
         });
-        $grid->column('order_pay_amt' ,'实付金额')->display(function () {
+        $grid->column('order_pay_amt' ,'实付金额(元)')->display(function () {
             return $this->use_status == '1' ? $this->useInfo->order_pay_amt : '-';
         });
 //        $grid->last_modified('Last modified');
