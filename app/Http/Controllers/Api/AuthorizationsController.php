@@ -104,7 +104,7 @@ class AuthorizationsController extends Controller
                     } while ($row);
 
                     $user = User::create([
-                        'nickname' => $userinfo_data['data']['nickname'],
+                        'nickname' => emoji_encode($userinfo_data['data']['nickname']),
                         'headimgurl' => $userinfo_data['data']['headimgurl'],
                         'openid' => $openid,
                         'unionid' => isset($userinfo_data['data']['unionid']) ? $userinfo_data['data']['unionid'] : '',
