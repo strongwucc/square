@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="7d68e055-cbd6-46e1-8aa6-73b201f3a5b6" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Admin/Controllers/O2oMerchantController.php" afterPath="$PROJECT_DIR$/app/Admin/Controllers/O2oMerchantController.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bootstrap/app.php" afterPath="$PROJECT_DIR$/bootstrap/app.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -24,12 +24,26 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="O2oMerchantController.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="O2oMerchantController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Admin/Controllers/O2oMerchantController.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="337">
               <caret line="179" column="50" lean-forward="true" selection-start-line="179" selection-start-column="50" selection-end-line="179" selection-end-column="50" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="app.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/bootstrap/app.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="375">
+              <caret line="34" column="31" lean-forward="true" selection-start-line="34" selection-start-column="31" selection-end-line="34" selection-end-column="31" />
+              <folding>
+                <marker date="1565764033352" expanded="true" signature="1237:1380" ph="SELECT tradi... sdb_basic_trading_ku" />
+                <marker date="1565764033352" expanded="true" signature="1622:1734" ph="SELECT merch... mch_etongpay_key" />
+                <marker date="1565764033352" expanded="true" signature="2451:2562" ph="SELECT tradi... sdb_basic_trading" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -96,7 +110,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/vendor/encore/laravel-admin/src/Controllers/HasResourceActions.php" />
         <option value="$PROJECT_DIR$/public/debug.php" />
         <option value="$PROJECT_DIR$/app/Models/O2oMember.php" />
         <option value="$PROJECT_DIR$/vendor/encore/laravel-admin/src/Grid/Exporter.php" />
@@ -147,6 +160,7 @@
         <option value="$PROJECT_DIR$/app/helpers.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/Api/AuthorizationsController.php" />
         <option value="$PROJECT_DIR$/app/Admin/Controllers/O2oMerchantController.php" />
+        <option value="$PROJECT_DIR$/bootstrap/app.php" />
       </list>
     </option>
   </component>
@@ -412,12 +426,12 @@
       <workItem from="1559725260342" duration="1540000" />
       <workItem from="1560474501805" duration="4095000" />
       <workItem from="1560837289585" duration="180574000" />
-      <workItem from="1564371056169" duration="21880000" />
+      <workItem from="1564371056169" duration="22020000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="256855000" />
+    <option name="totallyTimeSpent" value="256995000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
@@ -785,18 +799,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/bootstrap/app.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <marker date="1555317409530" expanded="true" signature="1237:1380" ph="SELECT tradi... sdb_basic_trading_ku" />
-            <marker date="1555317409530" expanded="true" signature="1622:1734" ph="SELECT merch... mch_etongpay_key" />
-            <marker date="1555317409530" expanded="true" signature="2451:2562" ph="SELECT tradi... sdb_basic_trading" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/AuthorizationsController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="459">
@@ -868,6 +870,18 @@
         <state relative-caret-position="337">
           <caret line="179" column="50" lean-forward="true" selection-start-line="179" selection-start-column="50" selection-end-line="179" selection-end-column="50" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bootstrap/app.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="34" column="31" lean-forward="true" selection-start-line="34" selection-start-column="31" selection-end-line="34" selection-end-column="31" />
+          <folding>
+            <marker date="1565764033352" expanded="true" signature="1237:1380" ph="SELECT tradi... sdb_basic_trading_ku" />
+            <marker date="1565764033352" expanded="true" signature="1622:1734" ph="SELECT merch... mch_etongpay_key" />
+            <marker date="1565764033352" expanded="true" signature="2451:2562" ph="SELECT tradi... sdb_basic_trading" />
+          </folding>
         </state>
       </provider>
     </entry>
