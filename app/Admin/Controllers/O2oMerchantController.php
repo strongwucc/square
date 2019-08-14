@@ -177,7 +177,7 @@ class O2oMerchantController extends Controller
         $show->type_code('商户类型')->as(function ($type_code) {
             $type_model = new O2oMerchantType();
             $type = $type_model->where('type_code', $type_code)->first();
-            return $type->type_name;
+            return $type ? $type->type_name : '-';
         });
         $show->mer_addr('商户地址');
         $show->mer_pic('商户图片');
