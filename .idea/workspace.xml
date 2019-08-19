@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="7d68e055-cbd6-46e1-8aa6-73b201f3a5b6" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/UsersController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/UsersController.php" />
-    </list>
+    <list default="true" id="7d68e055-cbd6-46e1-8aa6-73b201f3a5b6" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -475,12 +472,12 @@
       <workItem from="1559725260342" duration="1540000" />
       <workItem from="1560474501805" duration="4095000" />
       <workItem from="1560837289585" duration="180574000" />
-      <workItem from="1564371056169" duration="23626000" />
+      <workItem from="1564371056169" duration="23702000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="258601000" />
+    <option name="totallyTimeSpent" value="258677000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
