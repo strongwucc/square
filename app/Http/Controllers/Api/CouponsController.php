@@ -238,7 +238,9 @@ class CouponsController extends Controller
 
         if ($status == 'dated') {
             $filtered = $coupons->filter(function ($coupon, $key) {
-                if ($coupon->coupon->date_type == 'DATE_TYPE_FIX_TIME_RANGE') {
+                if (!$coupon->coupon) {
+                    return false;
+                } elseif ($coupon->coupon->date_type == 'DATE_TYPE_FIX_TIME_RANGE') {
                     $now = date('Y-m-d H:i:s', time());
                     return $coupon->coupon->end_timestamp < $now;
                 } else {
@@ -247,7 +249,9 @@ class CouponsController extends Controller
             });
         } else {
             $filtered = $coupons->filter(function ($coupon, $key) {
-                if ($coupon->coupon->date_type == 'DATE_TYPE_FIX_TIME_RANGE') {
+                if (!$coupon->coupon) {
+                    return false;
+                } elseif ($coupon->coupon->date_type == 'DATE_TYPE_FIX_TIME_RANGE') {
                     $now = date('Y-m-d H:i:s', time());
                     return $coupon->coupon->end_timestamp >= $now;
                 } else {
