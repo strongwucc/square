@@ -168,7 +168,7 @@ class O2oCouponBuyController extends Controller
 
         $grid->pcid('优惠券编号');
         $grid->column('coupon_name', '优惠券名称')->display(function () {
-           return $this->coupon->title;
+           return $this->coupon ? $this->coupon->title : '-';
         });
         $grid->createtime('领取时间');
         $grid->openid('用户openid');
