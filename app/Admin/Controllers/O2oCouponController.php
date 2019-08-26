@@ -89,7 +89,7 @@ class O2oCouponController extends Controller
         $tab->add('折扣券', $this->discount_form()->render());
         $tab->add('代金券', $this->cash_form()->render());
         $tab->add('满减券', $this->full_reduction_form()->render());
-        $tab->add('礼品券', $this->gift_form()->render());
+//        $tab->add('礼品券', $this->gift_form()->render());
         return $content
             ->body($tab);
 //        return $content
