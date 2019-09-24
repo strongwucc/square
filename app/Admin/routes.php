@@ -41,6 +41,14 @@ Route::group([
     $router->delete('title_types/{id}', 'O2oTitleTypeController@destroy');
     $router->get('title_types/{id}', 'O2oTitleTypeController@show');
 
+    $router->get('banner', 'O2oBannerController@index');
+    $router->get('banner/create', 'O2oBannerController@create');
+    $router->post('banner', 'O2oBannerController@store');
+    $router->get('banner/{id}/edit', 'O2oBannerController@edit');
+    $router->put('banner/{id}', 'O2oBannerController@update');
+    $router->delete('banner/{id}', 'O2oBannerController@destroy');
+    $router->get('banner/{id}', 'O2oBannerController@show');
+
     $router->get('search_keywords', 'O2oSearchKeywordController@index');
     $router->get('search_keywords/create', 'O2oSearchKeywordController@create');
     $router->post('search_keywords', 'O2oSearchKeywordController@store');

@@ -141,12 +141,13 @@ class O2oMerchantTypeController extends Controller
 //        $form->text('type_code', 'Type code');
 //        $form->text('pcode', 'Pcode');
 //        $form->select('pcode','父级类型')->options('/api/users');
-        $form->select('pcode', '父级类型')->options(function ($type_code) {
-            $type = O2oMerchantType::find($type_code);
-            if ($type) {
-                return [$type->type_code => $type->type_name];
-            }
-        })->ajax('/admin/api/merchant_types');
+//        $form->select('pcode', '父级类型')->options(function ($type_code) {
+//            $type = O2oMerchantType::find($type_code);
+//            if ($type) {
+//                return [$type->type_code => $type->type_name];
+//            }
+//        })->ajax('/admin/api/merchant_types');
+        $form->select('pcode', '父级类型')->options(O2oMerchantType::selectOptions(null, '请选择'));
         $form->image('tag_pic', '图片');
         $form->text('jump_url', '点击链接');
         $form->number('sort_rank', '排序');
