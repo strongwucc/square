@@ -132,7 +132,7 @@ class O2oTitleTypeController extends Controller
     {
         $form = new Form(new O2oTitleType);
 
-        $form->text('type_name', '类型名称');
+        $form->text('type_name', '类型名称')->rules('required');
 //        $form->text('type_code', 'Type code');
         $form->radio('is_del', '是否启用')->options(['0' => '是', '1'=> '否'])->default('0');
 

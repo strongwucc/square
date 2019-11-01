@@ -132,9 +132,9 @@ class O2oBannerController extends Controller
     {
         $form = new Form(new O2oBanner);
 
-        $form->text('banner_name', '名称');
-        $form->text('banner_url', '链接');
-        $form->image('banner_pic', '图片');
+        $form->text('banner_name', '名称')->rules('required');
+        $form->text('banner_url', '链接')->rules('required');
+        $form->image('banner_pic', '图片')->rules('required');
         $form->radio('is_del', '是否启用')->options(['0' => '是', '1'=> '否'])->default('0');
 
         return $form;

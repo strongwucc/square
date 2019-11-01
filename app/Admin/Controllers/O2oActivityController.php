@@ -132,9 +132,9 @@ class O2oActivityController extends Controller
     {
         $form = new Form(new O2oActivity);
 
-        $form->text('activity_name', '活动名称');
-        $form->text('activity_url', '链接');
-        $form->image('activity_pic', '图片');
+        $form->text('activity_name', '活动名称')->rules('required');
+        $form->text('activity_url', '链接')->rules('required');
+        $form->image('activity_pic', '图片')->rules('required');
         $form->radio('is_del', '是否启用')->options(['0' => '是', '1'=> '否'])->default('0');
 
         return $form;

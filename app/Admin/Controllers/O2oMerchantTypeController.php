@@ -137,7 +137,7 @@ class O2oMerchantTypeController extends Controller
     {
         $form = new Form(new O2oMerchantType);
 
-        $form->text('type_name', '类型名称');
+        $form->text('type_name', '类型名称')->rules('required');
 //        $form->text('type_code', 'Type code');
 //        $form->text('pcode', 'Pcode');
 //        $form->select('pcode','父级类型')->options('/api/users');

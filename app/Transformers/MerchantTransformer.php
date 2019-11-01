@@ -4,6 +4,7 @@ namespace App\Transformers;
 
 use App\Models\O2oMerchant;
 use App\Models\O2oMemberCollection;
+use App\Models\O2oTitleType;
 use League\Fractal\TransformerAbstract;
 use App\Transformers\CouponTransformer;
 
@@ -27,6 +28,10 @@ class MerchantTransformer extends TransformerAbstract
             $isFav = O2oMemberCollection::where([['mer_id', $merchant->mer_id], ['platform_member_id', $this->member_id]])->count();
         }
 
+        if ($merchant->title) {
+            $titles = O2oTitleType::whereIn('type_code', $merchant->title)->get()->toArray();
+        }
+
         return [
             'id' => $merchant->id,
             'mer_id' => $merchant->mer_id,
@@ -36,6 +41,7 @@ class MerchantTransformer extends TransformerAbstract
             'mobile' => $merchant->contact_mobile,
             'cost' => $merchant->per_cost,
             'title' => $merchant->title,
+            'titles' => $titles,
             'detail' => $merchant->details,
             'open_time' => $merchant->open_time,
             'is_fav' => $isFav,

@@ -132,7 +132,7 @@ class O2oSearchKeywordController extends Controller
     {
         $form = new Form(new O2oSearchKeyword);
 
-        $form->text('keyword', '关键字');
+        $form->text('keyword', '关键字')->rules('required');
         $form->number('num', '序号');
         $form->radio('status', '是否启用')->options(['0' => '否', '1'=> '是'])->default('1');
 
