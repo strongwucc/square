@@ -32,6 +32,7 @@ class MerchantsController extends Controller
         $query = $merchantType->query();
         $query->where('pcode', $pcode);
         $query->where('is_del', 0);
+        $query->orderBy('sort_rank', 'asc');
         $types = $query->get();
 
         return $this->response->collection($types, new MerchantTypeTransformer());
