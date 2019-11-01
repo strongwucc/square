@@ -63,6 +63,8 @@ class MerchantsController extends Controller
             $query->where('per_cost', '<=', $perCostMax);
         }
 
+        $query->orderBy('id', 'desc');
+
         $query->recentReplied();
         $merchants = $query->paginate($pageLimit);
 
