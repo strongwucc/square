@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class O2oSearchKeyword extends Model
 {
     protected $table = 'o2o_search_keyword';
+    public $timestamps = false;
 
     public function scopeWithOrder($query, $order)
     {
