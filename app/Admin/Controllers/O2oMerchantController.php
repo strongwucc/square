@@ -232,6 +232,7 @@ class O2oMerchantController extends Controller
         $form->select('type_code', '商户类型')->options(O2oMerchantType::selectOptions(null, '请选择'));
         $form->multipleSelect('title', '标签')->options(O2oTitleType::all()->pluck('type_name', 'type_code'));
         $form->image('mer_pic', '商户图片');
+        $form->textarea('details', '商户简介');
 
         return $form;
     }
