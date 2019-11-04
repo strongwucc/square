@@ -150,7 +150,7 @@ class O2oMerchantTypeController extends Controller
         $form->select('pcode', '父级类型')->options(O2oMerchantType::selectOptions(null, '请选择'));
         $form->image('tag_pic', '图片');
         $form->text('jump_url', '点击链接');
-        $form->number('sort_rank', '排序');
+        $form->number('sort_rank', '排序')->rules('required')->attribute(['min' => 0])->default(0);
 //        $form->text('is_del', '是否启用');
         $form->radio('is_del', '是否启用')->options(['0' => '是', '1'=> '否'])->default('0');
 

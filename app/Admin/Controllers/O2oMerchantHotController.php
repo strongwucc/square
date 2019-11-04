@@ -138,7 +138,7 @@ class O2oMerchantHotController extends Controller
 
         $form->select('mer_id', '商户')->options($merchant_model->selectHotOptions());
 
-        $form->number('hot_percent', '热门权重');
+        $form->number('hot_percent', '热门权重')->rules('required')->attribute(['min' => 0])->default(0);
 
         // 定义事件回调，当模型即将保存时会触发这个回调
         $form->saving(function (Form $form) use ($merchant_model) {

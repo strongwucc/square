@@ -3,7 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="7d68e055-cbd6-46e1-8aa6-73b201f3a5b6" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Models/O2oSearchKeyword.php" afterPath="$PROJECT_DIR$/app/Models/O2oSearchKeyword.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Admin/Controllers/O2oMerchantHotController.php" afterPath="$PROJECT_DIR$/app/Admin/Controllers/O2oMerchantHotController.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Admin/Controllers/O2oMerchantTypeController.php" afterPath="$PROJECT_DIR$/app/Admin/Controllers/O2oMerchantTypeController.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Admin/Controllers/O2oSearchKeywordController.php" afterPath="$PROJECT_DIR$/app/Admin/Controllers/O2oSearchKeywordController.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -39,10 +41,23 @@
       <file leaf-file-name="O2oSearchKeywordController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Admin/Controllers/O2oSearchKeywordController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="18" column="6" lean-forward="true" selection-start-line="18" selection-start-column="6" selection-end-line="18" selection-end-column="6" />
+            <state relative-caret-position="660">
+              <caret line="129" column="7" lean-forward="true" selection-start-line="129" selection-start-column="7" selection-end-line="129" selection-end-column="7" />
               <folding>
                 <element signature="e#41#73#0#PHP" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="O2oMerchantTypeController.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/Admin/Controllers/O2oMerchantTypeController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="132">
+              <caret line="122" column="34" lean-forward="true" selection-start-line="122" selection-start-column="34" selection-end-line="122" selection-end-column="34" />
+              <folding>
+                <marker date="1572838557904" expanded="true" signature="978:988" ph="..." />
+                <marker date="1572838557904" expanded="true" signature="1018:1030" ph="..." />
               </folding>
             </state>
           </provider>
@@ -58,7 +73,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="O2oSearchKeyword.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="O2oSearchKeyword.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Models/O2oSearchKeyword.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="135">
@@ -86,7 +101,6 @@
       <find>$order_no</find>
       <find>n show</find>
       <find>打折额度百分比，填30就是七折</find>
-      <find>$form-&gt;number(</find>
       <find>discount</find>
       <find>售价</find>
       <find>$coupon_data</find>
@@ -102,6 +116,7 @@
       <find>require</find>
       <find>-&gt;image</find>
       <find>$merchants</find>
+      <find>$form-&gt;number(</find>
     </findStrings>
     <replaceStrings>
       <replace>O2oTitleTypeController</replace>
@@ -178,13 +193,13 @@
         <option value="$PROJECT_DIR$/app/Admin/Controllers/O2oBannerController.php" />
         <option value="$PROJECT_DIR$/app/Admin/Controllers/O2oActivityController.php" />
         <option value="$PROJECT_DIR$/app/Admin/Controllers/O2oPicTypeController.php" />
-        <option value="$PROJECT_DIR$/app/Admin/Controllers/O2oMerchantTypeController.php" />
-        <option value="$PROJECT_DIR$/app/Admin/Controllers/O2oSearchKeywordController.php" />
         <option value="$PROJECT_DIR$/app/Admin/Controllers/O2oTitleTypeController.php" />
         <option value="$PROJECT_DIR$/app/Models/O2oMerchant.php" />
         <option value="$PROJECT_DIR$/app/Transformers/MerchantTransformer.php" />
         <option value="$PROJECT_DIR$/app/Admin/Controllers/O2oMerchantController.php" />
         <option value="$PROJECT_DIR$/app/Models/O2oSearchKeyword.php" />
+        <option value="$PROJECT_DIR$/app/Admin/Controllers/O2oSearchKeywordController.php" />
+        <option value="$PROJECT_DIR$/app/Admin/Controllers/O2oMerchantTypeController.php" />
       </list>
     </option>
   </component>
@@ -423,12 +438,12 @@
       <workItem from="1564371056169" duration="30176000" />
       <workItem from="1571465454953" duration="198000" />
       <workItem from="1572593026453" duration="5619000" />
-      <workItem from="1572834716636" duration="1807000" />
+      <workItem from="1572834716636" duration="2273000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="272775000" />
+    <option name="totallyTimeSpent" value="273241000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
@@ -438,6 +453,7 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32958034" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32958034" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -450,7 +466,6 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32958034" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -696,17 +711,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Admin/Controllers/O2oMerchantTypeController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="316">
-          <caret line="139" column="59" lean-forward="false" selection-start-line="139" selection-start-column="59" selection-end-line="139" selection-end-column="59" />
-          <folding>
-            <marker date="1572612465334" expanded="true" signature="978:988" ph="..." />
-            <marker date="1572612465334" expanded="true" signature="1018:1030" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Api/MerchantsController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="705">
@@ -851,16 +855,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Admin/Controllers/O2oSearchKeywordController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" column="6" lean-forward="true" selection-start-line="18" selection-start-column="6" selection-end-line="18" selection-end-column="6" />
-          <folding>
-            <element signature="e#41#73#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Models/O2oActivity.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="135">
@@ -874,6 +868,27 @@
         <state relative-caret-position="135">
           <caret line="9" column="31" lean-forward="false" selection-start-line="9" selection-start-column="31" selection-end-line="9" selection-end-column="31" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Admin/Controllers/O2oSearchKeywordController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="660">
+          <caret line="129" column="7" lean-forward="true" selection-start-line="129" selection-start-column="7" selection-end-line="129" selection-end-column="7" />
+          <folding>
+            <element signature="e#41#73#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Admin/Controllers/O2oMerchantTypeController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="132">
+          <caret line="122" column="34" lean-forward="true" selection-start-line="122" selection-start-column="34" selection-end-line="122" selection-end-column="34" />
+          <folding>
+            <marker date="1572838557904" expanded="true" signature="978:988" ph="..." />
+            <marker date="1572838557904" expanded="true" signature="1018:1030" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
