@@ -181,7 +181,7 @@ class CouponsController extends Controller
         $where = [['platform_member_id', $this->user->platform_member_id]];
 
         if (!empty($request->qrcode)) {
-            array_push($where, ['pcid', $request->qrcode]);
+            array_push($where, ['qrcode', $request->qrcode]);
         }
 
         $query = $couponBuy->query();
