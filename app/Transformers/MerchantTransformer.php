@@ -2,6 +2,7 @@
 
 namespace App\Transformers;
 
+use App\Models\O2oCoupon;
 use App\Models\O2oMerchant;
 use App\Models\O2oMemberCollection;
 use App\Models\O2oTitleType;
@@ -51,13 +52,7 @@ class MerchantTransformer extends TransformerAbstract
 
     public function includeCoupons(O2oMerchant $merchant)
     {
-        $coupons = [];
-
-        foreach ($merchant->coupons as $key => $value) {
-            if ($value['is_del'] == 0) {
-                array_push($coupons, $value);
-            }
-        }
+        $coupons = O2oCoupon::where([['mer_id', 'like', '%' . $merchant->mer_id . '%'], ['is_del', 0]])->get();
 
         return $this->collection($coupons, new CouponTransformer($this->member_id));
     }

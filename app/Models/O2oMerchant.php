@@ -34,10 +34,10 @@ class O2oMerchant extends Model
         return $query->orderBy('last_time', 'desc');
     }
 
-    public function coupons()
-    {
-        return $this->hasMany('App\Models\O2oCoupon', 'mer_id', 'mer_id');
-    }
+//    public function coupons()
+//    {
+//        return $this->hasMany('App\Models\O2oCoupon', 'mer_id', 'mer_id');
+//    }
 
     public function b2cOrders()
     {
