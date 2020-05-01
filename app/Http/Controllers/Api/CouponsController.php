@@ -172,7 +172,7 @@ class CouponsController extends Controller
             $couponData->addGrantQuantity(1);
         });
 
-        return $this->response->array(['payUrl' => $payUrl]);
+        return $this->response->array(['payUrl' => $payUrl, 'qrcode' => $qrcode]);
 
     }
 

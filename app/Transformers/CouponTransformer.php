@@ -21,9 +21,12 @@ class CouponTransformer extends TransformerAbstract
     {
 
         $user_count = 0;
+        $qrcode = '';
 
         if ($this->member_id) {
-            $user_count = O2oCouponBuy::where([['member_id', $this->member_id], ['pcid', $coupon->pcid], ['buy_status', '1'], ['pay_status', '1']])->count();
+            $user_coupons = O2oCouponBuy::where([['member_id', $this->member_id], ['pcid', $coupon->pcid], ['buy_status', '1'], ['pay_status', '1']])->orderBy('id', 'desc')->get()->toArray();
+            $user_count = empty($user_coupons) ? 0 : count($user_coupons);
+            $qrcode = empty($user_coupons) ? '' : $user_coupons[0]['qrcode'];
         }
 
         $merchants = [];
@@ -64,6 +67,7 @@ class CouponTransformer extends TransformerAbstract
             'sale_price' => $coupon->sale_price,
             'is_buy' => $coupon->is_buy,
             'user_count' => $user_count,
+            'qrcode' => $qrcode,
             'expire_date' => date('Y.m.d', strtotime($coupon->begin_timestamp)) . '-' .date('Y.m.d', strtotime($coupon->end_timestamp)),
             'limit_time_type' => $coupon->limit_time_type,
             'limit_days_and_weeks' => $coupon->limitDaysAndWeeks()

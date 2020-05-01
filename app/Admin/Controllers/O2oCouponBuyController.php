@@ -164,6 +164,10 @@ class O2oCouponBuyController extends Controller
                 '2'             => '已冻结'
             ]);
 
+            $filter->between('createtime', '领取时间')->datetime();
+
+            $filter->between('useInfo.createtime', '核销时间')->datetime();
+
         });
 
         $grid->pcid('优惠券编号');
