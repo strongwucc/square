@@ -417,7 +417,9 @@ class CouponsController extends Controller
 
         DB::commit();
 
-        return $this->response->noContent();
+        $response_data = array('pay_amt'=>$order_pay_amt,'derate_amt'=>$order_derate_amt,'card_type'=>$card_type);
+        return $this->response->array($response_data);
+        #return $this->response->noContent();
     }
 
 }

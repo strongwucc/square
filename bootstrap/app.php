@@ -30,8 +30,8 @@ $app->afterBootstrapping(\Illuminate\Foundation\Bootstrap\LoadConfiguration::cla
         die("Error loading character set utf8");
     }
 
-    $fullUrl = url()->full();
-//    $fullUrl = 'http://district.test/api/';
+//    $fullUrl = url()->full();
+    $fullUrl = 'http://district.test/api/';
     $urlInfo = parse_url($fullUrl);
     $host = explode('.', $urlInfo['host']);
     $districtName = $host[0];
@@ -75,7 +75,7 @@ $app->afterBootstrapping(\Illuminate\Foundation\Bootstrap\LoadConfiguration::cla
     config($payInfo);
 
     // 商圈信息
-    if ($result = mysqli_query($mysqli, "SELECT trading_name,trading_picture FROM sdb_basic_trading WHERE id = '" . $map_data['trading_id'] . "' LIMIT 1")) {
+    if ($result = mysqli_query($mysqli, "SELECT trading_name,trading_picture,app_id,secret FROM sdb_basic_trading WHERE id = '" . $map_data['trading_id'] . "' LIMIT 1")) {
         $trading_data = $result->fetch_array(MYSQLI_ASSOC);
 
         /* free result set */
@@ -86,7 +86,9 @@ $app->afterBootstrapping(\Illuminate\Foundation\Bootstrap\LoadConfiguration::cla
 
     $tradingInfo = [
         'trading.name' => '',
-        'trading.picture' => ''
+        'trading.picture' => '',
+        'trading.app_id' => '',
+        'trading.app_secret' => '',
     ];
 
     if (!empty($trading_data['trading_name'])) {
@@ -94,6 +96,14 @@ $app->afterBootstrapping(\Illuminate\Foundation\Bootstrap\LoadConfiguration::cla
     }
     if (!empty($trading_data['trading_picture'])) {
         $tradingInfo['trading.picture'] = $trading_data['trading_picture'];
+    }
+    if (!empty($trading_data['app_id'])) {
+        $tradingInfo['trading.app_id'] = $trading_data['app_id'];
+        $tradingInfo['services.weixin.client_id'] = $trading_data['app_id'];
+    }
+    if (!empty($trading_data['secret'])) {
+        $tradingInfo['trading.app_secret'] = $trading_data['secret'];
+        $tradingInfo['services.weixin.client_secret'] = $trading_data['secret'];
     }
 
     config($tradingInfo);

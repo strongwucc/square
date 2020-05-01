@@ -154,7 +154,8 @@ class AuthorizationsController extends Controller
             $oauthUser = $driver->userFromToken($token);
         } catch (\Exception $e) {
             // return $this->response->errorUnauthorized('参数错误，未获取用户信息');
-            return $this->errorResponse(403, '参数错误，未获取用户信息：' . $e->getMessage(), 1003);
+            Log::channel('weixin')->info('获取用户信息失败：' . $e->getMessage());
+            return $this->errorResponse(403, '系统开小差啦，请重试', 1003);
         }
 
         switch ($type) {

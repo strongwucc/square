@@ -20,6 +20,10 @@ $api->version('v1', [
     'middleware' => ['serializer:array', 'bindings', 'change-locale', 'api-log', 'cros']
 ], function($api) {
 
+    // 根据 openid 核销优惠券
+        $api->post('coupon/write_off', 'CouponsController@writeOff')
+            ->name('api.coupons.write_off');
+
     $api->group([
         'middleware' => 'api.throttle',
         'limit' => config('api.rate_limits.access.limit'),
@@ -84,10 +88,6 @@ $api->version('v1', [
         // 根据 openid 查询优惠券详情
         $api->post('coupons/openid_detail', 'CouponsController@couponByOpenid')
             ->name('api.coupons.openid_detail');
-
-        // 根据 openid 核销优惠券
-        $api->post('coupon/write_off', 'CouponsController@writeOff')
-            ->name('api.coupons.write_off');
 
         // 支付通知
         $api->post('pay/notify', 'DistrictController@notify')
