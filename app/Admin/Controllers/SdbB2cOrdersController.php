@@ -345,8 +345,22 @@ class SdbB2cOrdersController extends Controller
             }
         });
         $show->total_amount('订单金额');
-        $show->pmt_order('优惠金额')->as(function ($pmt_order) {
-            return number_format($pmt_order, 2, '.', '');
+        $show->pmt_order('优惠金额')->as(function ($pmt_order) use ($order) {
+            $discount_amount = 0;
+            if ($order->ectools_payments) {
+                $ectools_payments = json_decode($order->ectools_payments,true);
+                if ($ectools_payments) {
+                    foreach ($ectools_payments as $ectools_payment) {
+                        if ($ectools_payment['pay_app_id'] == '-1') {
+                            $discount_amount += floatval($ectools_payment['money']);
+                        }
+                    }
+                }
+            }
+            if ($pmt_order) {
+                $discount_amount += floatval($pmt_order);
+            }
+            return number_format($discount_amount, 2, '.', '');
         });
         $show->payed('支付金额')->as(function ($payed) {
             return number_format($payed, 2, '.', '');
