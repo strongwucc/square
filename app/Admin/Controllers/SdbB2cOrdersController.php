@@ -128,6 +128,7 @@ class SdbB2cOrdersController extends Controller
                 'wxpaynative'       => '微信支付',
                 'cardpay'           => '刷卡支付',
                 'yktpay'            => '一卡通支付',
+                'hkpay'             => '扫码支付',
                 '-1'                => '优惠券抵扣'
             ]);
             $filter->equal('pay_status', '付款状态')->radio([
@@ -207,6 +208,9 @@ class SdbB2cOrdersController extends Controller
             }
             if ($payment == 'yktpay') {
                 return '一卡通支付';
+            }
+            if ($payment == 'hkpay') {
+                return '扫码支付';
             }
         });
 //        $grid->shipping_id('Shipping id');
@@ -386,6 +390,9 @@ class SdbB2cOrdersController extends Controller
             }
             if ($payment == 'yktpay') {
                 return '一卡通支付';
+            }
+            if ($payment == 'hkpay') {
+                return '扫码支付';
             }
         });
 //        $show->final_amount('Final amount');
