@@ -46,6 +46,24 @@ function send_msg($mobile, $content){
     return json_decode($redata,true);
 }
 
+/**
+ * 调用亚联通短信接口
+ */
+function ylt_sms_send($mobile, $content){
+
+    $url = env('YLT_SMS_URL');
+    $key = env('YLT_SMS_KEY');
+    $appId = env('YLT_SMS_APPID');
+
+    $timestamp = date('YmdHis');
+    $sign = md5($key.$timestamp);
+
+    $url .= '?appId='.$appId.'&timestamp='.$timestamp.'&sign='.$sign.'&mobiles='.$mobile.'&content='.urlencode($content);
+    $arr = array();
+    $redata = sms_post($url, $arr);
+    return json_decode($redata,true);
+}
+
 function get_member_id()
 {
     return time() . str_pad(rand(1, 99999999), 8, '0', STR_PAD_LEFT) ;
