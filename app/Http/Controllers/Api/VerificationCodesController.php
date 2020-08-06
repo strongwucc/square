@@ -18,7 +18,7 @@ class VerificationCodesController extends Controller
         //*//
         try {
             Log::channel('sms')->info('短信验证码发送手机号]：' . $mobile);
-            $content = '短信验证码：' . $code . ',请不要把验证码泄露给其他人，如非本人操作，请勿理会！4分钟内有效。';
+            $content = '【亚联通】短信验证码：' . $code . ',请不要把验证码泄露给其他人，如非本人操作，请勿理会！4分钟内有效。';
             Log::channel('sms')->info('短信验证码发送内容]：' . $content);
             $result = ylt_sms_send($mobile, $content);
             Log::channel('sms')->info('短信验证码发送返回报文]：' . json_encode($result));
