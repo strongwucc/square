@@ -12,3 +12,4 @@
 */
 
 Route::get('/', 'PagesController@root')->name('root');
+Route::get('/weixin_redirect', 'PagesController@weixin_redirect')->name('weixin_redirect');

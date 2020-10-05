@@ -315,7 +315,11 @@ class CouponsController extends Controller
             ->first();
 
         if (!$coupon_data) {
+<<<<<<< HEAD
             return $this->errorResponse(404, '优惠券不存在，或已使用', 1002);
+=======
+            return $this->errorResponse(404, '优惠券不存在或已使用', 1002);
+>>>>>>> 232f05ec99533f515731f08695598c2f23b7e0c9
         }
 
         // 检查适用商户
