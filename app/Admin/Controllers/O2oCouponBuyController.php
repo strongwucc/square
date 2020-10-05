@@ -131,6 +131,14 @@ class O2oCouponBuyController extends Controller
 
             $filter->where(function ($query) {
 
+                $query->whereHas('member', function ($query) {
+                    $query->where('nickname', 'like', "%{$this->input}%");
+                });
+
+            }, '用户昵称');
+
+            $filter->where(function ($query) {
+
                 switch ($this->input) {
                     case '':
                         break;
@@ -175,7 +183,10 @@ class O2oCouponBuyController extends Controller
            return $this->coupon ? $this->coupon->title : '-';
         });
         $grid->createtime('领取时间');
-        $grid->openid('用户openid');
+        // $grid->openid('用户openid');
+        $grid->column('nickname', '用户昵称')->display(function () {
+           return $this->member ? $this->member->nickname : '-';
+        });
         $grid->use_status('使用状态')->display(function ($use_status) {
             if ($use_status == '0') {
                 return '未使用';
