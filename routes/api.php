@@ -93,6 +93,10 @@ $api->version('v1', [
         $api->post('pay/notify', 'DistrictController@notify')
             ->name('api.pay.notify');
 
+        // hkpay支付通知
+        $api->post('pay/hk_notify', 'DistrictController@hkNotify')
+            ->name('api.pay.hk_notify');
+
         // 刷新token
         $api->post('authorizations/update', 'AuthorizationsController@update')
             ->name('api.authorizations.update');

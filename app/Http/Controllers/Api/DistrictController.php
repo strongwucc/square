@@ -59,6 +59,46 @@ class DistrictController extends Controller
         echo 'success';exit;
     }
 
+    public function hkNotify(Request $request)
+    {
+        $notifyData = $request->all();
+
+        $orderModel = new O2oOrder();
+        $couponBuyModel = new O2oCouponBuy();
+
+        $order = $orderModel->where('order_no', $notifyData['out_trade_no'])->first();
+
+        if (!$order) {
+            echo 'fail';exit;
+        }
+
+        DB::beginTransaction();
+
+        $order->pay_result = '0000';
+        $order->remark = $notifyData['trade_no'];
+
+        $orderRes = $order->save();
+
+        if (!$orderRes) {
+            DB::rollBack();
+            echo 'fail';exit;
+        }
+
+        // 优惠券
+        if ($order->source == '02') {
+            $payInfo = json_decode($order->pay_info, true);
+            $couponBuyRes = $couponBuyModel->where('from_order_id', $notifyData['out_trade_no'])->update(['pay_status'=>'1']);
+            if (!$couponBuyRes) {
+                DB::rollBack();
+                echo 'fail';exit;
+            }
+        }
+
+        DB::commit();
+
+        echo 'success';exit;
+    }
+
     public function info()
     {
         $name = config('trading.name');

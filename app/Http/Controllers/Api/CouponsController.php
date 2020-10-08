@@ -168,7 +168,7 @@ class CouponsController extends Controller
                     'totalAmount' => $couponData->sale_price * 100,
                     'appId' => 'appId',
                     'openId' => $this->user->openid,
-                    'notifyUrl' => url('api/pay/notify'),
+                    'notifyUrl' => url('api/pay/hk_notify'),
                     'merKey' => 'merKey',
                 ];
                 $payMsg = '';
