@@ -229,3 +229,79 @@ function emoji_decode($str){
     }, $str);
     return $strDecode;
 }
+
+/**
+ * 海科支付
+ */
+function hkpay($data, &$msg) {
+
+    $pay_data = array(
+        'accessid' => $data['accessId'],
+        'merch_no' => $data['merchNo'],
+        'out_trade_no' => $data['orderNo'],
+        'total_amount' => $data['totalAmount'],
+        'appid' => $data['appId'],
+        'openid' => $data['openId'],
+        'notify_url' => $data['notifyUrl']
+    );
+
+    $sign = makeSign($pay_data, $data['merKey']);
+    $pay_data['sign'] = $sign;
+
+    Log::channel('pay')->info('[海科支付请求报文]：' . print_r($pay_data, true));
+    $pay_res = post_json(env('HKPAY_SUBMIT_URL'), $pay_data);
+    Log::channel('pay')->info('[海科支付响应报文]：' . $pay_res);
+
+    $res_data = json_decode($pay_res, true);
+
+    $native_obj = array(
+        'appId' => isset($res_data['appid']) ? $res_data['appid'] : '',
+        'package' => isset($res_data['package']) ? $res_data['package'] : '',
+        'timeStamp' => isset($res_data['timeStamp']) ? $res_data['timeStamp'] : '',
+        'nonceStr' => isset($res_data['nonceStr']) ? $res_data['nonceStr'] : '',
+        'paySign' => isset($res_data['paySign']) ? $res_data['paySign'] : '',
+        'signType' => isset($res_data['signType']) ? $res_data['signType'] : '',
+    );
+
+    return $native_obj;
+
+}
+
+/**
+ * 格式化参数格式化成url参数
+ */
+function toUrlParams($data)
+{
+    $buff = "";
+    foreach ($data as $k => $v)
+    {
+        if($k != "sign" && $v != "" && !is_array($v)){
+            $buff .= $k . "=" . $v . "&";
+        }
+    }
+
+    $buff = trim($buff, "&");
+    return $buff;
+}
+
+/**
+ * 生成签名
+ * @param WxPayConfigInterface $config  配置对象
+ * @param bool $needSignType  是否需要补signtype
+ * @return 签名，本函数不覆盖sign成员变量，如要设置签名需要调用SetSign方法赋值
+ */
+function makeSign($data,$key)
+{
+    //签名步骤一：按字典序排序参数
+    ksort($data);
+    $string = toUrlParams($data);
+    //签名步骤二：在string后加入KEY
+    #$string = $string . "&key=renlianzhifu45879576894859307652";
+    $string = $string .$key;
+    //签名步骤三：MD5加密或者HMAC-SHA256
+    #echo $string;exit;
+    $string = md5($string);
+    //签名步骤四：所有字符转为大写
+    $result = strtoupper($string);
+    return $result;
+}

@@ -103,6 +103,7 @@ class CouponsController extends Controller
         } while ($row);
 
         $payUrl = '';
+        $payData = [];
 
         \DB::transaction(function () use ($couponBuy, $couponData, $request, $qrcode, &$payUrl) {
 
@@ -143,22 +144,34 @@ class CouponsController extends Controller
                     'etone_order_id' => $qrcode
                 ]);
 
-                $zhusao = [
-                    'merchantId' => $payConfig['mch_id'],
-                    'merOrderNum' => $orderNo,
-                    'tranAmt' => $couponData->sale_price * 100,
-                    'sysTraceNum' => $orderNo,
-                    'tranDateTime' => date('YmdHis', $nowTime),
-                    'frontUrl' => $request->frontUrl ? $request->frontUrl : '',
-                    'notifyUrl' => $payConfig['back_url'] ? $payConfig['back_url'] : url('api/pay/notify'),
-                    'merKey' => $payConfig['mch_key']
+//                $zhusao = [
+//                    'merchantId' => $payConfig['mch_id'],
+//                    'merOrderNum' => $orderNo,
+//                    'tranAmt' => $couponData->sale_price * 100,
+//                    'sysTraceNum' => $orderNo,
+//                    'tranDateTime' => date('YmdHis', $nowTime),
+//                    'frontUrl' => $request->frontUrl ? $request->frontUrl : '',
+//                    'notifyUrl' => $payConfig['back_url'] ? $payConfig['back_url'] : url('api/pay/notify'),
+//                    'merKey' => $payConfig['mch_key']
+//                ];
+//                $payMsg = '';
+//                $payUrl = zhusao($zhusao, $payMsg);
+//
+//                if (!$payUrl) {
+//                    return $this->errorResponse(422, $payMsg, 1004);
+//                }
+
+                $hkpay = [
+                    'accessId' => 'accessId',
+                    'merchNo' => 'merchNo',
+                    'orderNo' => $orderNo,
+                    'totalAmount' => $couponData->sale_price * 100,
+                    'appId' => 'appId',
+                    'openId' => $this->user->openid,
+                    'notifyUrl' => url('api/pay/notify'),
                 ];
                 $payMsg = '';
-                $payUrl = zhusao($zhusao, $payMsg);
-
-                if (!$payUrl) {
-                    return $this->errorResponse(422, $payMsg, 1004);
-                }
+                $payData = hkpay($hkpay, $payMsg);
 
                 $couponBuy->from_order_id = $orderNo;
                 $couponBuy->pay_status = '0';
@@ -172,7 +185,7 @@ class CouponsController extends Controller
             $couponData->addGrantQuantity(1);
         });
 
-        return $this->response->array(['payUrl' => $payUrl, 'qrcode' => $qrcode]);
+        return $this->response->array(['payUrl' => $payUrl, 'qrcode' => $qrcode, 'payData' => $payData]);
 
     }
 
