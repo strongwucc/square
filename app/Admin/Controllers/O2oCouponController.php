@@ -469,6 +469,10 @@ class O2oCouponController extends Controller
                 $form->model()->coupon_status = 0;
             }
 
+            if ($form->sale_price > 0) {
+                $form->model()->is_buy = 2;
+            }
+
             $coupon_merchant_model = new O2oCouponMerchant();
             $coupon_merchant_model->where('pcid', $pcid)->delete();
 
