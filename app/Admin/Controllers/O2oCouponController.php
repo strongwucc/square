@@ -409,7 +409,7 @@ class O2oCouponController extends Controller
         $form->number('day_get_limit', '每日领取限制')->rules('required')->attribute(['min' => 0])->help('单个用户每日领取数量限制');
         $form->text('description', '优惠券描述')->rules('required');
         $form->number('fixed_begin_term', '领取有效期天数')->rules('required')->attribute(['min' => 0])->help('券有效期不超过券模板结束时间，不填时默认有效期等同券模板结束时间,上限100天');
-//        $form->decimal('sale_price', '售价')->default(0.000);
+        $form->decimal('sale_price', '售价')->default(0.000);
         $form->date('begin_timestamp', '开始时间');
         $form->date('end_timestamp', '结束时间');
         $form->radio('limit_time_type', '限制使用时间类型')->options(['0' => '可用时间', '1'=> '不可用时间'])->default('0');
@@ -523,7 +523,7 @@ class O2oCouponController extends Controller
         $form->number('get_limit', '领取限制')->rules('required')->attribute(['min' => 0])->help('单个用户领取数量限制')->default(0);
         $form->number('day_get_limit', '每日领取限制')->rules('required')->attribute(['min' => 0])->help('单个用户每日领取数量限制')->default(0);
         $form->text('description', '优惠券描述')->rules('required');
-//        $form->decimal('sale_price', '售价')->default(0.000);
+        $form->decimal('sale_price', '售价')->default(0.000);
         $form->date('begin_timestamp', '开始时间');
         $form->date('end_timestamp', '结束时间');
         $form->radio('limit_time_type', '限制使用时间类型')->options(['0' => '可用时间', '1'=> '不可用时间'])->default('0');
@@ -590,7 +590,7 @@ class O2oCouponController extends Controller
         $form->number('get_limit', '领取限制')->rules('required')->attribute(['min' => 0])->help('单个用户领取数量限制')->default(0);
         $form->number('day_get_limit', '每日领取限制')->rules('required')->attribute(['min' => 0])->help('单个用户每日领取数量限制')->default(0);
         $form->text('description', '优惠券描述')->rules('required');
-//        $form->decimal('sale_price', '售价')->default(0.000);
+        $form->decimal('sale_price', '售价')->default(0.000);
         $form->date('begin_timestamp', '开始时间');
         $form->date('end_timestamp', '结束时间');
         $form->radio('limit_time_type', '限制使用时间类型')->options(['0' => '可用时间', '1'=> '不可用时间'])->default('0');
@@ -659,7 +659,7 @@ class O2oCouponController extends Controller
         $form->number('day_get_limit', '每日领取限制')->rules('required')->attribute(['min' => 0])->help('单个用户每日领取数量限制')->default(0);
         $form->text('description', '优惠券描述')->rules('required');
         $form->number('fixed_begin_term', '领取有效期天数')->rules('required')->attribute(['min' => 0])->help('券有效期不超过券模板结束时间，不填时默认有效期等同券模板结束时间,上限100天')->default(0);
-//        $form->decimal('sale_price', '售价')->default(0.000);
+        $form->decimal('sale_price', '售价')->default(0.000);
         $form->date('begin_timestamp', '开始时间');
         $form->date('end_timestamp', '结束时间');
         $form->radio('limit_time_type', '限制使用时间类型')->options(['0' => '可用时间', '1'=> '不可用时间'])->default('0');
@@ -727,7 +727,7 @@ class O2oCouponController extends Controller
         $form->number('day_get_limit', '每日领取限制')->rules('required')->attribute(['min' => 0])->help('单个用户每日领取数量限制')->default(0);
         $form->text('description', '优惠券描述')->rules('required');
         $form->number('fixed_begin_term', '领取有效期天数')->rules('required')->attribute(['min' => 0])->help('券有效期不超过券模板结束时间，不填时默认有效期等同券模板结束时间,上限100天')->default(0);
-//        $form->decimal('sale_price', '售价')->default(0.000);
+        $form->decimal('sale_price', '售价')->default(0.000);
         $form->date('begin_timestamp', '开始时间');
         $form->date('end_timestamp', '结束时间');
         $form->radio('limit_time_type', '限制使用时间类型')->options(['0' => '可用时间', '1'=> '不可用时间'])->default('0');
