@@ -103,7 +103,7 @@ class CouponsController extends Controller
         } while ($row);
 
         $payUrl = '';
-        $payData = [];
+        $payData = '';
 
         \DB::transaction(function () use ($couponBuy, $couponData, $request, $qrcode, &$payUrl) {
 
