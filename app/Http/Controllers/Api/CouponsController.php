@@ -105,7 +105,7 @@ class CouponsController extends Controller
         $payUrl = '';
         $payData = '';
 
-        \DB::transaction(function () use ($couponBuy, $couponData, $request, $qrcode, &$payUrl) {
+        \DB::transaction(function () use ($couponBuy, $couponData, $request, $qrcode, &$payUrl, &$payData) {
 
             $nowTime = time();
             $nowDateTime = date('Y-m-d H:i:s', $nowTime);
