@@ -11,7 +11,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Exception;
 use App\Models\O2oOrder;
 use Illuminate\Support\Facades\Log;
-use CloseOrder;
+use App\Jobs\CloseOrder;
 
 class UnPayedOrder implements ShouldQueue
 {

@@ -11,6 +11,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Exception;
 use App\Models\O2oOrder;
 use App\Models\O2oCouponBuy;
+use App\Models\O2oCoupon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 
@@ -108,13 +109,13 @@ class CloseOrder implements ShouldQueue
         // 优惠券
         if ($order->source == '02') {
             $couponBuyModel = new O2oCouponBuy();
-            $couponData = $couponBuyModel->where('from_order_id', $order->order_no)->first();
-            if ($couponData) {
-                if ($couponData->decreaseGrantQuantity(1) <= 0) {
+            $couponBuyData = $couponBuyModel->where('from_order_id', $order->order_no)->first();
+            if ($couponBuyData->coupon) {
+                if ($couponBuyData->coupon->decreaseGrantQuantity(1) <= 0) {
                     DB::rollBack();
                     return false;
                 }
-                $couponData->addQuantity(1);
+                $couponBuyData->coupon->addQuantity(1);
             }
         }
 
