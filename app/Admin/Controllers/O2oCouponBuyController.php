@@ -6,6 +6,7 @@ use App\Admin\Extensions\Exporters\CouponBuyExporter;
 use App\Models\O2oCouponBuy;
 use App\Http\Controllers\Controller;
 use App\Models\O2oMember;
+use App\Models\B2cOrder;
 use App\Models\O2oMerchant;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
@@ -230,7 +231,10 @@ class O2oCouponBuyController extends Controller
             return $this->use_status == '1' ? $this->useInfo->order_derate_amt : '-';
         });
         $grid->column('order_pay_amt' ,'实付金额(元)')->display(function () {
-            return $this->use_status == '1' ? $this->useInfo->order_pay_amt : '-';
+            // 判断订单是否支付成功
+            $order_id = $this->useInfo->mer_id . $this->useInfo->order_no;
+            $b2c_order = B2cOrder::where('order_id', $order_id)->first();
+            return $this->use_status == '1' && $b2c_order && $b2c_order->pay_status == '1' ? $this->useInfo->order_pay_amt : '-';
         });
 //        $grid->last_modified('Last modified');
 //        $grid->platform_member_id('Platform member id');
