@@ -30,7 +30,7 @@ class O2oMerchantController extends Controller
     public function index(Content $content)
     {
         return $content
-            ->header('商户列表')
+            ->header('供应商列表')
 //            ->description('description')
             ->body($this->grid());
     }
