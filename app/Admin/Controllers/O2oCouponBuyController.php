@@ -232,9 +232,12 @@ class O2oCouponBuyController extends Controller
         });
         $grid->column('order_pay_amt' ,'实付金额(元)')->display(function () {
             // 判断订单是否支付成功
-            $order_id = $this->useInfo->mer_id . $this->useInfo->order_no;
-            $b2c_order = B2cOrder::where('order_id', $order_id)->first();
-            return $this->use_status == '1' && $b2c_order && $b2c_order->pay_status == '1' ? $this->useInfo->order_pay_amt : '-';
+            if ($this->useInfo) {
+                $order_id = $this->useInfo->mer_id . $this->useInfo->order_no;
+                $b2c_order = B2cOrder::where('order_id', $order_id)->first();
+            }
+
+            return $this->use_status == '1' && isset($b2c_order) && $b2c_order->pay_status == '1' ? $this->useInfo->order_pay_amt : '-';
         });
 //        $grid->last_modified('Last modified');
 //        $grid->platform_member_id('Platform member id');
