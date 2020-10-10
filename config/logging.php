@@ -117,6 +117,13 @@ return [
             'level' => 'debug',
             'days' => 14,
         ],
+
+        'queue' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/queue.log'),
+            'level' => 'debug',
+            'days' => 14,
+        ],
     ],
 
 ];

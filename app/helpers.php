@@ -267,6 +267,24 @@ function hkpay($data, &$msg) {
 
 }
 
+function hk_query($data, &$msg){
+
+    $query_data = array(
+        'accessid' => $data['accessId'],
+        'out_trade_no' => $data['outTradeNo']
+    );
+
+    $query_data['sign'] = makeSign($query_data, $data['merKey']);
+    Log::channel('pay')->info('[海科交易查询请求报文]：' . print_r($query_data, true));
+    $query_res = post_json(env('HKPAY_QUERY_URL'), $query_data);
+    Log::channel('pay')->info('[海科交易查询响应报文]：' . print_r($query_res, true));
+    $res_data = json_decode($query_res,true);
+    if($res_data['return_code'] == '10000' && $res_data['trade_status'] == '1'){
+        return true;
+    }
+    return false;
+}
+
 /**
  * 格式化参数格式化成url参数
  */
