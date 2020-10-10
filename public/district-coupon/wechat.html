@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="format-detection" content="telephone=yes" />
+    <meta name="revisit-after" content="1 days" />
+    <meta content="all" name="robots" />
+    <title>正在跳转中</title>
+    <link rel="shortcut icon" href="" type="image/gif" />
+  </head>
+  <body>
+
+  </body>
+  <script>
+    var url = window.location.href;
+    var num = url.indexOf("?");
+    var params = url.substr(num+1);
+    var args = {}, // 保存参数数据的对象
+      items = params.length ? params.split("&") : [], // 取得每一个参数项,
+      item = null,
+      len = items.length;
+
+    for(var i = 0; i < len; i++) {
+      item = items[i].split("=");
+      var name = item[0],
+        value = item[1];
+      if(name) {
+        args[name] = value;
+      }
+    }
+    var redirect_url = './#/';
+    if(args.code){
+      redirect_url += 'bind_wechat/'+args.code;
+    } else {
+      redirect_url += 'error/哎呀，出错啦';
+    }
+    window.location.href = redirect_url;
+  </script>
+</html>

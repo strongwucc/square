@@ -15,3 +15,5 @@ npm-debug.log
 yarn-error.log
 /public/business-district
 /.idea
+/public/district-coupon/static
+/public/district-coupon/index.html
