@@ -162,14 +162,14 @@ class CouponsController extends Controller
 //                }
 
                 $hkpay = [
-                    'accessId' => 'accessId',
-                    'merchNo' => 'merchNo',
+                    'accessId' => env('HKPAY_ACCESS_ID'),
+                    'merchNo' => $payConfig['mch_id'],
                     'orderNo' => $orderNo,
                     'totalAmount' => $couponData->sale_price * 100,
-                    'appId' => 'appId',
+                    'appId' => $app_id = config('trading.app_id'),
                     'openId' => $this->user->openid,
                     'notifyUrl' => url('api/pay/hk_notify'),
-                    'merKey' => 'merKey',
+                    'merKey' => $payConfig['mer_key'],
                 ];
                 $payMsg = '';
                 $payData = hkpay($hkpay, $payMsg);

@@ -41,10 +41,12 @@ class CloseOrder implements ShouldQueue
      */
     public function handle()
     {
+        $payConfig = config('etonepay', ['mch_id'=>'', 'mer_key'=>'']);
+
         $query_data = array(
-            'accessId' => 'accessId',
+            'accessId' => env('HKPAY_ACCESS_ID'),
             'outTradeNo' => $this->order->order_no,
-            'merKey' => 'merKey'
+            'merKey' => $payConfig['mer_key']
         );
         $query_msg = '';
         $payed = hk_query($query_data, $query_msg);
