@@ -128,7 +128,7 @@ class CouponsController extends Controller
                     $row = O2oOrder::where('order_no', $orderNo)->count();
                 } while ($row);
 
-                $payConfig = config('etonepay', ['mch_id'=>'', 'mer_key'=>'']);
+                $payConfig = config('etonepay', ['mch_id'=>'', 'mch_key'=>'']);
 
                 O2oOrder::create([
                     'order_no' => $orderNo,
@@ -169,7 +169,7 @@ class CouponsController extends Controller
                     'appId' => $app_id = config('trading.app_id'),
                     'openId' => $this->user->openid,
                     'notifyUrl' => url('api/pay/hk_notify'),
-                    'merKey' => $payConfig['mer_key'],
+                    'merKey' => $payConfig['mch_key'],
                 ];
                 $payMsg = '';
                 $payData = hkpay($hkpay, $payMsg);
