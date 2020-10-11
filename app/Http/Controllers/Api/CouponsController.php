@@ -128,11 +128,11 @@ class CouponsController extends Controller
                     $row = O2oOrder::where('order_no', $orderNo)->count();
                 } while ($row);
 
-                $payConfig = config('etonepay', ['mch_id'=>'', 'mch_key'=>'']);
+//                $payConfig = config('etonepay', ['mch_id'=>'', 'mch_key'=>'']);
 
                 O2oOrder::create([
                     'order_no' => $orderNo,
-                    'mch_id' => $payConfig['mch_id'],
+                    'mch_id' => config('etonepay.mch_id'),
                     'member_id' => $this->user->platform_member_id,
                     'source' => '02',
                     'pay_amount' => $couponData->sale_price * 100,
@@ -163,13 +163,13 @@ class CouponsController extends Controller
 
                 $hkpay = [
                     'accessId' => env('HKPAY_ACCESS_ID'),
-                    'merchNo' => $payConfig['mch_id'],
+                    'merchNo' => config('etonepay.mch_id'),
                     'orderNo' => $orderNo,
                     'totalAmount' => $couponData->sale_price * 100,
                     'appId' => $app_id = config('trading.app_id'),
                     'openId' => $this->user->openid,
                     'notifyUrl' => url('api/pay/hk_notify'),
-                    'merKey' => $payConfig['mch_key'],
+                    'merKey' => config('etonepay.mch_key'),
                 ];
                 $payMsg = '';
                 $payData = hkpay($hkpay, $payMsg);
