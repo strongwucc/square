@@ -257,10 +257,10 @@ function hkpay($data, &$msg) {
     $native_obj = array(
         'appId' => isset($res_data['appid']) ? $res_data['appid'] : '',
         'package' => isset($res_data['package']) ? $res_data['package'] : '',
-        'timeStamp' => isset($res_data['timeStamp']) ? $res_data['timeStamp'] : '',
-        'nonceStr' => isset($res_data['nonceStr']) ? $res_data['nonceStr'] : '',
-        'paySign' => isset($res_data['paySign']) ? $res_data['paySign'] : '',
-        'signType' => isset($res_data['signType']) ? $res_data['signType'] : '',
+        'timeStamp' => isset($res_data['timestamp']) ? $res_data['timestamp'] : '',
+        'nonceStr' => isset($res_data['noncestr']) ? $res_data['noncestr'] : '',
+        'paySign' => isset($res_data['paysign']) ? $res_data['paysign'] : '',
+        'signType' => isset($res_data['signtype']) ? $res_data['signtype'] : '',
     );
 
     return $native_obj;
