@@ -198,7 +198,7 @@ class O2oCouponBuyController extends Controller
             if ($use_status == '2') {
                 return '已过期';
             }
-        });
+        })->editable('select', [0 => '未使用', 1 => '已使用', 2 => '已过期']);
         $grid->qrcode('核销码');
 //        $grid->order_id('Order id');
 //        $grid->from_order_id('来源订单号');
