@@ -170,7 +170,7 @@ class CouponsController extends Controller
                     'accessId' => env('HKPAY_ACCESS_ID'),
                     'merchNo' => config('etonepay.mch_id'),
                     'orderNo' => $orderNo,
-                    'totalAmount' => $couponData->sale_price * 100,
+                    'totalAmount' => $couponData->sale_price,
                     'appId' => $app_id = config('trading.app_id'),
                     'openId' => $this->user->openid,
                     'notifyUrl' => url('api/pay/hk_notify'),
