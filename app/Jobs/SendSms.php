@@ -19,7 +19,7 @@ class SendSms implements ShouldQueue
 
     protected $order;
 
-    public $tries = 3;
+    public $tries = 1;
 
     /**
      * Create a new job instance.
