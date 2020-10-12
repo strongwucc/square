@@ -99,7 +99,7 @@ class DistrictController extends Controller
             }
 
             // 发送短信
-            CloseOrder::dispatch($order);
+            SendSms::dispatch($order);
         }
 
         DB::commit();
