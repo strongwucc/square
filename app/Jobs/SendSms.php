@@ -10,6 +10,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 
 use Exception;
 use App\Models\O2oOrder;
+use App\Models\O2oCouponBuy;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 
@@ -18,7 +19,7 @@ class SendSms implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $order;
-    protected $qrcode;
+    protected $coupon;
 
     public $tries = 1;
 
@@ -27,10 +28,10 @@ class SendSms implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(O2oOrder $order, $qrcode)
+    public function __construct(O2oOrder $order, O2oCouponBuy $coupon)
     {
         $this->order = $order;
-        $this->qrcode = $qrcode;
+        $this->coupon = $coupon;
     }
 
     /**
@@ -45,7 +46,7 @@ class SendSms implements ShouldQueue
         $pay_info_json = $this->order->pay_info;
         $pay_info = json_decode($pay_info_json, true);
         if ($pay_info && $pay_info['certNo'] && $pay_info['buyMobile']) {
-            $sms_content = '您已成功购买一张电子券！券码：'.$this->qrcode;
+            $sms_content = '您已成功购买一张电子券！券码：'.$this->coupon->qrcode;
             hk_sms_send($pay_info['buyMobile'], $sms_content);
         }
     }
