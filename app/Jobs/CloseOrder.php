@@ -89,7 +89,8 @@ class CloseOrder implements ShouldQueue
                 return false;
             }
             // 发送短信
-            SendSms::dispatch($order, $couponBuyRes->qrcode);
+            $coupon = $couponBuyModel->where('from_order_id', $order->order_no)->first();
+            SendSms::dispatch($order, $coupon);
         }
 
         DB::commit();

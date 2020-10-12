@@ -103,7 +103,8 @@ class DistrictController extends Controller
             }
 
             // 发送短信
-            SendSms::dispatch($order, $couponBuyRes->qrcode);
+            $coupon = $couponBuyModel->where('from_order_id', $notifyData['out_trade_no'])->first();
+            SendSms::dispatch($order, $coupon);
         }
 
         DB::commit();
