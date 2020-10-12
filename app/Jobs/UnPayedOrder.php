@@ -40,9 +40,9 @@ class UnPayedOrder implements ShouldQueue
     {
         $orderModel = new O2oOrder();
 
-        $cancel_point = date('Y-m-d H:i:s', time() - $this->cancel_mins * 60);
+//        $cancel_point = date('Y-m-d H:i:s', time() - $this->cancel_mins * 60);
 
-        $orderModel->where('pay_result', '1111')->whereDate('tran_time', '<=', $cancel_point)->orderBy('tran_time')->chunk(100, function ($orders) {
+        $orderModel->where('pay_result', '1111')->orderBy('tran_time')->chunk(100, function ($orders) {
             foreach ($orders as $order) {
                 CloseOrder::dispatch($order);
             }

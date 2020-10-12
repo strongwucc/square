@@ -100,32 +100,36 @@ class CloseOrder implements ShouldQueue
 
     protected function order_cancel(O2oOrder $order) {
 
-        DB::beginTransaction();
+        $cancel_mins = env('HKPAY_CANCEL_MINS');
 
-        $order->pay_result = '8888';
+        if ($order->tran_time && (time() - $cancel_mins * 60) >= strtotime($order->tran_time)) {
+            DB::beginTransaction();
 
-        $orderRes = $order->save();
+            $order->pay_result = '8888';
 
-        if (!$orderRes) {
-            DB::rollBack();
-            return false;
-        }
+            $orderRes = $order->save();
 
-        // 优惠券
-        if ($order->source == '02') {
-            $couponBuyModel = new O2oCouponBuy();
-            $couponBuyData = $couponBuyModel->where('from_order_id', $order->order_no)->first();
-            if ($couponBuyData->coupon) {
-                if ($couponBuyData->coupon->decreaseGrantQuantity(1) <= 0) {
-                    DB::rollBack();
-                    return false;
-                }
-                $couponBuyData->coupon->addQuantity(1);
+            if (!$orderRes) {
+                DB::rollBack();
+                return false;
             }
+
+            // 优惠券
+            if ($order->source == '02') {
+                $couponBuyModel = new O2oCouponBuy();
+                $couponBuyData = $couponBuyModel->where('from_order_id', $order->order_no)->first();
+                if ($couponBuyData->coupon) {
+                    if ($couponBuyData->coupon->decreaseGrantQuantity(1) <= 0) {
+                        DB::rollBack();
+                        return false;
+                    }
+                    $couponBuyData->coupon->addQuantity(1);
+                }
+            }
+
+            DB::commit();
+
+            return true;
         }
-
-        DB::commit();
-
-        return true;
     }
 }
