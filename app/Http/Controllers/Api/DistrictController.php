@@ -77,6 +77,10 @@ class DistrictController extends Controller
             echo 'fail';exit;
         }
 
+        if ($order->pay_result == '0000') {
+            echo json_encode(array('result'=>'SUCCESS'));exit;
+        }
+
         DB::beginTransaction();
 
         $order->pay_result = '0000';
@@ -104,7 +108,7 @@ class DistrictController extends Controller
 
         DB::commit();
 
-        echo 'success';exit;
+        echo json_encode(array('result'=>'SUCCESS'));exit;
     }
 
     public function info()

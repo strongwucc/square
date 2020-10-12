@@ -14,6 +14,7 @@ use App\Models\O2oCouponBuy;
 use App\Models\O2oCoupon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
+use App\Jobs\SendSms;
 
 class CloseOrder implements ShouldQueue
 {
@@ -87,6 +88,8 @@ class CloseOrder implements ShouldQueue
                 DB::rollBack();
                 return false;
             }
+            // 发送短信
+            SendSms::dispatch($order);
         }
 
         DB::commit();
