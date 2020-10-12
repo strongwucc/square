@@ -65,6 +65,8 @@ class DistrictController extends Controller
     {
         $notifyData = $request->all();
 
+        Log::channel('pay')->info('[海科支付通知报文]：' . print_r($notifyData, true));
+
         $orderModel = new O2oOrder();
         $couponBuyModel = new O2oCouponBuy();
 
