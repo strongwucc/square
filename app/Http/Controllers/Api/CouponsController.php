@@ -139,7 +139,12 @@ class CouponsController extends Controller
                     'pay_type' => '03',
                     'scan_pay_type' => '01',
                     'pay_result' => '1111',
-                    'pay_info' => json_encode(['memberId'=>$this->user->platform_member_id, 'pcid'=>$couponData->pcid]),
+                    'pay_info' => json_encode([
+                        'memberId'=>$this->user->platform_member_id,
+                        'pcid'=>$couponData->pcid,
+                        'certNo'=>$request->certNo,
+                        'buyMobile'=>$request->buyMobile,
+                    ]),
                     'tran_time' => $nowDateTime,
                     'etone_order_id' => $qrcode
                 ]);

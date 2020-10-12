@@ -34,6 +34,22 @@ function sms_post($url, $post_data)
     return $rtn;
 }
 
+function sms_get($url)
+{
+    $headers = array("Content-type: application/json;charset='utf-8'","Accept: application/json","Cache-Control: no-cache","Pragma: no-cache");
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 60); //设置超时
+    if(0 === strpos(strtolower($url), 'https')) {
+        　　url_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0); //对认证证书来源的检查
+        　　curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0); //从证书中检查SSL加密算法是否存在
+    }
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+    $rtn = curl_exec($ch);
+    curl_close($ch);
+    return $rtn;
+}
+
 /**
  * 调用易通短信接口
  */
@@ -61,6 +77,21 @@ function ylt_sms_send($mobile, $content){
     $url .= '?appId='.$appId.'&timestamp='.$timestamp.'&sign='.$sign.'&mobiles='.$mobile.'&content='.urlencode($content);
     $arr = array();
     $redata = sms_post($url, $arr);
+    return json_decode($redata,true);
+}
+
+/**
+ * 调用海科短信接口
+ */
+function hk_sms_send($mobile, $content){
+
+    $url = env('HK_SMS_URL');
+    $un = env('HK_SMS_UN');
+    $pwd = env('HK_SMS_PWD');
+
+    $url .= '?un='.$un.'&pwd='.$pwd.'&mobile='.$mobile.'&msg='.urlencode($content);
+    $arr = array();
+    $redata = sms_get($url);
     return json_decode($redata,true);
 }
 

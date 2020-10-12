@@ -7,6 +7,8 @@ use App\Models\O2oOrder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
+use App\Jobs\SendSms;
+
 class DistrictController extends Controller
 {
     public function notify(Request $request)
@@ -92,6 +94,9 @@ class DistrictController extends Controller
                 DB::rollBack();
                 echo 'fail';exit;
             }
+
+            // 发送短信
+            CloseOrder::dispatch($order);
         }
 
         DB::commit();
