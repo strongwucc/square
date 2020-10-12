@@ -467,6 +467,7 @@ class O2oCouponController extends Controller
                 $form->model()->createtime = $form->model()->last_modified = time();
                 $form->model()->is_del = 0;
                 $form->model()->coupon_status = 0;
+                $form->model()->grant_quantity = 0;
             }
 
             if ($form->sale_price > 0) {
