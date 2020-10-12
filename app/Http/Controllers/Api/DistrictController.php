@@ -103,7 +103,7 @@ class DistrictController extends Controller
             }
 
             // 发送短信
-            SendSms::dispatch($order);
+            SendSms::dispatch($order, $couponBuyRes->qrcode);
         }
 
         DB::commit();

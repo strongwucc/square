@@ -18,6 +18,7 @@ class SendSms implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $order;
+    protected $qrcode;
 
     public $tries = 1;
 
@@ -26,9 +27,10 @@ class SendSms implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(O2oOrder $order)
+    public function __construct(O2oOrder $order, $qrcode)
     {
         $this->order = $order;
+        $this->qrcode = $qrcode;
     }
 
     /**
@@ -43,7 +45,7 @@ class SendSms implements ShouldQueue
         $pay_info_json = $this->order->pay_info;
         $pay_info = json_decode($pay_info_json, true);
         if ($pay_info && $pay_info['certNo'] && $pay_info['buyMobile']) {
-            $sms_content = '您已成功购买一张电子券！';
+            $sms_content = '您已成功购买一张电子券！券码：'.$this->qrcode;
             hk_sms_send($pay_info['buyMobile'], $sms_content);
         }
     }
