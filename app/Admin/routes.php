@@ -95,6 +95,7 @@ Route::group([
     $router->get('coupons/{id}', 'O2oCouponController@show');
 
     $router->get('coupon_buy', 'O2oCouponBuyController@index');
+    $router->put('coupon_buy/{id}', 'O2oCouponBuyController@update');
 
     $router->get('charts/{action}', 'ChartsController@index');
 

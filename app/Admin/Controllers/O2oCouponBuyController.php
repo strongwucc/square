@@ -188,18 +188,7 @@ class O2oCouponBuyController extends Controller
 //        $grid->column('nickname', '用户昵称')->display(function () {
 //           return $this->member ? $this->member->nickname : '-';
 //        });
-        $grid->use_status('使用状态')->display(function ($use_status) {
-            if ($use_status == '0') {
-                return '未使用';
-            }
-            if ($use_status == '1') {
-                return '已使用';
-            }
-            if ($use_status == '2') {
-                return '已过期';
-            }
-        })->editable('select', [0 => '未使用', 1 => '已使用', 2 => '已过期']);
-        $grid->use_status('使用状态')->editable('select', [0 => '未使用', 1 => '已使用', 2 => '已过期']);
+        $grid->column('use_status', '使用状态')->editable('select', [0 => '未使用', 1 => '已使用', 2 => '已过期']);
         $grid->qrcode('核销码');
 //        $grid->order_id('Order id');
 //        $grid->from_order_id('来源订单号');

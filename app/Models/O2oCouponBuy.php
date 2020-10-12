@@ -8,6 +8,8 @@ class O2oCouponBuy extends Model
 {
     protected $table = 'o2o_promotion_coupon_buy';
 
+    protected $fillable = ['use_status'];
+
     const CREATED_AT = 'createtime';
     const UPDATED_AT = 'last_modified';
 
