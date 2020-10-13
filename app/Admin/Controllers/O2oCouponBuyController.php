@@ -122,6 +122,22 @@ class O2oCouponBuyController extends Controller
 
             $filter->where(function ($query) {
 
+                $query->whereHas('order', function ($query) {
+                    $query->where('cert_no', 'like', "%{$this->input}%");
+                });
+
+            }, '烟草专卖证号');
+
+            $filter->where(function ($query) {
+
+                $query->whereHas('order', function ($query) {
+                    $query->where('buy_mobile', 'like', "%{$this->input}%");
+                });
+
+            }, '联系人手机号');
+
+            $filter->where(function ($query) {
+
                 $query->whereHas('useInfo', function ($query) {
                     $query->whereHas('merchant', function ($query) {
                         $query->where('mer_name', 'like', "%{$this->input}%");
@@ -190,6 +206,12 @@ class O2oCouponBuyController extends Controller
 //        });
         $grid->column('use_status', '使用状态')->editable('select', [0 => '未使用', 1 => '已使用', 2 => '已过期']);
         $grid->qrcode('核销码');
+        $grid->column('cert_no', '烟草专卖证号')->display(function () {
+            return $this->order ? $this->order->cert_no : '-';
+        });
+        $grid->column('buy_mobile', '联系人手机号')->display(function () {
+            return $this->order ? $this->order->buy_mobile : '-';
+        });
 //        $grid->order_id('Order id');
 //        $grid->from_order_id('来源订单号');
 //        $grid->cid('Cid');
