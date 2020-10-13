@@ -42,12 +42,10 @@ class SendSms implements ShouldQueue
      */
     public function handle()
     {
-
-        $pay_info_json = $this->order->pay_info;
-        $pay_info = json_decode($pay_info_json, true);
-        if ($pay_info && $pay_info['certNo'] && $pay_info['buyMobile']) {
+        
+        if ($this->order->cert_no && $this->order->buy_mobile) {
             $sms_content = '您已成功购买一张电子券！券码：'.$this->coupon->qrcode;
-            hk_sms_send($pay_info['buyMobile'], $sms_content);
+            hk_sms_send($this->order->buy_mobile, $sms_content);
         }
     }
 
