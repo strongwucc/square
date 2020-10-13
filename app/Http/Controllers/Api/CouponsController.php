@@ -401,6 +401,14 @@ class CouponsController extends Controller
             $order_pay_amt = bcsub($order_amt, $order_derate_amt, 2);
         }
 
+        // 判断订单是否已有成功的核销记录
+        $exist_count = $couponBuy->where('order_id', $order_no)
+            ->where('use_status', '1')->count();
+
+        if ($exist_count) {
+            return $this->errorResponse(422, '对不起，一张订单只能使用一张优惠券', 1009);
+        }
+
         DB::beginTransaction();
 
         $record_model = new O2oCouponUser();
