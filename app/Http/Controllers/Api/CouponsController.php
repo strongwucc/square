@@ -406,7 +406,7 @@ class CouponsController extends Controller
             ->where('use_status', '1')->count();
 
         if ($exist_count) {
-            return $this->errorResponse(422, '对不起，一张订单只能使用一张优惠券', 1009);
+            return $this->errorResponse(422, '对不起，一笔订单只能使用一张券', 1009);
         }
 
         DB::beginTransaction();
