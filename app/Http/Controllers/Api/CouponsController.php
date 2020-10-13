@@ -142,9 +142,9 @@ class CouponsController extends Controller
                     'pay_info' => json_encode([
                         'memberId'=>$this->user->platform_member_id,
                         'pcid'=>$couponData->pcid,
-                        'certNo'=>$request->certNo,
-                        'buyMobile'=>$request->buyMobile,
                     ]),
+                    'cert_no'=>$request->certNo,
+                    'buy_mobile'=>$request->buyMobile,
                     'tran_time' => $nowDateTime,
                     'etone_order_id' => $qrcode
                 ]);

@@ -23,7 +23,7 @@ class O2oOrderController extends Controller
     public function index(Content $content)
     {
         return $content
-            ->header('商圈订单列表')
+            ->header('订单列表')
 //            ->description('description')
             ->body($this->grid());
     }
@@ -89,7 +89,16 @@ class O2oOrderController extends Controller
             // 在这里添加字段过滤器
             $filter->like('order_no', '订单号');
             $filter->like('mer_id', '商户号');
-            $filter->like('member_id', '会员ID');
+            $filter->like('cert_no', '烟草专卖证号');
+            $filter->like('buy_mobile', '联系人手机号');
+//            $filter->like('member_id', '会员ID');
+//            $filter->where(function ($query) {
+//
+//                $query->whereHas('member', function ($query) {
+//                    $query->where('nickname', 'like', "%{$this->input}%");
+//                });
+//
+//            }, '用户昵称');
             $filter->equal('source', '订单来源')->radio([
                 ''   => '全部',
                 '01'    => '停车缴费',
@@ -142,7 +151,12 @@ class O2oOrderController extends Controller
         });
         $grid->tran_time('下单时间');
         $grid->mch_id('商户号');
-        $grid->member_id('会员ID');
+        $grid->cert_no('烟草专卖证号');
+        $grid->buy_mobile('联系人手机号');
+//        $grid->member_id('会员ID');
+//        $grid->column('nickname', '用户昵称')->display(function () {
+//           return $this->member ? $this->member->nickname : '-';
+//        });
 //        $grid->shopno('Shopno');
 //        $grid->scan_pay_type('Scan pay type');
 //        $grid->pay_info('Pay info');
