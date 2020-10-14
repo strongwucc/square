@@ -136,15 +136,15 @@ class O2oCouponBuyController extends Controller
 
             }, '联系人手机号');
 
-            $filter->where(function ($query) {
-
-                $query->whereHas('useInfo', function ($query) {
-                    $query->whereHas('merchant', function ($query) {
-                        $query->where('mer_name', 'like', "%{$this->input}%");
-                    });
-                });
-
-            }, '核销商户');
+//            $filter->where(function ($query) {
+//
+//                $query->whereHas('useInfo', function ($query) {
+//                    $query->whereHas('merchant', function ($query) {
+//                        $query->where('mer_name', 'like', "%{$this->input}%");
+//                    });
+//                });
+//
+//            }, '核销商户');
 
 //            $filter->where(function ($query) {
 //
@@ -191,7 +191,7 @@ class O2oCouponBuyController extends Controller
 
             $filter->between('createtime', '领取时间')->datetime();
 
-            $filter->between('useInfo.createtime', '核销时间')->datetime();
+//            $filter->between('useInfo.createtime', '核销时间')->datetime();
 
         });
 
@@ -222,35 +222,35 @@ class O2oCouponBuyController extends Controller
 //        $grid->pay_status('Pay status');
 //        $grid->buy_status('Buy status');
 
-        $grid->column('use_time' ,'核销时间')->display(function () {
-            return $this->use_status == '1' ? $this->useInfo->createtime : '-';
-        });
-        $grid->column('mer_id' ,'核销商户')->display(function () {
-
-            if ($this->use_status == '1') {
-                $mer_id = $this->useInfo->mer_id;
-                $merchant = O2oMerchant::where('mer_id', $mer_id)->first();
-                return $merchant ? $merchant->mer_name : '-';
-            }
-
-            return '-';
-        });
-
-        $grid->column('order_amt' ,'交易金额(元)')->display(function () {
-            return $this->use_status == '1' ? $this->useInfo->order_amt : '-';
-        });
-        $grid->column('order_derate_amt' ,'优惠金额(元)')->display(function () {
-            return $this->use_status == '1' ? $this->useInfo->order_derate_amt : '-';
-        });
-        $grid->column('order_pay_amt' ,'实付金额(元)')->display(function () {
-            // 判断订单是否支付成功
-            if ($this->useInfo) {
-                $order_id = $this->useInfo->mer_id . $this->useInfo->order_no;
-                $b2c_order = B2cOrder::where('order_id', $order_id)->first();
-            }
-
-            return $this->use_status == '1' && isset($b2c_order) && $b2c_order->pay_status == '1' ? $this->useInfo->order_pay_amt : '-';
-        });
+//        $grid->column('use_time' ,'核销时间')->display(function () {
+//            return $this->use_status == '1' ? $this->useInfo->createtime : '-';
+//        });
+//        $grid->column('mer_id' ,'核销商户')->display(function () {
+//
+//            if ($this->use_status == '1') {
+//                $mer_id = $this->useInfo->mer_id;
+//                $merchant = O2oMerchant::where('mer_id', $mer_id)->first();
+//                return $merchant ? $merchant->mer_name : '-';
+//            }
+//
+//            return '-';
+//        });
+//
+//        $grid->column('order_amt' ,'交易金额(元)')->display(function () {
+//            return $this->use_status == '1' ? $this->useInfo->order_amt : '-';
+//        });
+//        $grid->column('order_derate_amt' ,'优惠金额(元)')->display(function () {
+//            return $this->use_status == '1' ? $this->useInfo->order_derate_amt : '-';
+//        });
+//        $grid->column('order_pay_amt' ,'实付金额(元)')->display(function () {
+//            // 判断订单是否支付成功
+//            if ($this->useInfo) {
+//                $order_id = $this->useInfo->mer_id . $this->useInfo->order_no;
+//                $b2c_order = B2cOrder::where('order_id', $order_id)->first();
+//            }
+//
+//            return $this->use_status == '1' && isset($b2c_order) && $b2c_order->pay_status == '1' ? $this->useInfo->order_pay_amt : '-';
+//        });
 //        $grid->last_modified('Last modified');
 //        $grid->platform_member_id('Platform member id');
 
