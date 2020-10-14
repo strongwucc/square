@@ -254,6 +254,7 @@ class O2oCouponBuyController extends Controller
 //        $grid->last_modified('Last modified');
 //        $grid->platform_member_id('Platform member id');
 
+        $grid->model()->where('pay_status', '1');
         $grid->model()->orderBy('createtime', 'desc');
 
         return $grid;
