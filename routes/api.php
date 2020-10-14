@@ -77,10 +77,6 @@ $api->version('v1', [
         $api->post('coupons', 'CouponsController@index')
             ->name('api.coupons.index');
 
-        // 优惠券详情
-        $api->post('coupon/detail', 'CouponsController@detail')
-            ->name('api.coupons.detail');
-
         // 根据 openid 查询所有优惠券
         $api->post('coupons/openid', 'CouponsController@couponsByOpenid')
             ->name('api.coupons.openid');
@@ -135,6 +131,10 @@ $api->version('v1', [
             // 积分列表
             $api->post('points', 'UsersController@points')
                 ->name('api.user.points');
+
+            // 优惠券详情
+            $api->post('coupon/detail', 'CouponsController@detail')
+                ->name('api.coupons.detail');
 
             // 领取优惠券TODO
             $api->post('coupon/receive', 'CouponsController@receive')
