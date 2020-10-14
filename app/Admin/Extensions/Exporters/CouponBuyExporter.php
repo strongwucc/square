@@ -9,6 +9,7 @@ namespace App\Admin\Extensions\Exporters;
 
 use App\Models\O2oCoupon;
 use App\Models\O2oCouponUser;
+use App\Models\B2cOrder;
 use Encore\Admin\Grid\Exporters\ExcelExporter;
 use Maatwebsite\Excel\Concerns\WithMapping;
 
@@ -81,6 +82,11 @@ class CouponBuyExporter extends ExcelExporter implements WithMapping
     public function getPayAmt($pcid, $qrcode)
     {
         $coupon = O2oCouponUser::where([['pcid', '=', $pcid], ['qrcode', '=', $qrcode]])->first();
-        return $coupon ? $coupon->order_pay_amt : '';
+        if ($coupon->mer_id && $coupon->order_no) {
+            $order_id = $coupon->mer_id . $coupon->order_no;
+            $b2c_order = B2cOrder::where('order_id', $order_id)->first();
+            return $coupon->use_status == '1' && $b2c_order->pay_status == '1' ? $coupon->order_pay_amt : '';
+        }
+        return '';
     }
 }
