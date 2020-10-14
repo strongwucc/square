@@ -82,10 +82,10 @@ class CouponBuyExporter extends ExcelExporter implements WithMapping
     public function getPayAmt($pcid, $qrcode)
     {
         $coupon = O2oCouponUser::where([['pcid', '=', $pcid], ['qrcode', '=', $qrcode]])->first();
-        if ($coupon->mer_id && $coupon->order_no) {
+        if ($coupon && $coupon->mer_id && $coupon->order_no) {
             $order_id = $coupon->mer_id . $coupon->order_no;
             $b2c_order = B2cOrder::where('order_id', $order_id)->first();
-            return $coupon->use_status == '1' && $b2c_order->pay_status == '1' ? $coupon->order_pay_amt : '';
+            return $b2c_order && $b2c_order->pay_status == '1' ? $coupon->order_pay_amt : '';
         }
         return '';
     }
