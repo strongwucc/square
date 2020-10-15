@@ -176,6 +176,8 @@ class O2oOrderController extends Controller
             });
         });
 
+        $grid->model()->orderBy('tran_time', 'desc');
+
         return $grid;
     }
 

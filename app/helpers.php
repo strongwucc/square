@@ -91,7 +91,9 @@ function hk_sms_send($mobile, $content){
 
     $url .= '?un='.$un.'&pwd='.$pwd.'&mobile='.$mobile.'&msg='.urlencode($content);
     $arr = array();
+    Log::channel('sms')->info('[海科短信接口请求报文]：' . print_r($url, true));
     $redata = sms_get($url);
+    Log::channel('sms')->info('[海科短信接口响应报文]：' . print_r($redata, true));
     return json_decode($redata,true);
 }
 
