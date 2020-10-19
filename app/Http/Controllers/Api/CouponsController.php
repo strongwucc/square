@@ -68,6 +68,35 @@ class CouponsController extends Controller
 
         $couponData = $coupon->where('pcid', $request->pcid)->first();
 
+        if (empty($request->certNo)) {
+            return $this->errorResponse(404, '请填写正确的烟草专卖证号', 1002);
+        }
+
+        if (empty($request->buyMobile)) {
+            return $this->errorResponse(404, '请填写正确的手机号', 1002);
+        }
+
+        if (empty($request->code)) {
+            return $this->errorResponse(404, '请填写短信验证码', 1002);
+        }
+
+        $verifyData = \Cache::get($request->codeKey);
+
+        if (!$verifyData) {
+            // return $this->response->error('验证码已失效', 422);
+            return $this->errorResponse(422, '验证码已失效', 1003);
+        }
+
+        if (!hash_equals($verifyData['code'], $request->code)) {
+            // 返回401
+            // return $this->response->errorUnauthorized('验证码错误');
+            return $this->errorResponse(401, '验证码错误', 1003);
+
+        }
+
+        // 清除验证码缓存
+        \Cache::forget($request->codeKey);
+
         if (empty($couponData)) {
             return $this->errorResponse(404, '优惠券不存在', 1002);
         }
