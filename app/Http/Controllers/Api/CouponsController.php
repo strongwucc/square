@@ -90,7 +90,7 @@ class CouponsController extends Controller
         if (!hash_equals($verifyData['code'], $request->code)) {
             // 返回401
             // return $this->response->errorUnauthorized('验证码错误');
-            return $this->errorResponse(401, '验证码错误', 1003);
+            return $this->errorResponse(422, '验证码错误', 1003);
 
         }
 
