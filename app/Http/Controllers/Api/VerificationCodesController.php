@@ -17,7 +17,7 @@ class VerificationCodesController extends Controller
 
         //*//
         try {
-            $content = '【e通宝】，短信验证码：' . $code . '，请不要把验证码泄露给其他人，如非本人操作，请勿理会！4分钟内有效。';
+            $content = '【优市保理】，短信验证码：' . $code . '，请不要把验证码泄露给其他人，如非本人操作，请勿理会！4分钟内有效。';
             $result = hk_sms_send($mobile, $content);
         } catch (Exception $exception) {
             $message = $exception->getMessage();
