@@ -318,6 +318,26 @@ function hk_query($data, &$msg){
     return false;
 }
 
+function yancao_query($data, &$msg){
+
+    $api_key = env('YANCAO_API_KEY');
+    $api_url = env('YANCAO_API_URL');
+
+    $query_data = array(
+        'liceId' => $data['liceId'],
+        'signature' => md5($data['liceId'] . $api_key)
+    );
+
+    Log::channel('api')->info('[烟草证号查询请求报文]：' . print_r($query_data, true));
+    $query_res = post_json($api_url, $query_data);
+    Log::channel('api')->info('[烟草证号查询响应报文]：' . print_r($query_res, true));
+    $res_data = json_decode($query_res,true);
+    if($res_data['ret_code'] == '0000'){
+        return true;
+    }
+    return false;
+}
+
 /**
  * 格式化参数格式化成url参数
  */
