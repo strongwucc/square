@@ -470,21 +470,21 @@ class CouponsController extends Controller
         #return $this->response->noContent();
     }
 
-    public function test(CouponRequest $request, O2oCoupon $coupon, O2oCouponBuy $couponBuy)
-    {
-
-
-        if (empty($request->certNo)) {
-            return $this->errorResponse(404, '请填写正确的烟草专卖证号', 1002);
-        }
-
-        $res = yancao_query(array('liceId'=>$request->certNo));
-
-        if ($res) {
-            return $this->response->array(array('return_code'=>'0000'));
-        }
-        return $this->response->array(array('return_code'=>'1000'));
-
-    }
+//    public function test(CouponRequest $request, O2oCoupon $coupon, O2oCouponBuy $couponBuy)
+//    {
+//
+//
+//        if (empty($request->certNo)) {
+//            return $this->errorResponse(404, '请填写正确的烟草专卖证号', 1002);
+//        }
+//
+//        $res = yancao_query(array('liceId'=>$request->certNo));
+//
+//        if ($res) {
+//            return $this->response->array(array('return_code'=>'0000'));
+//        }
+//        return $this->response->array(array('return_code'=>'1000'));
+//
+//    }
 
 }

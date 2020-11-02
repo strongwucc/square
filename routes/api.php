@@ -157,7 +157,7 @@ $api->version('v1', [
     });
 
     // 测试
-    $api->post('coupon/test', 'CouponsController@test')
-        ->name('api.coupons.test');
+//    $api->post('coupon/test', 'CouponsController@test')
+//        ->name('api.coupons.test');
 
 });
