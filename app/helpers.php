@@ -339,6 +339,7 @@ function yancao_query($data, &$msg){
     if($res_data['ret_code'] == '0000'){
         return true;
     }
+    $msg = $res_data['ret_msg'] ? $res_data['ret_msg'] : "未找到该烟草证号，请检查是否填写正确";
     return false;
 }
 

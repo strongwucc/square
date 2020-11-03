@@ -72,6 +72,12 @@ class CouponsController extends Controller
             return $this->errorResponse(404, '请填写正确的烟草专卖证号', 1002);
         }
 
+        $liceCheckMsg = '未找到该烟草证号，请检查是否填写正确';
+        $liceCheckRes = yancao_query(array('liceId'=>$request->certNo),$liceCheckMsg);
+        if (!$liceCheckRes) {
+            return $this->errorResponse(404, $liceCheckMsg, 1002);
+        }
+
         if (empty($request->buyMobile)) {
             return $this->errorResponse(404, '请填写正确的手机号', 1002);
         }
