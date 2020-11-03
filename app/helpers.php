@@ -352,6 +352,7 @@ function yancao_query($data, &$msg){
         'signature' => md5($data['liceId'] . $api_key)
     );
 
+    Log::channel('api')->info('[烟草证号查询请求地址]：' . $api_url);
     Log::channel('api')->info('[烟草证号查询请求报文]：' . print_r($query_data, true));
     $query_res = post_yancao($api_url, $query_data);
     Log::channel('api')->info('[烟草证号查询响应报文]：' . print_r($query_res, true));
