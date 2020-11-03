@@ -241,6 +241,26 @@ function post_json($url,$data) {
     return $return;
 }
 
+function post_yancao($url,$data) {
+
+    $data_string = json_encode($data);
+
+    $headers = array(
+        "Content-type: application/json;charset=UTF-8",
+        'Content-Length: ' . strlen($data_string)
+    );
+
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+    $return = curl_exec($ch);//CURLOPT_RETURNTRANSFER 不设置  curl_exec返回TRUE 设置  curl_exec返回json(此处) 失败都返回FALSE
+    curl_close($ch);
+
+    return $return;
+}
+
 //对emoji表情转义
 function emoji_encode($str){
     $strEncode = '';
@@ -333,7 +353,7 @@ function yancao_query($data, &$msg){
     );
 
     Log::channel('api')->info('[烟草证号查询请求报文]：' . print_r($query_data, true));
-    $query_res = post_json($api_url, $query_data);
+    $query_res = post_yancao($api_url, $query_data);
     Log::channel('api')->info('[烟草证号查询响应报文]：' . print_r($query_res, true));
     $res_data = json_decode($query_res,true);
     if($res_data['ret_code'] == '0000'){
