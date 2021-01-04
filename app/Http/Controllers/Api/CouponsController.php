@@ -34,7 +34,6 @@ class CouponsController extends Controller
         }
 
         $query->where('is_del', 0);
-//        $query->where('coupon_status', 0);
         $query->where('end_timestamp', '>=', date('Y-m-d H:i:s'));
 
         $query->recentReplied();
@@ -89,13 +88,10 @@ class CouponsController extends Controller
         $verifyData = \Cache::get($request->codeKey);
 
         if (!$verifyData) {
-            // return $this->response->error('验证码已失效', 422);
             return $this->errorResponse(422, '验证码已失效', 1003);
         }
 
         if (!hash_equals($verifyData['code'], $request->code)) {
-            // 返回401
-            // return $this->response->errorUnauthorized('验证码错误');
             return $this->errorResponse(422, '验证码错误', 1003);
 
         }
@@ -163,8 +159,6 @@ class CouponsController extends Controller
                     $row = O2oOrder::where('order_no', $orderNo)->count();
                 } while ($row);
 
-//                $payConfig = config('etonepay', ['mch_id'=>'', 'mch_key'=>'']);
-
                 O2oOrder::create([
                     'order_no' => $orderNo,
                     'mch_id' => config('etonepay.mch_id'),
@@ -183,23 +177,6 @@ class CouponsController extends Controller
                     'tran_time' => $nowDateTime,
                     'etone_order_id' => $qrcode
                 ]);
-
-//                $zhusao = [
-//                    'merchantId' => $payConfig['mch_id'],
-//                    'merOrderNum' => $orderNo,
-//                    'tranAmt' => $couponData->sale_price * 100,
-//                    'sysTraceNum' => $orderNo,
-//                    'tranDateTime' => date('YmdHis', $nowTime),
-//                    'frontUrl' => $request->frontUrl ? $request->frontUrl : '',
-//                    'notifyUrl' => $payConfig['back_url'] ? $payConfig['back_url'] : url('api/pay/notify'),
-//                    'merKey' => $payConfig['mch_key']
-//                ];
-//                $payMsg = '';
-//                $payUrl = zhusao($zhusao, $payMsg);
-//
-//                if (!$payUrl) {
-//                    return $this->errorResponse(422, $payMsg, 1004);
-//                }
 
                 $hkpay = [
                     'accessId' => env('HKPAY_ACCESS_ID'),
