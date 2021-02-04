@@ -42,7 +42,7 @@ class SendSms implements ShouldQueue
      */
     public function handle()
     {
-        
+
         if ($this->order->cert_no && $this->order->buy_mobile) {
             $sms_content = '您已成功购买一张电子券！券码：'.$this->coupon->qrcode;
             hk_sms_send($this->order->buy_mobile, $sms_content);
@@ -56,6 +56,6 @@ class SendSms implements ShouldQueue
      * @return void
      */
     public function failed(Exception $e) {
-        Log::channel('queue')->info('队列任务执行失败：'.print_r($e->getMessage(), true));
+//        Log::channel('queue')->info('队列任务执行失败：'.print_r($e->getMessage(), true));
     }
 }
