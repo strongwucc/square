@@ -56,6 +56,6 @@ class SendSms implements ShouldQueue
      * @return void
      */
     public function failed(Exception $e) {
-//        Log::channel('queue')->info('队列任务执行失败：'.print_r($e->getMessage(), true));
+        Log::channel('queue')->info('队列任务执行失败：'.print_r($e->getMessage(), true));
     }
 }
